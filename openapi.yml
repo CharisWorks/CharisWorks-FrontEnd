@@ -5,8 +5,75 @@ info:
 servers:
   - url: http://0.0.0.0:4010
 paths:
-  /test:
+  /item:
     get:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item_Preview'
+
+components:
+  schemas:
+    Item_Preview:
+      type: object
+      properties:
+        ItemID:
+          type: string
+        Status:
+          type: string
+          example: 
+        Name:
+          type: string
+        Price:
+          type: number
+          format: double
+        Stock:
+          type: integer
+        Order:
+          type: integer
+        Color:
+          type: string
+        Series:
+          type: string
+        Size:
+          type: string
+        Description:
+          type: string
+        MakerName:
+          type: string
+        MakerDescription:
+          type: string
+      example:
+        - ItemID: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+          Status: Available
+          Name: クラウディ・エンチャント
+          Price: 2480
+          Stock: 2
+          Order: 1
+          Color: 紫
+          Series: Steller Horizons
+          Size: 16cm
+          Description: ラベンダーアメジストは、アメジストの一種であり、淡い紫色...
+          MakerName: kumi
+          MakerDescription: 心を込めた商品を制作しております...
+        - ItemID: acct_1O3AKzPOocKT34iV
+          Status: Available
+          Name: ゴールデン・ハーモニー
+          Price: 9800
+          Stock: 1
+          Order: 2
+          Color: 黄
+          Series: Lucky Aura
+          Size: 16cm
+          Description: シトリンは、豊かさと繁栄を象徴するクリスタルと...
+          MakerName: kumi
+          MakerDescription: 心を込めた商品を制作しております...
+
+
+
+        
