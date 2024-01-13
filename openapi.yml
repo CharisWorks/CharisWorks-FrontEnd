@@ -15,65 +15,108 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Item_Preview'
+                  $ref: '#/components/schemas/itemPreview'
+  /item/{itemId}:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/itemOverview'
 
 components:
   schemas:
-    Item_Preview:
+    itemPreview:
       type: object
       properties:
-        ItemID:
-          type: string
-        Status:
-          type: string
-          example: 
-        Name:
-          type: string
-        Price:
+        order:
           type: number
-          format: double
-        Stock:
-          type: integer
-        Order:
-          type: integer
-        Color:
-          type: string
-        Series:
-          type: string
-        Size:
-          type: string
-        Description:
-          type: string
-        MakerName:
-          type: string
-        MakerDescription:
-          type: string
+        item:
+          type: object
+          properties:
+            itemId:
+              type: string
+            properties:
+              type: object
+              properties:
+                name: 
+                  type: string
+                price:
+                  type: number
+                  format: bouble
+                details:
+                  type: object
+                  properties:
+                    status:
+                      type: string
       example:
-        - ItemID: f6d655da-6fff-11ee-b3bc-e86a6465f38b
-          Status: Available
-          Name: クラウディ・エンチャント
-          Price: 2480
-          Stock: 2
-          Order: 1
-          Color: 紫
-          Series: Steller Horizons
-          Size: 16cm
-          Description: ラベンダーアメジストは、アメジストの一種であり、淡い紫色...
-          MakerName: kumi
-          MakerDescription: 心を込めた商品を制作しております...
-        - ItemID: acct_1O3AKzPOocKT34iV
-          Status: Available
-          Name: ゴールデン・ハーモニー
-          Price: 9800
-          Stock: 1
-          Order: 2
-          Color: 黄
-          Series: Lucky Aura
-          Size: 16cm
-          Description: シトリンは、豊かさと繁栄を象徴するクリスタルと...
-          MakerName: kumi
-          MakerDescription: 心を込めた商品を制作しております...
-
-
-
-        
+        - itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+          properties:
+          name: クラウディ・エンチャント
+          price: 2480
+          details:
+            status: Available
+        - itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+          properties:
+            name: ゴールデン・ハーモニー
+            price: 9800
+            details:
+              status: Available
+    itemOverview:
+      type: object
+      properties:
+        itemId:
+          type: string
+        properties:
+          type: object
+          properties:
+            name:
+              type: string
+            price:
+              type: number
+              format: double
+            size:
+                type: number
+        details:
+          type: object
+          properties:
+            status:
+              type: string
+            stock:
+              type: number
+            description:
+              type: string
+            tags: 
+              type: object
+              properties:
+                color:
+                  type: string
+                series:
+                  type: string
+        manufacturer:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+      example:
+        itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+        properties:
+          name: ゴールデン・ハーモニー
+          price: 9800
+          details:
+            status: Available
+            stock: 1
+            size: 16
+            description: シトリンは、豊かさと繁栄を象徴するクリスタルと...
+            tags:
+              color: 黄
+              series: Lucky Aura
+          manufacturer:
+            name: kumi
+            description: 心を込めた商品を制作しております...
