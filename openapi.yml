@@ -33,26 +33,21 @@ components:
     itemPreview:
       type: object
       properties:
-        order:
-          type: number
-        item:
+        itemId:
+          type: string
+        properties:
           type: object
           properties:
-            itemId:
+            name: 
               type: string
-            properties:
+            price:
+              type: number
+              format: bouble
+            details:
               type: object
               properties:
-                name: 
+                status:
                   type: string
-                price:
-                  type: number
-                  format: bouble
-                details:
-                  type: object
-                  properties:
-                    status:
-                      type: string
       example:
         - itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
           properties:
