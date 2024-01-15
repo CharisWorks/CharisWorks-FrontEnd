@@ -18,6 +18,14 @@ paths:
                   $ref: '#/components/schemas/itemPreview'
   /item/{itemId}:
     get:
+      parameters:
+        - in: path
+          name: itemId   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The user ID
       responses:
         '200':
           description: OK
