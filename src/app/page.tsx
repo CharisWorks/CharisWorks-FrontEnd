@@ -1,3 +1,4 @@
-export default function Home() {
-  return <p>this is root page.</p>
+const app = () => {
+  return <p>インデックスとなるページ</p>
 }
+export default app

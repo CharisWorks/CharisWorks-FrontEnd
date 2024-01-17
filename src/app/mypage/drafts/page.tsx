@@ -1,4 +1,4 @@
 const app = () => {
-  return <p>not found</p>
+  return <p>商品の下書き一覧</p>
 }
 export default app

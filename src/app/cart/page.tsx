@@ -1,4 +1,4 @@
 const app = () => {
-  return <p>not found</p>
+  return <p>カートのページ</p>
 }
 export default app
