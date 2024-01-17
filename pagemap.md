@@ -24,18 +24,22 @@
 
   出品者のページ
 
-- /mypage/listings
+- /mypage
 
-  出品中の商品一覧
+  - /listings
 
-- /mypage/listings/completed
+    - /
 
-  取引完了した商品一覧
+      出品中の商品一覧
 
-- /mypage/drafts
+    - /completed
 
-  商品の下書き一覧
+      取引完了した商品一覧
 
-- /mypage/personal_info
+  - /drafts
 
-  配送先情報
+    商品の下書き一覧
+
+  - /personal_info
+
+    配送先情報
