@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 
-const UserId = () => {
+const Profile = () => {
   const params = useParams<{ slug: string }>()
 
   // Route -> /shop/[tag]/[item]
@@ -13,8 +13,4 @@ const UserId = () => {
   return <>userId:{params.slug}</>
 }
 
-const app = () => {
-  return <UserId />
-}
-
-export default app
+export default Profile

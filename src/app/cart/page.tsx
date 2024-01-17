@@ -1,4 +1,4 @@
-const app = () => {
+const Cart = () => {
   return <p>カートのページ</p>
 }
-export default app
+export default Cart

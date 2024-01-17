@@ -1,4 +1,4 @@
-const app = () => {
+const Index = () => {
   return <p>インデックスとなるページ</p>
 }
-export default app
+export default Index

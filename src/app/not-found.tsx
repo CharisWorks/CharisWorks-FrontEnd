@@ -1,4 +1,4 @@
-const app = () => {
+const NotFound = () => {
   return <p>not found</p>
 }
-export default app
+export default NotFound
