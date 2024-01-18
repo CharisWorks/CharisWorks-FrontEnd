@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 
-const Item = () => {
+const ItemPage = () => {
   const params = useParams<{ slug: string }>()
 
   // Route -> /shop/[tag]/[item]
@@ -15,4 +15,4 @@ const Item = () => {
     </>
   )
 }
-export default Item
+export default ItemPage
