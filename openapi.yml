@@ -722,14 +722,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'  
+                $ref: '#/components/schemas/forbidden'
         '404':
           description: ユーザーが存在しないときに返します
           content:
             application/json:
               schema:
-                type: object
-
+                $ref: '#/components/schemas/notFound'
     delete:
       tags:
         - admin 
