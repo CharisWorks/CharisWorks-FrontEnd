@@ -1,4 +1,4 @@
-const notFound = () => {
+const NotFound = () => {
   return <p>not found</p>
 }
-export default notFound
+export default NotFound
