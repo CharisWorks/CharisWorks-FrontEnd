@@ -232,18 +232,19 @@ paths:
             application/json:
               schema:
                 type: object
-        '400':
-          description: 削除しようとしている商品がカートに存在しないときに返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/badRequest'       
+     
         '401':
           description: ログインしていない場合に返します
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
+        '404':
+          description: 商品がカートに存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
 
   /user/transaction:
     get:
