@@ -25,7 +25,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/itemPreview'
 
-
   /item/{itemId}:
     get:
       tags:
@@ -52,7 +51,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notFound'
-
 
   /signin:
     post:
@@ -81,7 +79,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
-
 
   /signup:
     post:
@@ -115,7 +112,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
-
 
   /user:
     get:
@@ -164,7 +160,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
-
 
   /user/cart:
     get:
@@ -246,7 +241,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/notFound'
 
-  /user/transaction:
+  /user/buy:
     get:
       tags:
         - user
@@ -271,7 +266,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/unauthorized'
 
-  /manufacterur:
+  /user/transaction:
+    get:
+      tags:
+        - user
+      description: 取引履歴を取得します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+     
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+  /manufacturer:
     get:
       tags:
         - manufacturer
@@ -365,7 +380,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/forbidden'       
-          
+      
   /manufacturer/list:
     get: 
       tags:
@@ -554,6 +569,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notFound'
+
+  /manufacturer/stripe/create:
+    get:
+      tags:
+        - manufacturer
+        - stripe
+      description: stripeの出品者の登録を行います stripeの登録用URLを返します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: https://example.com
+
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'   
+
+  /manufacturer/stripe/mypage:
+    get:
+      tags:
+        - manufacturer
+        - stripe
+      description: stripeのマイページへのURLを返します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: https://example.com
+
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'  
 
   /admin/item:
     get:
@@ -876,8 +947,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/forbidden'  
               
+  
 components:
   schemas:
+
     notFound:
       type: object
       properties:
@@ -1008,3 +1081,5 @@ tags:
     description: 出品者関連 要認証
   - name: admin
     description: 管理者関連 要認証
+  - name: stripe
+    description: stripe関連 要認証
