@@ -135,7 +135,7 @@ paths:
     post:
       tags:
         - user
-      description: ユーザーの個人情報を登録します すでに登録されている場合は上書きします
+      description: ユーザーの個人情報を登録します
       requestBody:
         content:
           application/json:
@@ -149,7 +149,7 @@ paths:
               schema:
                 type: object
         '400':
-          description: 追加しようとしている内容に誤りが合った場合に返します
+          description: 追加しようとしている内容に誤りが合った場合やすでに登録されている場合に返します
           content:
             application/json:
               schema:
@@ -160,7 +160,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
-
+    patch:
+      tags:
+        - user
+      description: ユーザーの個人情報を修正します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: 追加しようとしている内容に誤りが合った場合や情報が登録されていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'  
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+    delete:
+      tags:
+        - user
+      description: ユーザーを削除します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: deleted user successfully
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '404':
+          description: そのEmailに紐づくアカウントが存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+                
   /user/cart:
     get:
       tags:
