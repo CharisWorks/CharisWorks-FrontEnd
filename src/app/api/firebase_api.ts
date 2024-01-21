@@ -5,7 +5,6 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signOut,
-  deleteUser,
   sendPasswordResetEmail,
   sendEmailVerification,
   updateEmail,
