@@ -160,6 +160,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
+ 
     patch:
       tags:
         - user
@@ -188,6 +189,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
+ 
     delete:
       tags:
         - user
@@ -244,7 +246,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/cartRequest'   
       responses:
         '200':
           description: OK
@@ -265,14 +267,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/unauthorized'
  
+    patch:
+      tags:
+        - user
+      description: ユーザーのカートに入っている商品の数量を変更します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cartRequest'          
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+     
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '404':
+          description: 商品がカートに存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
     delete:
       tags:
         - user
       description: ユーザーのカートから商品を削除します
       parameters:
         - in: query
-          name: keyword
-          required: false
+          name: itemId
+          required: true
           schema:
             type: string
             description: itemId
@@ -341,6 +373,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
+
+  /user/transaction/details:
+    get:
+      tags:
+        - item
+      description: 取引の詳細情報を取得します
+      parameters:
+        - in: query
+          name: transactionId   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: string
+            description: itemId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/itemOverview'
+        '400':
+          description: パラメータが間違っている場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest' 
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '404':
+          description: 取引が存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
 
   /manufacturer:
     get:
@@ -419,7 +489,7 @@ paths:
               schema:
                 type: object
         '400':
-          description: 情報が登録されていない場合に返します
+          description: 情報が登録されていない場合や登録情報に誤りがあった場合に返します
           content:
             application/json:
               schema:
@@ -435,20 +505,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'       
-      
+                $ref: '#/components/schemas/forbidden'        
+
   /manufacturer/list:
     get: 
       tags:
         - manufacturer      
-      parameters:
-        - in: query
-          name: itemId   
-          required: true
-          schema:
-            type: string
-          description: itemId
-      description: 商品一覧を取得します
+      description: 出品者の商品一覧を取得します
       responses:
         '200':
           description: OK
@@ -857,6 +920,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notFound'
+
     delete:
       tags:
         - admin 
@@ -1039,6 +1103,17 @@ components:
       example:
         message: forbidden
     
+    cartRequest:
+      type: object
+      properties:
+        itemId:
+          type: string
+        quantity:
+          type: integer
+      example:
+        itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+        quantity: 1
+
     itemPreview:
       type: object
       properties:
