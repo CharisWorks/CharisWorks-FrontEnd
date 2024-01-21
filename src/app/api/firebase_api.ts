@@ -45,18 +45,14 @@ const SignIn = async (
   email: string,
   password: string,
 ): Promise<idToken> => {
-  if (URL != undefined) {
-    const URL = ADDRESS + '/signin'
-    const response = await axios.post(URL, { email: email })
-    switch (response.status) {
-      case 200:
-        return SignInWithEmailAndPassword(auth, email, password)
-
-      case 400:
-        return { idToken: null, message: 'this addres does not exist' }
-    }
+  const URL = ADDRESS + '/signin'
+  const response = await axios.post(URL, { email: email })
+  const data: message = response.data.json()
+  if (response.status == 200) {
+    return SignInWithEmailAndPassword(auth, email, password)
+  } else {
+    return { idToken: null, message: data.message }
   }
-  return { idToken: null, message: 'server address is not defined' }
 }
 
 const SignUp = async (
@@ -64,18 +60,14 @@ const SignUp = async (
   email: string,
   password: string,
 ): Promise<idToken> => {
-  if (URL != undefined) {
-    const URL = ADDRESS + '/signup'
-    const response = await axios.post(URL, { email: email, password: password })
-    switch (response.status) {
-      case 200:
-        return SignInWithEmailAndPassword(auth, email, password)
-
-      case 400:
-        return { idToken: null, message: 'this address is already exist' }
-    }
+  const URL = ADDRESS + '/signup'
+  const response = await axios.post(URL, { email: email, password: password })
+  const data: message = response.data.json()
+  if (response.status == 200) {
+    return SignInWithEmailAndPassword(auth, email, password)
+  } else {
+    return { idToken: null, message: data.message }
   }
-  return { idToken: null, message: 'server address is not defined' }
 }
 
 const SignInWithEmailAndPassword = async (
