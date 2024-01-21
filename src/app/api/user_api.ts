@@ -12,10 +12,7 @@ const GetUser = async (): Promise<UserResponseFromServer> => {
   const URL = ADDRESS + '/user'
   const response = await axios.get(URL)
   const data: UserResponseFromServer = await response.data.json()
-  if (response.status == 200) {
-    return { User: data.User, message: data.message }
-  }
-  return { User: null, message: data.message }
+  return data
 }
 
 const PostUser = async (
@@ -24,10 +21,7 @@ const PostUser = async (
   const URL = ADDRESS + '/user'
   const response = await axios.post(URL, { UserForServer })
   const data: UserResponseFromServer = await response.data.json()
-  if (response.status == 200) {
-    return { User: data.User, message: data.message }
-  }
-  return { User: null, message: data.message }
+  return data
 }
 
 const UpdateUser = async (
@@ -36,15 +30,12 @@ const UpdateUser = async (
   const URL = ADDRESS + '/user'
   const response = await axios.patch(URL, { UserForServer })
   const data: UserResponseFromServer = await response.data.json()
-  if (response.status == 200) {
-    return { User: data.User, message: data.message }
-  }
-  return { User: null, message: data.message }
+  return data
 }
 
 const DeleteUser = async (): Promise<UserResponseFromServer> => {
   const URL = ADDRESS + '/user'
   const response = await axios.delete(URL)
   const data: UserResponseFromServer = await response.data.json()
-  return { User: null, message: data.message }
+  return data
 }
