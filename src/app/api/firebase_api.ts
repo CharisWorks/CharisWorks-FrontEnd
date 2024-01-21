@@ -118,10 +118,14 @@ const SendPasswordResetEmail = async (auth: Auth, email: string) => {
   }
 }
 
-const SendEmailVerification = async (auth: Auth) => {
+const SendEmailVerification = async (auth: Auth): Promise<message> => {
   try {
-    if (!auth.currentUser) return
-    await sendEmailVerification(auth.currentUser)
+    const user = auth.currentUser
+    if (user) {
+      await sendEmailVerification(auth.currentUser)
+      return { message: 'successfully sent email' }
+    }
+    return { message: 'user is null' }
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
       return { message: 'firebase error: ' + error.message }
@@ -131,10 +135,14 @@ const SendEmailVerification = async (auth: Auth) => {
   }
 }
 
-const UpdateEmail = async (auth: Auth, newEmail: string) => {
+const UpdateEmail = async (auth: Auth, newEmail: string): Promise<message> => {
   try {
-    if (!auth.currentUser) return
-    await updateEmail(auth.currentUser, newEmail)
+    const user = auth.currentUser
+    if (user) {
+      await updateEmail(user, newEmail)
+      return { message: 'successfully updated email' }
+    }
+    return { message: 'user is null' }
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
       return { message: 'firebase error: ' + error.message }
