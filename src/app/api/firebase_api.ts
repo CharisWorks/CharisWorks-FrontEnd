@@ -6,14 +6,12 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithRedirect,
-  getIdTokenResult,
-  IdTokenResult,
-  User,
-  UserCredential,
   createUserWithEmailAndPassword,
+  getIdToken,
 } from 'firebase/auth'
 
-const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
+const BACKEND_ADDRESS: string | undefined =
+  process.env.NEXT_PUBLIC_SERVER_ADDRESS
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
@@ -28,56 +26,55 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 
 interface UserAuthStatus {
-  IsExist: boolean
+  isExist: boolean
 }
 
 const SignUpWithEmail = async (
   auth: Auth,
   email: string,
   password: string,
-): Promise<IdTokenResult | null> => {
-  const URL = ADDRESS + '/userauthstatus'
+): Promise<void> => {
+  const URL = BACKEND_ADDRESS + '/userauthstatus'
   const response = await axios.post(URL, { email: email })
   const data: UserAuthStatus = response.data.json()
 
-  if (data.IsExist == false) {
-    const userCredential: UserCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    )
-    return getIdTokenResult(userCredential.user)
+  if (!data.isExist) {
+    await createUserWithEmailAndPassword(auth, email, password)
   }
-
-  return null
 }
 
 const SignInWithEmail = async (
   auth: Auth,
   email: string,
   password: string,
-): Promise<IdTokenResult | null> => {
-  const URL = ADDRESS + '/userauthstatus'
+): Promise<void> => {
+  const URL = BACKEND_ADDRESS + '/userauthstatus'
   const response = await axios.post(URL, { email: email })
   const data: UserAuthStatus = response.data.json()
 
-  if (data.IsExist == true) {
-    const userCredential: UserCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    )
-    return getIdTokenResult(userCredential.user)
+  if (data.isExist) {
+    await signInWithEmailAndPassword(auth, email, password)
   }
-
-  return null
 }
 
-const SignInWithGoogle = async (auth: Auth): Promise<IdTokenResult | null> => {
+const SignInWithGoogle = async (auth: Auth): Promise<void> => {
   const provider = new GoogleAuthProvider()
   await signInWithRedirect(auth, provider)
-  const user: User | null = auth.currentUser
-  return user ? getIdTokenResult(user) : null
 }
 
-export { auth, SignInWithEmail, SignUpWithEmail, SignInWithGoogle }
+const SaveIdTokenToLocalStorage = async (auth: Auth): Promise<void> => {
+  const IdToken: string | null = auth.currentUser
+    ? await getIdToken(auth.currentUser)
+    : null
+  if (IdToken) {
+    localStorage.setItem('idToken', IdToken)
+  }
+}
+
+export {
+  auth,
+  SignInWithEmail,
+  SignUpWithEmail,
+  SignInWithGoogle,
+  SaveIdTokenToLocalStorage,
+}
