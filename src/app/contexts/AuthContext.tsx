@@ -12,7 +12,7 @@ import { auth } from '../api/firebase_api'
 //code from https://github.com/Nameless-itf23/SimpleAuth
 //
 
-interface props {
+interface Props {
   children: ReactNode
 }
 
@@ -24,7 +24,7 @@ function useAuthContext() {
   return useContext(AuthContext)
 }
 
-const AuthProvider: React.FC<{ children: ReactNode }> = (props: props) => {
+const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<UserType>(undefined)
   const value: UserType = user
 
@@ -37,9 +37,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = (props: props) => {
     }
   }, [])
 
-  return (
-    <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export { useAuthContext, AuthProvider }

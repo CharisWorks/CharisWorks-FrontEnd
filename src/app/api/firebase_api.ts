@@ -12,7 +12,10 @@ import {
   signInWithPopup,
   signInWithRedirect,
   User,
+  getIdTokenResult,
+  IdTokenResult,
 } from 'firebase/auth'
+
 const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -27,170 +30,157 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 
-interface idToken {
-  idToken: string | null
-  message: string
-}
-interface message {
-  message: string
-}
-
-const GetIdToken = async (user: User): Promise<string> => {
-  const idToken = await user.getIdToken()
-  return idToken
-}
-
-const SignIn = async (
-  auth: Auth,
-  email: string,
-  password: string,
-): Promise<idToken> => {
-  const URL = ADDRESS + '/signin'
-  const response = await axios.post(URL, { email: email })
-  const data: message = response.data.json()
-  if (response.status == 200) {
-    return SignInWithEmailAndPassword(auth, email, password)
-  } else {
-    return { idToken: null, message: data.message }
-  }
-}
-
-const SignUp = async (
-  auth: Auth,
-  email: string,
-  password: string,
-): Promise<idToken> => {
-  const URL = ADDRESS + '/signup'
-  const response = await axios.post(URL, { email: email, password: password })
-  const data: message = response.data.json()
-  if (response.status == 200) {
-    return SignInWithEmailAndPassword(auth, email, password)
-  } else {
-    return { idToken: null, message: data.message }
-  }
-}
-
 const SignInWithEmailAndPassword = async (
   auth: Auth,
   email: string,
   password: string,
-): Promise<idToken> => {
+): Promise<IdTokenResult | null> => {
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password,
     )
-    const idToken = await GetIdToken(userCredential.user)
-
-    return { idToken: idToken, message: 'OK' }
+    return getIdTokenResult(userCredential.user)
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
-      return { idToken: null, message: 'firebase error:' + error.message }
+      console.log(error)
     } else {
-      return { idToken: null, message: 'internal error' }
+      console.log('internal error:', error)
     }
+    return null
   }
 }
 
-const SignOut = async (auth: Auth): Promise<message> => {
+const SignInWithEmal = async (
+  auth: Auth,
+  email: string,
+  password: string,
+): Promise<IdTokenResult | null> => {
+  const URL = ADDRESS + '/signin'
+  const response = await axios.post(URL, { email: email })
+  if (response.status == 200) {
+    return SignInWithEmailAndPassword(auth, email, password)
+  } else {
+    return null
+  }
+}
+
+const SignUpWithEmail = async (
+  auth: Auth,
+  email: string,
+  password: string,
+): Promise<IdTokenResult | null> => {
+  const URL = ADDRESS + '/signup'
+  const response = await axios.post(URL, { email: email, password: password })
+  if (response.status == 200) {
+    return SignInWithEmailAndPassword(auth, email, password)
+  } else {
+    return null
+  }
+}
+
+const SignOut = async (auth: Auth): Promise<void> => {
   try {
     await signOut(auth)
-    return { message: 'successfully sign outed' }
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
-      return { message: 'firebase error: ' + error.message }
+      console.log(error)
     } else {
-      return { message: 'internal error' }
+      console.log('internal error:', error)
     }
   }
 }
 
-const SendPasswordResetEmail = async (auth: Auth, email: string) => {
+const SendPasswordResetEmail = async (
+  auth: Auth,
+  email: string,
+): Promise<void> => {
   try {
     await sendPasswordResetEmail(auth, email)
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
-      return { message: 'firebase error: ' + error.message }
+      console.log(error)
     } else {
-      return { message: 'internal error' }
+      console.log('internal error:', error)
     }
   }
 }
 
-const SendEmailVerification = async (auth: Auth): Promise<message> => {
+const SendEmailVerification = async (auth: Auth): Promise<void> => {
   try {
     const user = auth.currentUser
     if (user) {
       await sendEmailVerification(auth.currentUser)
-      return { message: 'successfully sent email' }
     }
-    return { message: 'user is null' }
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
-      return { message: 'firebase error: ' + error.message }
+      console.log(error)
     } else {
-      return { message: 'internal error' }
+      console.log('internal error:', error)
     }
   }
 }
 
-const UpdateEmail = async (auth: Auth, newEmail: string): Promise<message> => {
+const UpdateEmail = async (auth: Auth, newEmail: string): Promise<void> => {
   try {
     const user = auth.currentUser
     if (user) {
       await updateEmail(user, newEmail)
-      return { message: 'successfully updated email' }
     }
-    return { message: 'user is null' }
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
-      return { message: 'firebase error: ' + error.message }
+      console.log(error)
     } else {
-      return { message: 'internal error' }
+      console.log('internal error:', error)
     }
   }
 }
 
-const SigninWithRedirect = async (auth: Auth): Promise<idToken> => {
+const SigninWithRedirect = async (
+  auth: Auth,
+): Promise<IdTokenResult | null> => {
   const provider = new GoogleAuthProvider()
   try {
     await signInWithRedirect(auth, provider)
     const user = auth.currentUser
     if (user != null) {
-      const idToken = await GetIdToken(user)
-      return { idToken: idToken, message: 'OK' }
+      return getIdTokenResult(user)
     }
-    return { idToken: null, message: 'user is null' }
+    return null
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
-      return { idToken: null, message: 'firebase error:' + error.message }
+      console.log(error)
     } else {
-      return { idToken: null, message: 'internal error' }
+      console.log('internal error:', error)
     }
+    return null
   }
 }
 
-const SignInWithPopup = async (auth: Auth): Promise<idToken> => {
+const SignInWithPopup = async (auth: Auth): Promise<IdTokenResult | null> => {
+  const provider = new GoogleAuthProvider()
   try {
-    const provider = new GoogleAuthProvider()
-    const result = await signInWithPopup(auth, provider)
-    const idToken = await GetIdToken(result.user)
-
-    return { idToken: idToken, message: 'OK' }
+    await signInWithPopup(auth, provider)
+    const user = auth.currentUser
+    if (user != null) {
+      return getIdTokenResult(user)
+    }
+    return null
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
-      return { idToken: null, message: 'firebase error:' + error.message }
+      console.log(error)
     } else {
-      return { idToken: null, message: 'internal error' }
+      console.log('internal error:', error)
     }
+    return null
   }
 }
 
 export {
   auth,
-  SignIn,
-  SignUp,
+  SignInWithEmal,
+  SignUpWithEmail,
   SignOut,
   SendPasswordResetEmail,
   SendEmailVerification,
