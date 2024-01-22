@@ -34,8 +34,8 @@ const SignUpWithEmail = async (
   email: string,
   password: string,
 ): Promise<void> => {
-  const URL = BACKEND_ADDRESS + '/userauthstatus'
-  const response = await axios.post(URL, { email: email })
+  const url = BACKEND_ADDRESS + '/userauthstatus'
+  const response = await axios.post(url, { email: email })
   const data: UserAuthStatus = response.data.json()
 
   if (!data.isExist) {
@@ -48,8 +48,8 @@ const SignInWithEmail = async (
   email: string,
   password: string,
 ): Promise<void> => {
-  const URL = BACKEND_ADDRESS + '/userauthstatus'
-  const response = await axios.post(URL, { email: email })
+  const url = BACKEND_ADDRESS + '/userauthstatus'
+  const response = await axios.post(url, { email: email })
   const data: UserAuthStatus = response.data.json()
 
   if (data.isExist) {
@@ -63,11 +63,11 @@ const SignInWithGoogle = async (auth: Auth): Promise<void> => {
 }
 
 const SaveIdTokenToLocalStorage = async (auth: Auth): Promise<void> => {
-  const IdToken: string | null = auth.currentUser
+  const idToken: string | null = auth.currentUser
     ? await getIdToken(auth.currentUser)
     : null
-  if (IdToken) {
-    localStorage.setItem('idToken', IdToken)
+  if (idToken) {
+    localStorage.setItem('idToken', idToken)
   }
 }
 
