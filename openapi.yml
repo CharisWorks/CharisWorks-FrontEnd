@@ -9,14 +9,26 @@ paths:
      get:
       tags:
         - item
+      description: 商品のリストを取得します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/itemPreview'
+  /item/search:
+     get:
+      tags:
+        - item
       parameters:
         - in: query
           name: keyword
-          required: false
+          required: true
           schema:
             type: string
             description: itemId
-      description: 商品のリストを取得します
+      description: 検索結果の商品のリストを取得します
       responses:
         '200':
           description: OK
@@ -374,13 +386,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/unauthorized'
 
-  /user/transaction/details:
+  /user/transaction/{transactionId}:
     get:
       tags:
         - user
       description: 取引の詳細情報を取得します
       parameters:
-        - in: query
+        - in: path
           name: transactionId   # Note the name is the same as in the path
           required: true
           schema:
