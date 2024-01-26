@@ -64,6 +64,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/notFound'
 
+
   /userauthstatus:
     post:
       tags:
@@ -397,133 +398,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/notFound'
 
-  /manufacturer:
-    get:
-      tags:
-        - manufacturer
-      description: 出品者の情報を取得します
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          description: ログインしていない場合に返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/unauthorized'
-        '403':
-          description: 権限がないアカウントからのリクエストの場合に返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/forbidden'                  
-
-    post:
-      tags:
-        - manufacturer
-      description: 出品者の情報を登録します
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: 登録しようとしている情報に間違いがあった場合に返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/badRequest'                
-        '401':
-          description: ログインしていない場合に返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/unauthorized'
-        '403':
-          description: 権限がないアカウントからのリクエストの場合に返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/forbidden'          
-
-    patch:
-      tags:
-        - manufacturer
-      description: 出品者の登録情報を修正します
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-        '400':
-          description: 情報が登録されていない場合や登録情報に誤りがあった場合に返します
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          description: ログインしていない場合に返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/unauthorized'
-        '403':
-          description: 権限がないアカウントからのリクエストの場合に返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/forbidden'        
-
-  /manufacturer/list:
-    get: 
-      tags:
-        - manufacturer      
-      description: 出品者の商品一覧を取得します
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          description: ログインしていない場合に返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/unauthorized'
-        '403':
-          description: 権限がないアカウントからのリクエストの場合に返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/forbidden'    
-        '404':
-          description: 商品が存在しないときに返します
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notFound'       
-  
-  /manufacturer/item:
+  /itemRegister:
     get: 
       tags:
         - manufacturer      
@@ -1087,7 +962,19 @@ components:
           type: string 
       example:
         message: forbidden
-    
+
+    user:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: FirebaseのUID
+        displayName:
+          type: string
+        description:
+          type: string
+
+
     cartRequest:
       type: object
       properties:
