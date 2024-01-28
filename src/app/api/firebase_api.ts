@@ -8,10 +8,12 @@ import {
   signInWithRedirect,
   createUserWithEmailAndPassword,
   getIdToken,
+  UserCredential,
 } from 'firebase/auth'
 
 const BACKEND_ADDRESS: string | undefined =
   process.env.NEXT_PUBLIC_SERVER_ADDRESS
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
@@ -23,38 +25,63 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
-const auth = getAuth(app)
+const auth = process.env.NEXT_PUBLIC_API_KEY ? getAuth(app) : undefined
 
-interface UserAuthStatus {
+type UserAuthStatus = {
   isExist: boolean
 }
 
-const SignUpWithEmail = async (
-  auth: Auth,
-  email: string,
-  password: string,
-): Promise<void> => {
-  const url = BACKEND_ADDRESS + '/userauthstatus'
-  const response = await axios.post(url, { email: email })
-  const data: UserAuthStatus = response.data.json()
+interface UserInterface {
+  IsExist(): Promise<boolean>
+  SignUp(): Promise<UserCredential>
+  SignIn(): Promise<UserCredential>
+}
 
-  if (!data.isExist) {
-    await createUserWithEmailAndPassword(auth, email, password)
+class User implements UserInterface {
+  private url: string = BACKEND_ADDRESS + '/userauthstatus'
+  private auth: Auth
+  private email: string
+  private password: string
+
+  constructor(auth: Auth, email: string, password: string) {
+    this.auth = auth
+    this.email = email
+    this.password = password
+  }
+
+  async IsExist(): Promise<boolean> {
+    const url = this.url
+    const response = await axios.post(url, { email: this.email })
+    const data: UserAuthStatus = response.data.json()
+    return data.isExist
+  }
+
+  async SignUp(): Promise<UserCredential> {
+    return createUserWithEmailAndPassword(this.auth, this.email, this.password)
+  }
+  async SignIn(): Promise<UserCredential> {
+    return signInWithEmailAndPassword(this.auth, this.email, this.password)
   }
 }
 
-const SignInWithEmail = async (
-  auth: Auth,
-  email: string,
-  password: string,
-): Promise<void> => {
-  const url = BACKEND_ADDRESS + '/userauthstatus'
-  const response = await axios.post(url, { email: email })
-  const data: UserAuthStatus = response.data.json()
-
-  if (data.isExist) {
-    await signInWithEmailAndPassword(auth, email, password)
+const SignUpWithEmail = async (
+  User: UserInterface,
+): Promise<UserCredential | null> => {
+  const existance = await User.IsExist()
+  if (!existance) {
+    return User.SignUp()
   }
+  return null
+}
+
+const SignInWithEmail = async (
+  User: UserInterface,
+): Promise<UserCredential | null> => {
+  const existance = await User.IsExist()
+  if (existance) {
+    return User.SignIn()
+  }
+  return null
 }
 
 const SignInWithGoogle = async (auth: Auth): Promise<void> => {
@@ -78,3 +105,5 @@ export {
   SignInWithGoogle,
   SaveIdTokenToLocalStorage,
 }
+
+export type { UserInterface }
