@@ -280,7 +280,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object           
+                $ref: '#/components/schemas/cart'
+                          
         '401':
           description: ログインしていない場合に返します
           content:
@@ -296,14 +297,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/cartRequest'   
+              $ref: '#/components/schemas/cartReqPayload'   
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/cart'
         '400':
           description: 追加しようとしている内容に誤りが合った場合に返します
           content:
@@ -325,14 +326,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/cartRequest'          
+              $ref: '#/components/schemas/cartReqPayload'          
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/cart'
      
         '401':
           description: ログインしていない場合に返します
@@ -364,7 +365,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/cart'
      
         '401':
           description: ログインしていない場合に返します
@@ -415,7 +416,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/transactions'
      
         '401':
           description: ログインしていない場合に返します
@@ -442,7 +443,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/itemOverview'
+                $ref: '#/components/schemas/transactionDetails'
         '400':
           description: パラメータが間違っている場合に返します
           content:
@@ -471,14 +472,16 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/products'
+              
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/products'
+                
         '400':
           description: 追加しようとしている内容に誤りが合った場合に返します
           content:
@@ -506,14 +509,15 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/products'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/products'
+                
         '400':
           description: 修正しようとしている内容に誤りが合った場合に返します
           content:
@@ -777,8 +781,52 @@ components:
                 price: 9800
                 details:
                   status: Available
-
-    cartRequest:
+    products:
+      type: object
+      properties:
+        itemId:
+          type: string
+        properties:
+          type: object
+          properties:
+            name:
+              type: string
+            price:
+              type: number
+              format: double
+            size:
+                type: number
+        details:
+          type: object
+          properties:
+            status:
+              type: string
+            stock:
+              type: number
+            description:
+              type: string
+            tags: 
+              type: array
+              items:
+                type: string
+      example:
+        itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+        properties:
+          name: ゴールデン・ハーモニー
+          price: 9800
+          details:
+            status: Available
+            stock: 1
+            size: 16
+            description: シトリンは、豊かさと繁栄を象徴するクリスタルと...
+            tags:
+              - 黄
+              - Lucky Aura
+    cart:
+      type: array
+      items:
+        $ref: '#/components/schemas/itemPreview'
+    cartReqPayload:
       type: object
       properties:
         itemId:
@@ -874,6 +922,56 @@ components:
           manufacturer:
             name: kumi
             description: 心を込めた商品を制作しております...
+    transactions:
+      type: array
+      items:
+        type: object
+        properties:
+          transaction_id:
+            type: string
+          tracking_id: 
+            type: string
+          items:
+            type: array
+            items:
+              properties:
+                item_id:
+                  type: string
+                quantity:
+                  type: integer
+                items:
+                  $ref: '#/components/schemas/itemPreview'
+          
+    transactionDetails:
+      type: object
+      properties:
+        transaction_id:
+          type: string
+        tracking_id: 
+          type: string
+        address:
+          type: object
+          properties:
+            zip_code:
+              type: string
+            address:
+              type: string
+            phone_number:
+              type: string
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              item_id:
+                type: string
+              quantity:
+                type: integer
+              items:
+                $ref: '#/components/schemas/itemPreview'
+          
+        
+
 
 tags:
   - name: item
@@ -884,7 +982,5 @@ tags:
     description: ユーザー関連 要認証
   - name: manufacturer
     description: 出品者関連 要認証
-  - name: admin
-    description: 管理者関連 要認証
   - name: stripe
     description: stripe関連 要認証
