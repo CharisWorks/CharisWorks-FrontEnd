@@ -31,55 +31,53 @@ type UserAuthStatus = {
   isExist: boolean
 }
 
-interface UserInterface {
-  IsExist(): Promise<boolean>
-  SignUp(): Promise<UserCredential>
-  SignIn(): Promise<UserCredential>
+interface UserFuncInterface {
+  IsExist(url: string, email: string): Promise<boolean>
+  SignUp(auth: Auth, email: string, password: string): Promise<UserCredential>
+  SignIn(auth: Auth, email: string, password: string): Promise<UserCredential>
 }
 
-class User implements UserInterface {
-  private url: string = BACKEND_ADDRESS + '/userauthstatus'
-  private auth: Auth
-  private email: string
-  private password: string
+class UserFuncs implements UserFuncInterface {
 
-  constructor(auth: Auth, email: string, password: string) {
-    this.auth = auth
-    this.email = email
-    this.password = password
-  }
-
-  async IsExist(): Promise<boolean> {
-    const url = this.url
-    const response = await axios.post(url, { email: this.email })
+  async IsExist(url: string, email: string): Promise<boolean> {
+    const response = await axios.post(url, { email: email })
     const data: UserAuthStatus = response.data.json()
     return data.isExist
   }
 
-  async SignUp(): Promise<UserCredential> {
-    return createUserWithEmailAndPassword(this.auth, this.email, this.password)
+  async SignUp(auth: Auth, email: string, password: string): Promise<UserCredential> {
+    return createUserWithEmailAndPassword(auth, email, password)
   }
-  async SignIn(): Promise<UserCredential> {
-    return signInWithEmailAndPassword(this.auth, this.email, this.password)
+
+  async SignIn(auth: Auth, email: string, password: string): Promise<UserCredential> {
+    return signInWithEmailAndPassword(auth, email, password)
   }
 }
 
 const SignUpWithEmail = async (
-  User: UserInterface,
+  auth: Auth,
+  email: string,
+  password: string,
+  UserFuncs: UserFuncs
 ): Promise<UserCredential | null> => {
-  const existance = await User.IsExist()
+  const url: string = BACKEND_ADDRESS + '/userauthstatus'
+  const existance = await UserFuncs.IsExist(url, email)
   if (!existance) {
-    return User.SignUp()
+    return UserFuncs.SignUp(auth, email, password)
   }
   return null
 }
 
 const SignInWithEmail = async (
-  User: UserInterface,
+  auth: Auth,
+  email: string,
+  password: string,
+  UserFuncs: UserFuncs
 ): Promise<UserCredential | null> => {
-  const existance = await User.IsExist()
+  const url: string = BACKEND_ADDRESS + '/userauthstatus'
+  const existance = await UserFuncs.IsExist(url, email)
   if (existance) {
-    return User.SignIn()
+    return UserFuncs.SignIn(auth, email, password)
   }
   return null
 }
@@ -104,6 +102,7 @@ export {
   SignUpWithEmail,
   SignInWithGoogle,
   SaveIdTokenToLocalStorage,
+  UserFuncs
 }
+export type { UserFuncInterface }
 
-export type { UserInterface }
