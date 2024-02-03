@@ -1,0 +1,538 @@
+openapi: '3.0.2'
+info:
+  title: API Title
+  version: '1.0'
+servers:
+  - url: http://0.0.0.0:4010
+paths:
+  /admin/item:
+    get:
+      tags:
+        - admin
+      description: 現在登録されている商品をすべて取得します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'   
+ 
+    post: 
+      tags:
+        - admin     
+      description: 商品情報を登録します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: 追加しようとしている内容に誤りが合った場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'                  
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'  
+ 
+    patch: 
+      tags:
+        - admin      
+      description: 商品情報を修正します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: 修正しようとしている内容に誤りが合った場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'                  
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'  
+        '404':
+          description: 商品が存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+  
+    delete:
+      tags:
+        - admin 
+      parameters:
+        - in: query
+          name: itemId   
+          required: true
+          schema:
+            type: string
+          description: itemId
+      description: 商品を削除します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'   
+        '404':
+          description: 商品が存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+  /admin/user:
+    get:
+      tags:
+        - admin
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            description: userId
+      description: ユーザーの情報を取得します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'
+        '404':
+          description: ユーザーが存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+    delete:
+      tags:
+        - admin 
+      parameters:
+        - in: query
+          name: userId   
+          required: true
+          schema:
+            type: string
+          description: itemId
+      description: ユーザーを削除します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'   
+        '404':
+          description: ユーザーが存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+  /admin/manufacturer:
+    get:
+      tags:
+        - admin
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            description: userId
+      description: 出品者の情報を取得します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'  
+        '404':
+          description: 出品者が存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'                
+
+    delete:
+      tags:
+        - admin 
+      parameters:
+        - in: query
+          name: userId   
+          required: true
+          schema:
+            type: string
+          description: itemId
+      description: ユーザーを削除します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'   
+        '404':
+          description: ユーザーが存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+  /admin/manufacturer/raise:
+    post:
+      tags:
+        - admin
+      description: ユーザーを出品者へ権限昇格させます
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string  
+                  example: hogehoge@example.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'  
+
+components:
+  schemas:
+
+    notFound:
+      type: object
+      properties:
+        message:
+          type: string 
+      example:
+        message: not found
+
+    badRequest:
+      type: object
+      properties:
+        message:
+          type: string 
+      example:
+        message: bad request
+
+    unauthorized:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Unauthorized
+
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string 
+      example:
+        message: forbidden
+
+    user:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: FirebaseUID
+        profile:
+          type: object
+          properties:
+            real_name:
+              type: string
+            display_name:
+              type: string
+            description:
+              type: string
+            created_at:
+              type: string
+              description: アカウント登録日時
+        address:
+          type: object
+          properties:
+            zip_code:
+              type: string
+            address_1:
+              type: string
+            address_2:
+              type: string
+            address_3:
+              type: string
+            phone_number:
+              type: string
+        manufacturer:
+          type: object
+          properties:
+            stripe_account_id:
+              type: string
+            items:
+              type: array
+              items:
+                properties:
+                  item_id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: integer
+                  details:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+      example:
+        userId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+        profile:
+          real_name: tsuchiya tokusaburou
+          display_name: tsuchiya
+          description: hello
+          created_at: 2000-01-01
+        address:
+          zip_code: 981-0915
+          address_1: 宮城県仙台市青葉区
+          address_2: 通町
+          address_3: 通町マンション209
+          phone_number: 0228056142
+        manufacturer:
+          - itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+            properties:
+            name: クラウディ・エンチャント
+            price: 2480
+            details:
+              status: Available
+          - itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+            properties:
+              name: ゴールデン・ハーモニー
+              price: 9800
+              details:
+                status: Available
+
+    cartRequest:
+      type: object
+      properties:
+        itemId:
+          type: string
+        quantity:
+          type: integer
+      example:
+        itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+        quantity: 1
+
+    itemPreview:
+      type: array
+      items:
+        properties:
+          itemId:
+            type: string
+          properties:
+            type: object
+            properties:
+              name: 
+                type: string
+              price:
+                type: number
+                format: bouble
+              details:
+                type: object
+                properties:
+                  status:
+                    type: string
+      example:
+        - itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+          properties:
+          name: クラウディ・エンチャント
+          price: 2480
+          details:
+            status: Available
+        - itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+          properties:
+            name: ゴールデン・ハーモニー
+            price: 9800
+            details:
+              status: Available
+
+    itemOverview:
+      type: object
+      properties:
+        itemId:
+          type: string
+        properties:
+          type: object
+          properties:
+            name:
+              type: string
+            price:
+              type: number
+              format: double
+            size:
+                type: number
+        details:
+          type: object
+          properties:
+            status:
+              type: string
+            stock:
+              type: number
+            description:
+              type: string
+            tags: 
+              type: array
+              items:
+                type: string
+              
+        manufacturer:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+      example:
+        itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+        properties:
+          name: ゴールデン・ハーモニー
+          price: 9800
+          details:
+            status: Available
+            stock: 1
+            size: 16
+            description: シトリンは、豊かさと繁栄を象徴するクリスタルと...
+            tags:
+              - 黄
+              - Lucky Aura
+          manufacturer:
+            name: kumi
+            description: 心を込めた商品を制作しております...
