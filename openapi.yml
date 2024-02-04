@@ -707,8 +707,6 @@ components:
         profile:
           type: object
           properties:
-            real_name:
-              type: string
             display_name:
               type: string
             description:
@@ -719,6 +717,8 @@ components:
         address:
           type: object
           properties:
+            real_name:
+              type: string
             zip_code:
               type: string
             address_1:
@@ -752,11 +752,11 @@ components:
       example:
         user_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
         profile:
-          real_name: tsuchiya tokusaburou
           display_name: tsuchiya
           description: hello
           created_at: 2000-01-01
         address:
+          real_name: tsuchiya tokusaburou
           zip_code: 981-0915
           address_1: 宮城県仙台市青葉区
           address_2: 通町
@@ -918,6 +918,7 @@ components:
           manufacturer:
             name: kumi
             description: 心を込めた商品を制作しております...
+
     transactions:
       type: array
       items:
@@ -936,7 +937,34 @@ components:
                 quantity:
                   type: integer
                 items:
-                  $ref: '#/components/schemas/itemPreview'
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    price:
+                      type: integer
+      example:
+        - transaction_id: f6d655da-6fff-11cc-b3bc-e86a6465f38b
+          tracking_id: 123456789
+          items:
+            - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+              quantity: 1
+              items:
+                name: クラウディ・エンチャント
+                price: 2480
+            - item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+              quantity: 2
+              properties:
+                name: ゴールデン・ハーモニー
+                price: 9800
+        - transaction_id: f6d655da-6fff-11sd-b3bc-e86a6465f38b
+          tracking_id: 987654321
+          items:
+            - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+              quantity: 10
+              items:
+                name: クラウディ・エンチャント
+                price: 2480
 
     transactionDetails:
       type: object
@@ -964,7 +992,36 @@ components:
               quantity:
                 type: integer
               items:
-                $ref: '#/components/schemas/itemPreview'
+                type: object
+                properties:
+                  item_id:
+                    type: string
+                  properties:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      price:
+                        type: integer
+      example:
+        transaction_id: f6d655da-6fff-11cc-b3bc-e86a6465f38b
+        tracking_id: 123456789
+        address:
+          real_name: tsuchiya tokusaburou
+          zip_code: 981-0915
+          address: 宮城県 仙台市青葉区通町 通町マンション209
+          phone_number: 0228056142
+        items:
+          - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+            quantity: 1
+            items:
+              name: クラウディ・エンチャント
+              price: 2480
+          - item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+            quantity: 2
+            properties:
+              name: ゴールデン・ハーモニー
+              price: 9800
 
 tags:
   - name: item
