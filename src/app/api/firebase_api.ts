@@ -53,12 +53,12 @@ class UserFuncs implements UserFuncInterface {
     return signInWithEmailAndPassword(auth, email, password)
   }
 }
-
+const defaultFuncs = new (UserFuncs)
 const SignUpWithEmail = async (
   auth: Auth,
   email: string,
   password: string,
-  UserFuncs: UserFuncs
+  UserFuncs: UserFuncs = defaultFuncs
 ): Promise<UserCredential | null> => {
   const url: string = BACKEND_ADDRESS + '/userauthstatus'
   const existance = await UserFuncs.IsExist(url, email)
@@ -72,7 +72,7 @@ const SignInWithEmail = async (
   auth: Auth,
   email: string,
   password: string,
-  UserFuncs: UserFuncs
+  UserFuncs: UserFuncs = defaultFuncs
 ): Promise<UserCredential | null> => {
   const url: string = BACKEND_ADDRESS + '/userauthstatus'
   const existance = await UserFuncs.IsExist(url, email)
