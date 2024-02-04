@@ -11,6 +11,31 @@ type ItemPreview = {
     }
 }
 
+type ItemDetail = {
+    item_id: string
+    properties: {
+        name: string
+        price: number
+        details: {
+            status: string
+            stock: number
+            size: number
+            description: string
+            tags: string[]
+        }
+    }
+    manufacturer: {
+        name: string
+        description: string
+    }
+}
+
+interface IItemRequests {
+    Get(): Promise<ItemPreview[] | null>
+    GetKeyword(keyword: string): Promise<ItemPreview[] | null>
+    GetDetail(item_id: string): Promise<ItemDetail>
+}
+
 // ----------------------------------
 //            Transaction
 // ----------------------------------
@@ -93,4 +118,5 @@ interface ICartRequests {
     Update(CartItem: CartItem): Promise<Cart>
     Delete(itemId: string): Promise<Cart>
 }
-export type { Transaction, TransactionDetail, ITransactionRequests, ItemPreview, Profile, Address, BackendUser, IUserRequests, CartItem, Cart, ICartRequests }
+
+export type { ItemDetail, IItemRequests, Transaction, TransactionDetail, ITransactionRequests, ItemPreview, Profile, Address, BackendUser, IUserRequests, CartItem, Cart, ICartRequests }
