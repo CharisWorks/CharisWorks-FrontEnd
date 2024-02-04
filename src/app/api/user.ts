@@ -1,8 +1,24 @@
 import axios, { AxiosResponse } from 'axios'
 
 const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
+type Profile = {
+  real_name: string
+  description: string
+  created_at: string
+}
+type Address = {
+  zip_code: string
+  address_1: string
+  address_2: string
+  address_3: string
+  phone_number: string
+}
 
-type ServerUser = {}
+type ServerUser = {
+  profile: Profile
+  address: Address | null
+
+}
 type UserResponse = {
   User: ServerUser | null
 }
@@ -47,54 +63,6 @@ const DeleteUser = async (): Promise<UserResponse> => {
   return data
 }
 
-type CartItem = {
-  itemId: string
-  quantity: number
-}
-type Cart = {
-  Cart: CartItem[] | null
-}
-
-const GetCart = async (): Promise<Cart> => {
-  const URL = ADDRESS + '/user'
-  const response = await axios.get(URL)
-  if (response.status != 200) {
-    throw new Error(response.data.json().message)
-  }
-  const data: Cart = await response.data.json()
-  return data
-}
-
-const PostCart = async (CartItem: CartItem): Promise<Cart> => {
-  const URL = ADDRESS + '/user/cart'
-  const response = await axios.post(URL, { CartItem })
-  if (response.status != 200) {
-    throw new Error(response.data.json().message)
-  }
-  const data: Cart = await response.data.json()
-  return data
-}
-
-const UpdateCart = async (CartItem: CartItem): Promise<Cart> => {
-  const URL = ADDRESS + '/user/cart'
-  const response = await axios.patch(URL, { CartItem })
-  if (response.status != 200) {
-    throw new Error(response.data.json().message)
-  }
-  const data: Cart = await response.data.json()
-  return data
-}
-
-const DeleteCart = async (CartItem: CartItem): Promise<Cart> => {
-  const URL = ADDRESS + '/user/cart' + '?itemId=' + CartItem.itemId
-  const response = await axios.delete(URL)
-  if (response.status != 200) {
-    throw new Error(response.data.json().message)
-  }
-  const data: Cart = await response.data.json()
-  return data
-}
-
 type PaymentURL = {
   URL: string | null
 }
@@ -109,45 +77,11 @@ const Buy = async (): Promise<PaymentURL> => {
   return data
 }
 
-type Transaction = {}
-type TransactionList = {
-  Transaction: Transaction[]
-}
-type TransactionDetail = {}
-
-const GetTransaction = async (): Promise<TransactionList> => {
-  const URL = ADDRESS + '/user/transaction'
-  const response = await axios.get(URL)
-  if (response.status != 200) {
-    throw new Error(response.data.json().message)
-  }
-  const data: TransactionList = await response.data.json()
-  return data
-}
-
-const GetTransactionDetails = async (
-  transactionId: string,
-): Promise<TransactionDetail> => {
-  const URL =
-    ADDRESS + '/user/transaction/details?transactionId=' + transactionId
-  const response = await axios.get(URL)
-  if (response.status != 200) {
-    throw new Error(response.data.json().message)
-  }
-  const data: TransactionDetail = await response.data.json()
-  return data
-}
 
 export {
   GetUser,
   PostUser,
   UpdateUser,
   DeleteUser,
-  GetCart,
-  PostCart,
-  UpdateCart,
-  DeleteCart,
-  GetTransaction,
-  GetTransactionDetails,
   Buy,
 }
