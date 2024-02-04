@@ -1,51 +1,33 @@
 import axios, { AxiosResponse } from 'axios'
-
+import { ICartRequests, Cart, CartItem } from './interfaces'
 const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
 
-type CartItem = {
-    itemId: string
-    quantity: number
-}
-type Cart = {
-    Cart: CartItem[] | null
+
+class CartRequests implements ICartRequests {
+    Get = async (): Promise<Cart> => {
+        const URL = ADDRESS + '/user'
+        const response = await axios.get(URL)
+        const data: Cart = await response.data.json()
+        return data
+    }
+    Post = async (CartItem: CartItem): Promise<Cart> => {
+        const URL = ADDRESS + '/user/cart'
+        const response = await axios.post(URL, { CartItem })
+        const data: Cart = await response.data.json()
+        return data
+    }
+    Update = async (CartItem: CartItem): Promise<Cart> => {
+        const URL = ADDRESS + '/user/cart'
+        const response = await axios.patch(URL, { CartItem })
+        const data: Cart = await response.data.json()
+        return data
+    }
+    Delete = async (itemId: string): Promise<Cart> => {
+        const URL = ADDRESS + '/user/cart' + '?itemId=' + itemId
+        const response = await axios.delete(URL)
+        const data: Cart = await response.data.json()
+        return data
+    }
 }
 
-const GetCart = async (): Promise<Cart> => {
-    const URL = ADDRESS + '/user'
-    const response = await axios.get(URL)
-    if (response.status != 200) {
-        throw new Error(response.data.json().message)
-    }
-    const data: Cart = await response.data.json()
-    return data
-}
-
-const PostCart = async (CartItem: CartItem): Promise<Cart> => {
-    const URL = ADDRESS + '/user/cart'
-    const response = await axios.post(URL, { CartItem })
-    if (response.status != 200) {
-        throw new Error(response.data.json().message)
-    }
-    const data: Cart = await response.data.json()
-    return data
-}
-
-const UpdateCart = async (CartItem: CartItem): Promise<Cart> => {
-    const URL = ADDRESS + '/user/cart'
-    const response = await axios.patch(URL, { CartItem })
-    if (response.status != 200) {
-        throw new Error(response.data.json().message)
-    }
-    const data: Cart = await response.data.json()
-    return data
-}
-
-const DeleteCart = async (CartItem: CartItem): Promise<Cart> => {
-    const URL = ADDRESS + '/user/cart' + '?itemId=' + CartItem.itemId
-    const response = await axios.delete(URL)
-    if (response.status != 200) {
-        throw new Error(response.data.json().message)
-    }
-    const data: Cart = await response.data.json()
-    return data
-}
+export { CartRequests }

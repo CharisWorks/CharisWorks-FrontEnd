@@ -1,51 +1,24 @@
 import axios, { AxiosResponse } from 'axios'
-
+import { Transaction, TransactionDetail, ITransactionRequests } from './interfaces'
 const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
 
-type Transaction = {
-    transaction_id: string
-    tracking_id: string
-    items: Items[]
-}
-type TransactionDetail = {
-    transaction_id: string
-    tracking_id: string
-    address: {
-        real_name: string
-        zip_code: string
-        address: string
-        phone_number: string
+class TransactionRequests implements ITransactionRequests {
+    Get = async (): Promise<Transaction[]> => {
+        const URL = ADDRESS + '/user/transaction'
+        const response = await axios.get(URL)
+        const data: Transaction[] = await response.data.json()
+        return data
     }
-    items: Items[]
-}
 
-type Items = {
-    item_id: string
-    quantity: number
-    properties: {
-        name: string
-        price: number
+    GetDetail = async (
+        transactionId: string,
+    ): Promise<TransactionDetail> => {
+        const URL =
+            ADDRESS + '/user/transaction/details?transactionId=' + transactionId
+        const response = await axios.get(URL)
+        const data: TransactionDetail = await response.data.json()
+        return data
     }
-}
-const GetTransaction = async (): Promise<Transaction[]> => {
-    const URL = ADDRESS + '/user/transaction'
-    const response = await axios.get(URL)
-    if (response.status != 200) {
-        throw new Error(response.data.json().message)
-    }
-    const data: Transaction[] = await response.data.json()
-    return data
-}
 
-const GetTransactionDetails = async (
-    transactionId: string,
-): Promise<TransactionDetail> => {
-    const URL =
-        ADDRESS + '/user/transaction/details?transactionId=' + transactionId
-    const response = await axios.get(URL)
-    if (response.status != 200) {
-        throw new Error(response.data.json().message)
-    }
-    const data: TransactionDetail = await response.data.json()
-    return data
 }
+export { TransactionRequests }
