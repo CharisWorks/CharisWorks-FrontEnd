@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from 'axios'
-
+import { itemPreview, itemOverview } from './item'
 const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
 type Profile = {
   real_name: string
   description: string
   created_at: string
 }
+
 type Address = {
   zip_code: string
   address_1: string
@@ -14,52 +15,54 @@ type Address = {
   phone_number: string
 }
 
-type ServerUser = {
+
+type BackendUser = {
+  user_id: string
   profile: Profile
   address: Address | null
-
+  manufacturer: {
+    stripe_account_id: string
+    items: itemPreview[]
+  } | null
 }
-type UserResponse = {
-  User: ServerUser | null
-}
 
-const GetUser = async (): Promise<UserResponse> => {
+const GetUser = async (): Promise<BackendUser> => {
   const URL = ADDRESS + '/user'
   const response = await axios.get(URL)
   if (response.status != 200) {
     throw new Error(response.data.json().message)
   }
-  const data: UserResponse = await response.data.json()
+  const data: BackendUser = await response.data.json()
   return data
 }
 
-const PostUser = async (ServerUser: ServerUser): Promise<UserResponse> => {
+const PostUser = async (BackendUser: BackendUser): Promise<BackendUser> => {
   const URL = ADDRESS + '/user'
-  const response = await axios.post(URL, { ServerUser })
+  const response = await axios.post(URL, { BackendUser })
   if (response.status != 200) {
     throw new Error(response.data.json().message)
   }
-  const data: UserResponse = await response.data.json()
+  const data: BackendUser = await response.data.json()
   return data
 }
 
-const UpdateUser = async (ServerUser: ServerUser): Promise<UserResponse> => {
+const UpdateUser = async (BackendUser: BackendUser): Promise<BackendUser> => {
   const URL = ADDRESS + '/user'
-  const response = await axios.patch(URL, { ServerUser })
+  const response = await axios.patch(URL, { BackendUser })
   if (response.status != 200) {
     throw new Error(response.data.json().message)
   }
-  const data: UserResponse = await response.data.json()
+  const data: BackendUser = await response.data.json()
   return data
 }
 
-const DeleteUser = async (): Promise<UserResponse> => {
+const DeleteUser = async (): Promise<BackendUser> => {
   const URL = ADDRESS + '/user'
   const response = await axios.delete(URL)
   if (response.status != 200) {
     throw new Error(response.data.json().message)
   }
-  const data: UserResponse = await response.data.json()
+  const data: BackendUser = await response.data.json()
   return data
 }
 
