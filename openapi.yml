@@ -6,7 +6,7 @@ servers:
   - url: http://0.0.0.0:4010
 paths:
   /item:
-     get:
+    get:
       tags:
         - item
       description: 商品のリストを取得します
@@ -18,7 +18,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/itemPreview'
   /item/search:
-     get:
+    get:
       tags:
         - item
       parameters:
@@ -27,7 +27,7 @@ paths:
           required: true
           schema:
             type: string
-            description: itemId
+            description: item_id
       description: 検索結果の商品のリストを取得します
       responses:
         '200':
@@ -37,18 +37,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/itemPreview'
 
-  /item/{itemId}:
+  /item/{item_id}:
     get:
       tags:
         - item
-      description: itemIdから商品の詳細情報を取得します
+      description: item_idから商品の詳細情報を取得します
       parameters:
         - in: path
-          name: itemId   # Note the name is the same as in the path
+          name: item_id # Note the name is the same as in the path
           required: true
           schema:
             type: string
-            description: itemId
+            description: item_id
       responses:
         '200':
           description: OK
@@ -56,7 +56,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/itemOverview'
-                   
+
         '404':
           description: 商品が存在しないときに返します
           content:
@@ -64,12 +64,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/notFound'
 
-
   /userauthstatus:
     post:
       tags:
         - userManagement
-      description: そのEmailがサインイン可能かを判定します  
+      description: そのEmailがサインイン可能かを判定します
       requestBody:
         content:
           application/json:
@@ -86,7 +85,7 @@ paths:
           description: OK
           content:
             application/json:
-              schema:  
+              schema:
                 type: object
                 properties:
                   isExist:
@@ -170,14 +169,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'  
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
- 
+
     patch:
       tags:
         - user
@@ -187,7 +186,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/profileReqPayload'
-              
+
       responses:
         '200':
           description: OK
@@ -195,20 +194,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
-              
+
         '400':
           description: 追加しようとしている内容に誤りが合った場合や情報が登録されていない場合に返します
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'  
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
- 
+
   /user/address:
     post:
       tags:
@@ -231,14 +230,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'  
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
- 
+
     patch:
       tags:
         - user
@@ -260,7 +259,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'  
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
@@ -268,12 +267,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/unauthorized'
 
-
   /user/cart:
     get:
       tags:
         - user
-      description: カートを取得します      
+      description: カートを取得します
       responses:
         '200':
           description: OK
@@ -281,14 +279,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/cart'
-                          
+
         '401':
           description: ログインしていない場合に返します
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
- 
+
     post:
       tags:
         - user
@@ -297,7 +295,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/cartReqPayload'   
+              $ref: '#/components/schemas/cartReqPayload'
       responses:
         '200':
           description: OK
@@ -310,14 +308,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'            
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized'
- 
+
     patch:
       tags:
         - user
@@ -326,7 +324,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/cartReqPayload'          
+              $ref: '#/components/schemas/cartReqPayload'
       responses:
         '200':
           description: OK
@@ -334,7 +332,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/cart'
-     
+
         '401':
           description: ログインしていない場合に返します
           content:
@@ -354,11 +352,11 @@ paths:
       description: ユーザーのカートから商品を削除します
       parameters:
         - in: query
-          name: itemId
+          name: item_id
           required: true
           schema:
             type: string
-            description: itemId
+            description: item_id
       responses:
         '200':
           description: OK
@@ -366,7 +364,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/cart'
-     
+
         '401':
           description: ログインしていない場合に返します
           content:
@@ -397,7 +395,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'       
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
@@ -417,7 +415,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/transactions'
-     
+
         '401':
           description: ログインしていない場合に返します
           content:
@@ -432,11 +430,11 @@ paths:
       description: 取引の詳細情報を取得します
       parameters:
         - in: path
-          name: transactionId   # Note the name is the same as in the path
+          name: transactionId # Note the name is the same as in the path
           required: true
           schema:
             type: string
-            description: itemId
+            description: item_id
       responses:
         '200':
           description: OK
@@ -449,7 +447,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest' 
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
@@ -464,16 +462,16 @@ paths:
                 $ref: '#/components/schemas/notFound'
 
   /products:
-    post: 
+    post:
       tags:
-        - manufacturer      
+        - manufacturer
       description: 商品情報を登録します
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/products'
-              
+
       responses:
         '200':
           description: OK
@@ -481,13 +479,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/products'
-                
+
         '400':
           description: 追加しようとしている内容に誤りが合った場合に返します
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'                  
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
@@ -499,11 +497,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'  
-  
-    patch: 
+                $ref: '#/components/schemas/forbidden'
+
+    patch:
       tags:
-        - manufacturer      
+        - manufacturer
       description: 商品情報を修正します
       requestBody:
         content:
@@ -517,13 +515,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/products'
-                
+
         '400':
           description: 修正しようとしている内容に誤りが合った場合に返します
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'                  
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
@@ -535,24 +533,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'  
+                $ref: '#/components/schemas/forbidden'
         '404':
           description: 商品が存在しないときに返します
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/notFound'
-  
+
     delete:
       tags:
-        - manufacturer      
+        - manufacturer
       parameters:
         - in: query
-          name: itemId   
+          name: item_id
           required: true
           schema:
             type: string
-          description: itemId
+          description: item_id
       description: 商品を削除します
       responses:
         '200':
@@ -572,7 +570,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'   
+                $ref: '#/components/schemas/forbidden'
         '404':
           description: 商品が存在しないときに返します
           content:
@@ -606,7 +604,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'   
+                $ref: '#/components/schemas/forbidden'
 
   /manufacturer/stripe/mypage:
     get:
@@ -634,17 +632,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'  
-       
-  
+                $ref: '#/components/schemas/forbidden'
+
 components:
   schemas:
-
     notFound:
       type: object
       properties:
         message:
-          type: string 
+          type: string
       example:
         message: not found
 
@@ -652,7 +648,7 @@ components:
       type: object
       properties:
         message:
-          type: string 
+          type: string
       example:
         message: bad request
 
@@ -668,7 +664,7 @@ components:
       type: object
       properties:
         message:
-          type: string 
+          type: string
       example:
         message: forbidden
 
@@ -705,7 +701,7 @@ components:
     user:
       type: object
       properties:
-        userId:
+        user_id:
           type: string
           description: FirebaseUID
         profile:
@@ -754,7 +750,7 @@ components:
                       status:
                         type: string
       example:
-        userId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+        user_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
         profile:
           real_name: tsuchiya tokusaburou
           display_name: tsuchiya
@@ -769,13 +765,13 @@ components:
         manufacturer:
           stripe_account_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
           items:
-            - itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+            - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
               properties:
-              name: クラウディ・エンチャント
-              price: 2480
-              details:
-                status: Available
-            - itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+                name: クラウディ・エンチャント
+                price: 2480
+                details:
+                  status: Available
+            - item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
               properties:
                 name: ゴールデン・ハーモニー
                 price: 9800
@@ -784,7 +780,7 @@ components:
     products:
       type: object
       properties:
-        itemId:
+        item_id:
           type: string
         properties:
           type: object
@@ -795,7 +791,7 @@ components:
               type: number
               format: double
             size:
-                type: number
+              type: number
         details:
           type: object
           properties:
@@ -805,12 +801,12 @@ components:
               type: number
             description:
               type: string
-            tags: 
+            tags:
               type: array
               items:
                 type: string
       example:
-        itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+        item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
         properties:
           name: ゴールデン・ハーモニー
           price: 9800
@@ -829,24 +825,24 @@ components:
     cartReqPayload:
       type: object
       properties:
-        itemId:
+        item_id:
           type: string
         quantity:
           type: integer
       example:
-        itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+        item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
         quantity: 1
 
     itemPreview:
       type: array
       items:
         properties:
-          itemId:
+          item_id:
             type: string
           properties:
             type: object
             properties:
-              name: 
+              name:
                 type: string
               price:
                 type: number
@@ -857,13 +853,13 @@ components:
                   status:
                     type: string
       example:
-        - itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+        - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
           properties:
-          name: クラウディ・エンチャント
-          price: 2480
-          details:
-            status: Available
-        - itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+            name: クラウディ・エンチャント
+            price: 2480
+            details:
+              status: Available
+        - item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
           properties:
             name: ゴールデン・ハーモニー
             price: 9800
@@ -873,7 +869,7 @@ components:
     itemOverview:
       type: object
       properties:
-        itemId:
+        item_id:
           type: string
         properties:
           type: object
@@ -884,7 +880,7 @@ components:
               type: number
               format: double
             size:
-                type: number
+              type: number
         details:
           type: object
           properties:
@@ -894,11 +890,11 @@ components:
               type: number
             description:
               type: string
-            tags: 
+            tags:
               type: array
               items:
                 type: string
-              
+
         manufacturer:
           type: object
           properties:
@@ -907,7 +903,7 @@ components:
             description:
               type: string
       example:
-        itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+        item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
         properties:
           name: ゴールデン・ハーモニー
           price: 9800
@@ -929,7 +925,7 @@ components:
         properties:
           transaction_id:
             type: string
-          tracking_id: 
+          tracking_id:
             type: string
           items:
             type: array
@@ -941,13 +937,13 @@ components:
                   type: integer
                 items:
                   $ref: '#/components/schemas/itemPreview'
-          
+
     transactionDetails:
       type: object
       properties:
         transaction_id:
           type: string
-        tracking_id: 
+        tracking_id:
           type: string
         address:
           type: object
@@ -969,9 +965,6 @@ components:
                 type: integer
               items:
                 $ref: '#/components/schemas/itemPreview'
-          
-        
-
 
 tags:
   - name: item
