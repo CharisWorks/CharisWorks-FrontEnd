@@ -3,9 +3,9 @@ info:
   title: API Title
   version: '1.0'
 servers:
-  - url: http://0.0.0.0:4010
+  - url: http://localhost:5000
 paths:
-  /item:
+  /api/item:
     get:
       tags:
         - item
@@ -17,7 +17,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/itemPreview'
-  /item/search:
+  /api/item/search:
     get:
       tags:
         - item
@@ -37,7 +37,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/itemPreview'
 
-  /item/{item_id}:
+  /api/item/{item_id}:
     get:
       tags:
         - item
@@ -64,7 +64,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/notFound'
 
-  /userauthstatus:
+  /api/userauthstatus:
     post:
       tags:
         - userManagement
@@ -98,7 +98,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
-  /user:
+  /api/user:
     get:
       tags:
         - user
@@ -147,7 +147,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/notFound'
 
-  /user/profile:
+  /api/profile:
     post:
       tags:
         - user
@@ -208,7 +208,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/unauthorized'
 
-  /user/address:
+  /api/address:
     post:
       tags:
         - user
@@ -267,7 +267,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/unauthorized'
 
-  /user/cart:
+  /api/cart:
     get:
       tags:
         - user
@@ -378,7 +378,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/notFound'
 
-  /user/buy:
+  /api/buy:
     get:
       tags:
         - user
@@ -403,7 +403,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/unauthorized'
 
-  /user/transaction:
+  /api/transaction:
     get:
       tags:
         - user
@@ -423,7 +423,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/unauthorized'
 
-  /user/transaction/{transactionId}:
+  /api/transaction/{transactionId}:
     get:
       tags:
         - user
@@ -461,7 +461,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/notFound'
 
-  /products:
+  /api/products:
     post:
       tags:
         - manufacturer
@@ -578,7 +578,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/notFound'
 
-  /manufacturer/stripe/create:
+  /api/stripe/create:
     get:
       tags:
         - manufacturer
@@ -606,7 +606,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/forbidden'
 
-  /manufacturer/stripe/mypage:
+  /api/stripe/mypage:
     get:
       tags:
         - manufacturer
