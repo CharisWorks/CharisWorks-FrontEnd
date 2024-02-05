@@ -5,9 +5,15 @@ const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
 
 class CartRequests implements ICartRequests {
     Get = async (): Promise<Cart> => {
-        const URL = ADDRESS + '/user'
-        const response = await axios.get(URL)
-        const data: Cart = await response.data.json()
+        const url = new URL('/user', ADDRESS)
+        const response = await fetch(url.toString(), {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        const data: Cart = await response.json()
         return data
     }
     Post = async (CartItem: CartItem): Promise<Cart> => {
