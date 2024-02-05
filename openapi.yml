@@ -3,76 +3,784 @@ info:
   title: API Title
   version: '1.0'
 servers:
-  - url: http://0.0.0.0:4010
+  - url: http://localhost:5000
 paths:
-  /item:
+  /api/item:
     get:
+      tags:
+        - item
+      description: 商品のリストを取得します
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/itemPreview'
-  /item/{itemId}:
+                $ref: '#/components/schemas/itemPreview'
+  /api/item/search:
     get:
+      tags:
+        - item
       parameters:
-        - in: path
-          name: itemId   # Note the name is the same as in the path
+        - in: query
+          name: keyword
           required: true
           schema:
-            type: integer
-            minimum: 1
-          description: The user ID
+            type: string
+            description: item_id
+      description: 検索結果の商品のリストを取得します
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/itemOverview'
+                $ref: '#/components/schemas/itemPreview'
+
+  /api/item/{item_id}:
+    get:
+      tags:
+        - item
+      description: item_idから商品の詳細情報を取得します
+      parameters:
+        - in: path
+          name: item_id # Note the name is the same as in the path
+          required: true
+          schema:
+            type: string
+            description: item_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/itemOverview'
+
+        '404':
+          description: 商品が存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+  /api/userauthstatus:
+    post:
+      tags:
+        - userManagement
+      description: そのEmailがサインイン可能かを判定します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              example:
+                email: hogehoge@example.com
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isExist:
+                    type: boolean
+                example:
+                  isExist: true
+        '400':
+          description: そのEmailが適切な形でない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+  /api/user:
+    get:
+      tags:
+        - user
+      description: ユーザーの個人情報を返します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+    delete:
+      tags:
+        - user
+      description: ユーザーを削除します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: deleted user successfully
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '404':
+          description: そのEmailに紐づくアカウントが存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+  /api/profile:
+    post:
+      tags:
+        - user
+      description: ユーザーのプロフィール情報を登録します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/profileReqPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: 追加しようとしている内容に誤りが合った場合やすでに登録されている場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+    patch:
+      tags:
+        - user
+      description: ユーザーのプロフィール情報を修正します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/profileReqPayload'
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        '400':
+          description: 追加しようとしている内容に誤りが合った場合や情報が登録されていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+  /api/address:
+    post:
+      tags:
+        - user
+      description: ユーザーの配送先情報を登録します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/addressReqPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: 追加しようとしている内容に誤りが合った場合やすでに登録されている場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+    patch:
+      tags:
+        - user
+      description: ユーザーの配送先情報を修正します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/addressReqPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: 追加しようとしている内容に誤りが合った場合や情報が登録されていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+  /api/cart:
+    get:
+      tags:
+        - user
+      description: カートを取得します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cart'
+
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+    post:
+      tags:
+        - user
+      description: カートに商品を追加します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cartReqPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cart'
+        '400':
+          description: 追加しようとしている内容に誤りが合った場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+    patch:
+      tags:
+        - user
+      description: ユーザーのカートに入っている商品の数量を変更します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cartReqPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cart'
+
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '404':
+          description: 商品がカートに存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+    delete:
+      tags:
+        - user
+      description: ユーザーのカートから商品を削除します
+      parameters:
+        - in: query
+          name: item_id
+          required: true
+          schema:
+            type: string
+            description: item_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cart'
+
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '404':
+          description: 商品がカートに存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+  /api/buy:
+    get:
+      tags:
+        - user
+      description: 商品を購入します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: 購入するための条件を満たしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+  /api/transaction:
+    get:
+      tags:
+        - user
+      description: 取引履歴を取得します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transactions'
+
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+
+  /api/transaction/{transactionId}:
+    get:
+      tags:
+        - user
+      description: 取引の詳細情報を取得します
+      parameters:
+        - in: path
+          name: transactionId # Note the name is the same as in the path
+          required: true
+          schema:
+            type: string
+            description: item_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transactionDetails'
+        '400':
+          description: パラメータが間違っている場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '404':
+          description: 取引が存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+  /api/products:
+    post:
+      tags:
+        - manufacturer
+      description: 商品情報を登録します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/products'
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/products'
+
+        '400':
+          description: 追加しようとしている内容に誤りが合った場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'
+
+    patch:
+      tags:
+        - manufacturer
+      description: 商品情報を修正します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/products'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/products'
+
+        '400':
+          description: 修正しようとしている内容に誤りが合った場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'
+        '404':
+          description: 商品が存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+    delete:
+      tags:
+        - manufacturer
+      parameters:
+        - in: query
+          name: item_id
+          required: true
+          schema:
+            type: string
+          description: item_id
+      description: 商品を削除します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'
+        '404':
+          description: 商品が存在しないときに返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFound'
+
+  /api/stripe/create:
+    get:
+      tags:
+        - manufacturer
+        - stripe
+      description: stripeの出品者の登録を行います stripeの登録用URLを返します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: https://example.com
+
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'
+
+  /api/stripe/mypage:
+    get:
+      tags:
+        - manufacturer
+        - stripe
+      description: stripeのマイページへのURLを返します
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: https://example.com
+
+        '401':
+          description: ログインしていない場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized'
+        '403':
+          description: 権限がないアカウントからのリクエストの場合に返します
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'
 
 components:
   schemas:
-    itemPreview:
+    notFound:
       type: object
       properties:
-        itemId:
+        message:
           type: string
-        properties:
+      example:
+        message: not found
+
+    badRequest:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: bad request
+
+    unauthorized:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Unauthorized
+
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: forbidden
+
+    addressReqPayload:
+      type: object
+      properties:
+        address:
           type: object
           properties:
-            name: 
+            zip_code:
               type: string
-            price:
-              type: number
-              format: bouble
-            details:
-              type: object
-              properties:
-                status:
-                  type: string
-      example:
-        - itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
-          properties:
-          name: クラウディ・エンチャント
-          price: 2480
-          details:
-            status: Available
-        - itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
-          properties:
-            name: ゴールデン・ハーモニー
-            price: 9800
-            details:
-              status: Available
-    itemOverview:
+            address_1:
+              type: string
+            address_2:
+              type: string
+            address_3:
+              type: string
+            phone_number:
+              type: string
+
+    profileReqPayload:
       type: object
       properties:
-        itemId:
+        profile:
+          type: object
+          properties:
+            real_name:
+              type: string
+            display_name:
+              type: string
+            description:
+              type: string
+
+    user:
+      type: object
+      properties:
+        user_id:
+          type: string
+          description: FirebaseUID
+        profile:
+          type: object
+          properties:
+            display_name:
+              type: string
+            description:
+              type: string
+            created_at:
+              type: string
+              description: アカウント登録日時
+        address:
+          type: object
+          properties:
+            real_name:
+              type: string
+            zip_code:
+              type: string
+            address_1:
+              type: string
+            address_2:
+              type: string
+            address_3:
+              type: string
+            phone_number:
+              type: string
+        manufacturer:
+          type: object
+          properties:
+            stripe_account_id:
+              type: string
+            items:
+              type: array
+              items:
+                properties:
+                  item_id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: integer
+                  details:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+      example:
+        user_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+        profile:
+          display_name: tsuchiya
+          description: hello
+          created_at: 2000-01-01
+        address:
+          real_name: tsuchiya tokusaburou
+          zip_code: 981-0915
+          address_1: 宮城県仙台市青葉区
+          address_2: 通町
+          address_3: 通町マンション209
+          phone_number: 0228056142
+        manufacturer:
+          stripe_account_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+          items:
+            - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+              properties:
+                name: クラウディ・エンチャント
+                price: 2480
+                details:
+                  status: Available
+            - item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+              properties:
+                name: ゴールデン・ハーモニー
+                price: 9800
+                details:
+                  status: Available
+    products:
+      type: object
+      properties:
+        item_id:
           type: string
         properties:
           type: object
@@ -83,7 +791,7 @@ components:
               type: number
               format: double
             size:
-                type: number
+              type: number
         details:
           type: object
           properties:
@@ -93,22 +801,12 @@ components:
               type: number
             description:
               type: string
-            tags: 
-              type: object
-              properties:
-                color:
-                  type: string
-                series:
-                  type: string
-        manufacturer:
-          type: object
-          properties:
-            name:
-              type: string
-            description:
-              type: string
+            tags:
+              type: array
+              items:
+                type: string
       example:
-        itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+        item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
         properties:
           name: ゴールデン・ハーモニー
           price: 9800
@@ -118,8 +816,221 @@ components:
             size: 16
             description: シトリンは、豊かさと繁栄を象徴するクリスタルと...
             tags:
-              color: 黄
-              series: Lucky Aura
+              - 黄
+              - Lucky Aura
+    cart:
+      type: array
+      items:
+        $ref: '#/components/schemas/itemPreview'
+    cartReqPayload:
+      type: object
+      properties:
+        item_id:
+          type: string
+        quantity:
+          type: integer
+      example:
+        item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+        quantity: 1
+
+    itemPreview:
+      type: array
+      items:
+        properties:
+          item_id:
+            type: string
+          properties:
+            type: object
+            properties:
+              name:
+                type: string
+              price:
+                type: number
+                format: bouble
+              details:
+                type: object
+                properties:
+                  status:
+                    type: string
+      example:
+        - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+          properties:
+            name: クラウディ・エンチャント
+            price: 2480
+            details:
+              status: Available
+        - item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+          properties:
+            name: ゴールデン・ハーモニー
+            price: 9800
+            details:
+              status: Available
+
+    itemOverview:
+      type: object
+      properties:
+        item_id:
+          type: string
+        properties:
+          type: object
+          properties:
+            name:
+              type: string
+            price:
+              type: number
+              format: double
+            size:
+              type: number
+        details:
+          type: object
+          properties:
+            status:
+              type: string
+            stock:
+              type: number
+            description:
+              type: string
+            tags:
+              type: array
+              items:
+                type: string
+
+        manufacturer:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+      example:
+        item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+        properties:
+          name: ゴールデン・ハーモニー
+          price: 9800
+          details:
+            status: Available
+            stock: 1
+            size: 16
+            description: シトリンは、豊かさと繁栄を象徴するクリスタルと...
+            tags:
+              - 黄
+              - Lucky Aura
           manufacturer:
             name: kumi
             description: 心を込めた商品を制作しております...
+
+    transactions:
+      type: array
+      items:
+        type: object
+        properties:
+          transaction_id:
+            type: string
+          tracking_id:
+            type: string
+          items:
+            type: array
+            items:
+              properties:
+                item_id:
+                  type: string
+                quantity:
+                  type: integer
+                properties:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    price:
+                      type: integer
+      example:
+        - transaction_id: f6d655da-6fff-11cc-b3bc-e86a6465f38b
+          tracking_id: 123456789
+          items:
+            - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+              quantity: 1
+              properties:
+                name: クラウディ・エンチャント
+                price: 2480
+            - item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+              quantity: 2
+              properties:
+                name: ゴールデン・ハーモニー
+                price: 9800
+        - transaction_id: f6d655da-6fff-11sd-b3bc-e86a6465f38b
+          tracking_id: 987654321
+          items:
+            - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+              quantity: 10
+              properties:
+                name: クラウディ・エンチャント
+                price: 2480
+
+    transactionDetails:
+      type: object
+      properties:
+        transaction_id:
+          type: string
+        tracking_id:
+          type: string
+        address:
+          type: object
+          properties:
+            zip_code:
+              type: string
+            address:
+              type: string
+            phone_number:
+              type: string
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              item_id:
+                type: string
+              quantity:
+                type: integer
+              properties:
+                type: object
+                properties:
+                  item_id:
+                    type: string
+                  properties:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      price:
+                        type: integer
+      example:
+        transaction_id: f6d655da-6fff-11cc-b3bc-e86a6465f38b
+        tracking_id: 123456789
+        address:
+          real_name: tsuchiya tokusaburou
+          zip_code: 981-0915
+          address: 宮城県 仙台市青葉区通町 通町マンション209
+          phone_number: 0228056142
+        items:
+          - item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+            quantity: 1
+            properties:
+              name: クラウディ・エンチャント
+              price: 2480
+          - item_id: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+            quantity: 2
+            properties:
+              name: ゴールデン・ハーモニー
+              price: 9800
+
+tags:
+  - name: item
+    description: 商品関連のAPI 認証不要
+  - name: userManagement
+    description: サインアップ、サインイン関連 認証不要
+  - name: user
+    description: ユーザー関連 要認証
+  - name: manufacturer
+    description: 出品者関連 要認証
+  - name: stripe
+    description: stripe関連 要認証

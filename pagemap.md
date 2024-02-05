@@ -47,3 +47,11 @@
   - /personal_info
 
     配送先情報
+
+- /error
+
+  - /stripe
+
+    stripe側で何らかのエラーが起こってリダイレクトされるときのページ
+
+    stripe側で言うところの`reflesh_url`にあたる
