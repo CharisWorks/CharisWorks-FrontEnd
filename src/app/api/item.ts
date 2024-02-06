@@ -1,42 +1,23 @@
 import { ItemPreview, ItemDetail, IItemRequests } from "./models/item";
-const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
+import { IRequests } from "./models/request";
 
 class ItemRequests implements IItemRequests {
-    private url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://localhost")
+    Requests: IRequests
+    constructor(Requests: IRequests) {
+        this.Requests = Requests
+    }
     Get = async (): Promise<ItemPreview[] | null> => {
-        this.url.pathname = '/api/cart'
-        const response = await fetch(this.url.toString(), {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+        const response = await this.Requests.Get('/api/item')
         const data: ItemPreview[] = await response.json()
         return data
     }
-    GetKeyword = async (keyword: string): Promise<ItemPreview[] | null> => {
-        this.url.pathname = '/item/search'
-        this.url.searchParams.set("itemId", keyword)
-        const response = await fetch(this.url.toString(), {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+    GetKeyword = async (keywords: string[]): Promise<ItemPreview[] | null> => {
+        const response = await this.Requests.Get('/api/item', { "keyword": keywords.join('|') })
         const data: ItemPreview[] = await response.json()
         return data
     }
     GetDetail = async (item_id: string): Promise<ItemDetail> => {
-        this.url.pathname = '/item/' + item_id
-        const response = await fetch(this.url.toString(), {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+        const response = await this.Requests.Get('/api/item/' + item_id)
         const data: ItemDetail = await response.json()
         return data
     }

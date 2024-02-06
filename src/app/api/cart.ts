@@ -1,61 +1,30 @@
-import { ICartRequests, Cart, CartItem } from './models/cart'
+import { Cart, CartItem, ICartRequests } from "./models/cart"
+import { IAuthRequests } from "./models/request"
+
 
 class CartRequests implements ICartRequests {
-    private url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
-    private jwt
-    constructor(jwt: string) {
-        this.jwt = jwt
+    private AuthRequests: IAuthRequests
+    constructor(AuthRequest: IAuthRequests) {
+        this.AuthRequests = AuthRequest
     }
+
     Get = async (): Promise<Cart> => {
-        this.url.pathname = '/api/cart'
-        const response = await fetch(this.url.toString(), {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                Authentication: this.jwt
-            }
-        });
+        const response = await this.AuthRequests.Get('/api/cart')
         const data: Cart = await response.json()
         return data
     }
     Post = async (CartItem: CartItem): Promise<Cart> => {
-        this.url.pathname = '/api/cart'
-        const response = await fetch(this.url.toString(), {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                Authentication: this.jwt
-            }, body: JSON.stringify(CartItem)
-        });
+        const response = await this.AuthRequests.Post('/api/cart', CartItem)
         const data: Cart = await response.json()
         return data
     }
     Update = async (CartItem: CartItem): Promise<Cart> => {
-        this.url.pathname = '/api/cart'
-        const response = await fetch(this.url.toString(), {
-            method: "PATCH",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                Authentication: this.jwt
-            }, body: JSON.stringify(CartItem)
-        });
+        const response = await this.AuthRequests.Patch('/api/cart', CartItem)
         const data: Cart = await response.json()
         return data
     }
     Delete = async (itemId: string): Promise<Cart> => {
-        this.url.pathname = '/api/cart'
-        this.url.searchParams.set("itemId", itemId)
-        const response = await fetch(this.url.toString(), {
-            method: "DELETE",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                Authentication: this.jwt
-            }
-        });
+        const response = await this.AuthRequests.Delete('/api/cart', { "itemId": itemId })
         const data: Cart = await response.json()
         return data
     }

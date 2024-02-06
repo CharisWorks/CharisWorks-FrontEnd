@@ -29,7 +29,7 @@ type ItemDetail = {
 
 interface IItemRequests {
     Get(): Promise<ItemPreview[] | null>
-    GetKeyword(keyword: string): Promise<ItemPreview[] | null>
+    GetKeyword(keywords: string[]): Promise<ItemPreview[] | null>
     GetDetail(item_id: string): Promise<ItemDetail>
 }
 
