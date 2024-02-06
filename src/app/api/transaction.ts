@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { Transaction, TransactionDetail, ITransactionRequests } from './interfaces'
+import { Transaction, TransactionDetail, ITransactionRequests } from './models/transaction'
 const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
 
 class TransactionRequests implements ITransactionRequests {

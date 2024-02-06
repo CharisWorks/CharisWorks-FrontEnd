@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
-import { ItemPreview, ItemDetail, IItemRequests } from "./interfaces";
+import { ItemPreview, ItemDetail, IItemRequests } from "./models/item";
 const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
 
 class ItemRequests implements IItemRequests {

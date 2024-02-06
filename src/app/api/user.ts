@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { Address, BackendUser, IUserRequests, Profile } from './interfaces'
+import { Address, BackendUser, IUserRequests, Profile } from './models/user'
 const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
 class UserRequests implements IUserRequests {
   Get = async (): Promise<BackendUser> => {

@@ -1,6 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
-import { ICartRequests, Cart, CartItem } from './interfaces'
-
+import { ICartRequests, Cart, CartItem } from './models/cart'
 
 class CartRequests implements ICartRequests {
     private url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
