@@ -4,8 +4,8 @@ import { IAuthRequests } from "./models/request"
 
 class CartRequests implements ICartRequests {
     private AuthRequests: IAuthRequests
-    constructor(AuthRequest: IAuthRequests) {
-        this.AuthRequests = AuthRequest
+    constructor(AuthRequests: IAuthRequests) {
+        this.AuthRequests = AuthRequests
     }
 
     Get = async (): Promise<Cart> => {

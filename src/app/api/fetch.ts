@@ -1,6 +1,6 @@
 import { IRequests, IAuthRequests, query } from "./models/request";
 
-class Requests implements IRequests {
+class FetchRequests implements IRequests {
     private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
     Get = async (path: string, params?: query): Promise<Response> => {
         const url: URL = this.url
@@ -64,7 +64,7 @@ class Requests implements IRequests {
 
 }
 
-class AuthRequests implements IAuthRequests {
+class AuthFetchRequests implements IAuthRequests {
     public jwt: string
     constructor(jwt: string) {
         this.jwt = jwt
@@ -136,4 +136,4 @@ class AuthRequests implements IAuthRequests {
     }
 
 }
-export { AuthRequests, Requests }
+export { AuthFetchRequests, FetchRequests }
