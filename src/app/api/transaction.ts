@@ -1,24 +1,20 @@
-import axios, { AxiosResponse } from 'axios'
-import { Transaction, TransactionDetail, ITransactionRequests } from './models/transaction'
-const ADDRESS: string | undefined = process.env.NEXT_PUBLIC_SERVER_ADDRESS
+import { IRequests } from "./models/request";
+import { ITransactionRequests, Transaction, TransactionDetail } from "./models/transaction";
 
-class TransactionRequests implements ITransactionRequests {
+class TransactionRequest implements ITransactionRequests {
+    Requests: IRequests
+    constructor(Requests: IRequests) {
+        this.Requests = Requests
+    }
     Get = async (): Promise<Transaction[]> => {
-        const URL = ADDRESS + '/user/transaction'
-        const response = await axios.get(URL)
-        const data: Transaction[] = await response.data.json()
+        const response = await this.Requests.Get('/api/transaction')
+        const data: Transaction[] = await response.json()
         return data
     }
-
-    GetDetail = async (
-        transactionId: string,
-    ): Promise<TransactionDetail> => {
-        const URL =
-            ADDRESS + '/user/transaction/details?transactionId=' + transactionId
-        const response = await axios.get(URL)
-        const data: TransactionDetail = await response.data.json()
+    GetDetail = async (transaction_Id: string): Promise<TransactionDetail> => {
+        const response = await this.Requests.Get('/api/transaction/' + transaction_Id)
+        const data: TransactionDetail = await response.json()
         return data
     }
 
 }
-export { TransactionRequests }

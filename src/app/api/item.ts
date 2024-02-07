@@ -12,7 +12,7 @@ class ItemRequests implements IItemRequests {
         return data
     }
     GetKeyword = async (keywords: string[]): Promise<ItemPreview[] | null> => {
-        const response = await this.Requests.Get('/api/item', { "keyword": keywords.join('|') })
+        const response = await this.Requests.Get('/api/item', { "keyword": keywords.join('+') })
         const data: ItemPreview[] = await response.json()
         return data
     }
