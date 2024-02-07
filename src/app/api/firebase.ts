@@ -1,6 +1,7 @@
 import { initializeApp, FirebaseApp } from 'firebase/app'
 import {
   Auth,
+  User,
   getAuth,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -8,7 +9,9 @@ import {
   createUserWithEmailAndPassword,
   getIdToken,
 } from 'firebase/auth'
+
 import { IRequests } from './models/request'
+import { IAuthAppRequests } from './models/firebase'
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
@@ -18,13 +21,15 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 }
+
 interface UserAuthStatus {
   isExist: boolean
 }
+
 const app: FirebaseApp = initializeApp(firebaseConfig)
 const auth: Auth = getAuth(app)
 
-class FirebaseRequest {
+class FirebaseRequest implements IAuthAppRequests {
   private Requests: IRequests
   constructor(Requests: IRequests) {
     this.Requests = Requests
@@ -58,9 +63,9 @@ class FirebaseRequest {
     await signInWithRedirect(auth, provider)
   }
 
-  SaveIdTokenToLocalStorage = async (auth: Auth): Promise<void> => {
-    const idToken: string | null = auth.currentUser
-      ? await getIdToken(auth.currentUser)
+  SaveIdTokenToLocalStorage = async (user: User): Promise<void> => {
+    const idToken: string | null = user
+      ? await getIdToken(user)
       : null
     if (idToken) {
       localStorage.setItem('idToken', idToken)
