@@ -6,7 +6,7 @@ import React, {
   useEffect,
 } from 'react'
 import type { User } from 'firebase/auth'
-import { auth } from '../api/firebase_api'
+import { auth } from '../api/firebase'
 
 //
 //code from https://github.com/Nameless-itf23/SimpleAuth
