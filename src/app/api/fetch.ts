@@ -1,9 +1,9 @@
 import { IRequests, IAuthRequests, query } from "./models/request";
 
 class Requests implements IRequests {
-    private url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
+    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
     Get = async (path: string, params?: query): Promise<Response> => {
-        const url = this.url
+        const url: URL = this.url
         url.pathname = path
         if (params) {
             Object.entries(params).forEach(([key, value]) => {
@@ -11,7 +11,7 @@ class Requests implements IRequests {
             });
         }
 
-        const response = await fetch(url.toString(), {
+        const response: Response = await fetch(url.toString(), {
             method: "GET",
             mode: "cors",
             headers: {
@@ -21,9 +21,9 @@ class Requests implements IRequests {
         return response
     }
     Post = async (path: string, body: any): Promise<Response> => {
-        const url = this.url
+        const url: URL = this.url
         url.pathname = path
-        const response = await fetch(url.toString(), {
+        const response: Response = await fetch(url.toString(), {
             method: "POST",
             mode: "cors",
             headers: {
@@ -33,9 +33,9 @@ class Requests implements IRequests {
         return response
     }
     Patch = async (path: string, body: any): Promise<Response> => {
-        const url = this.url
+        const url: URL = this.url
         url.pathname = path
-        const response = await fetch(url.toString(), {
+        const response: Response = await fetch(url.toString(), {
             method: "PATCH",
             mode: "cors",
             headers: {
@@ -45,14 +45,14 @@ class Requests implements IRequests {
         return response
     }
     Delete = async (path: string, params?: query): Promise<Response> => {
-        const url = this.url
+        const url: URL = this.url
         url.pathname = path
         if (params) {
             Object.entries(params).forEach(([key, value]) => {
                 url.searchParams.set(key, value)
             });
         }
-        const response = await fetch(url.toString(), {
+        const response: Response = await fetch(url.toString(), {
             method: "DELETE",
             mode: "cors",
             headers: {
@@ -69,9 +69,9 @@ class AuthRequests implements IAuthRequests {
     constructor(jwt: string) {
         this.jwt = jwt
     }
-    private url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
+    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
     Get = async (path: string, params?: query): Promise<Response> => {
-        const url = this.url
+        const url: URL = this.url
         url.pathname = path
         if (params) {
             Object.entries(params).forEach(([key, value]) => {
@@ -79,7 +79,7 @@ class AuthRequests implements IAuthRequests {
             });
         }
 
-        const response = await fetch(url.toString(), {
+        const response: Response = await fetch(url.toString(), {
             method: "GET",
             mode: "cors",
             headers: {
@@ -90,9 +90,9 @@ class AuthRequests implements IAuthRequests {
         return response
     }
     Post = async (path: string, body: any): Promise<Response> => {
-        const url = this.url
+        const url: URL = this.url
         url.pathname = path
-        const response = await fetch(url.toString(), {
+        const response: Response = await fetch(url.toString(), {
             method: "POST",
             mode: "cors",
             headers: {
@@ -104,9 +104,9 @@ class AuthRequests implements IAuthRequests {
         return response
     }
     Patch = async (path: string, body: any): Promise<Response> => {
-        const url = this.url
+        const url: URL = this.url
         url.pathname = path
-        const response = await fetch(url.toString(), {
+        const response: Response = await fetch(url.toString(), {
             method: "PATCH",
             mode: "cors",
             headers: {
@@ -117,14 +117,14 @@ class AuthRequests implements IAuthRequests {
         return response
     }
     Delete = async (path: string, params?: query): Promise<Response> => {
-        const url = this.url
+        const url: URL = this.url
         url.pathname = path
         if (params) {
             Object.entries(params).forEach(([key, value]) => {
                 url.searchParams.set(key, value)
             });
         }
-        const response = await fetch(url.toString(), {
+        const response: Response = await fetch(url.toString(), {
             method: "DELETE",
             mode: "cors",
             headers: {

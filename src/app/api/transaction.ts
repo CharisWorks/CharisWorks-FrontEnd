@@ -7,14 +7,15 @@ class TransactionRequest implements ITransactionRequests {
         this.Requests = Requests
     }
     Get = async (): Promise<Transaction[]> => {
-        const response = await this.Requests.Get('/api/transaction')
+        const response: Response = await this.Requests.Get('/api/transaction')
         const data: Transaction[] = await response.json()
         return data
     }
     GetDetail = async (transaction_Id: string): Promise<TransactionDetail> => {
-        const response = await this.Requests.Get('/api/transaction/' + transaction_Id)
+        const response: Response = await this.Requests.Get('/api/transaction/' + transaction_Id)
         const data: TransactionDetail = await response.json()
         return data
     }
 
 }
+export { TransactionRequest }
