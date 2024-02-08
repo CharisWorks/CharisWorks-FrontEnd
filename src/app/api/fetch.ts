@@ -2,7 +2,7 @@ import { IRequests, IAuthRequests, query } from "./models/request";
 
 class FetchRequests implements IRequests {
     private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
-    Get = async (path: string, params?: query): Promise<Response> => {
+    async Get(path: string, params?: query): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         if (params) {
@@ -20,7 +20,7 @@ class FetchRequests implements IRequests {
         });
         return response
     }
-    Post = async (path: string, body: any): Promise<Response> => {
+    async Post(path: string, body: any): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         const response: Response = await fetch(url.toString(), {
@@ -32,7 +32,7 @@ class FetchRequests implements IRequests {
         })
         return response
     }
-    Patch = async (path: string, body: any): Promise<Response> => {
+    async Patch(path: string, body: any): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         const response: Response = await fetch(url.toString(), {
@@ -44,7 +44,7 @@ class FetchRequests implements IRequests {
         })
         return response
     }
-    Delete = async (path: string, params?: query): Promise<Response> => {
+    async Delete(path: string, params?: query): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         if (params) {
@@ -70,7 +70,7 @@ class AuthFetchRequests implements IAuthRequests {
         this.jwt = jwt
     }
     private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
-    Get = async (path: string, params?: query): Promise<Response> => {
+    async Get(path: string, params?: query): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         if (params) {
@@ -89,7 +89,7 @@ class AuthFetchRequests implements IAuthRequests {
         });
         return response
     }
-    Post = async (path: string, body: any): Promise<Response> => {
+    async Post(path: string, body: any): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         const response: Response = await fetch(url.toString(), {
@@ -103,7 +103,7 @@ class AuthFetchRequests implements IAuthRequests {
         })
         return response
     }
-    Patch = async (path: string, body: any): Promise<Response> => {
+    async Patch(path: string, body: any): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         const response: Response = await fetch(url.toString(), {
@@ -116,7 +116,7 @@ class AuthFetchRequests implements IAuthRequests {
         })
         return response
     }
-    Delete = async (path: string, params?: query): Promise<Response> => {
+    async Delete(path: string, params?: query): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         if (params) {

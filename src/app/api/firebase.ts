@@ -34,11 +34,11 @@ class FirebaseRequests implements IAuthAppRequests {
   constructor(Requests: IRequests) {
     this.Requests = Requests
   }
-  SignUpWithEmail = async (
+  async SignUpWithEmail(
     auth: Auth,
     email: string,
     password: string,
-  ): Promise<void> => {
+  ): Promise<void> {
     const response = await this.Requests.Post('/userauthstatus', { email: email })
     const data: UserAuthStatus = await response.json()
     if (!data.isExist) {
@@ -46,11 +46,11 @@ class FirebaseRequests implements IAuthAppRequests {
     }
   }
 
-  SignInWithEmail = async (
+  async SignInWithEmail(
     auth: Auth,
     email: string,
     password: string,
-  ): Promise<void> => {
+  ): Promise<void> {
     const response = await this.Requests.Post('/userauthstatus', { email: email })
     const data: UserAuthStatus = await response.json()
     if (data.isExist) {
@@ -58,12 +58,12 @@ class FirebaseRequests implements IAuthAppRequests {
     }
   }
 
-  SignInWithGoogle = async (auth: Auth): Promise<void> => {
+  async SignInWithGoogle(auth: Auth): Promise<void> {
     const provider = new GoogleAuthProvider()
     await signInWithRedirect(auth, provider)
   }
 
-  SaveIdTokenToLocalStorage = async (user: User): Promise<void> => {
+  async SaveIdTokenToLocalStorage(user: User): Promise<void> {
     const idToken: string | null = user
       ? await getIdToken(user)
       : null

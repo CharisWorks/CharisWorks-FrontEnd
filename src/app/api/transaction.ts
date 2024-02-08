@@ -6,17 +6,17 @@ class TransactionRequests implements ITransactionRequests {
     constructor(Requests: IRequests) {
         this.Requests = Requests
     }
-    Get = async (): Promise<Transaction[]> => {
+    async Get(): Promise<Transaction[]> {
         const response: Response = await this.Requests.Get('/api/transaction')
         const data: Transaction[] = await response.json()
         return data
     }
-    GetDetail = async (transaction_Id: string): Promise<TransactionDetail> => {
+    async GetDetail(transaction_Id: string): Promise<TransactionDetail> {
         const response: Response = await this.Requests.Get('/api/transaction/' + transaction_Id)
         const data: TransactionDetail = await response.json()
         return data
     }
-    Buy = async (): Promise<{ url: string }> => {
+    async Buy(): Promise<{ url: string }> {
         const response: Response = await this.Requests.Get('/api/buy')
         const data: { url: string } = await response.json()
         return data
