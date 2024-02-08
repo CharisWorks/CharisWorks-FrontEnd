@@ -1,4 +1,4 @@
-
+import { ManufacturerProperties } from "./manufacturer"
 type ItemPreview = {
     item_id: string
     quantity: number
@@ -7,24 +7,22 @@ type ItemPreview = {
         price: number
     }
 }
+type ItemProperties = {
+    name: string
+    price: number
+    details: {
+        status: string
+        stock: number
+        size: number
+        description: string
+        tags: string[]
+    }
+}
 
 type ItemDetail = {
     item_id: string
-    properties: {
-        name: string
-        price: number
-        details: {
-            status: string
-            stock: number
-            size: number
-            description: string
-            tags: string[]
-        }
-    }
-    manufacturer: {
-        name: string
-        description: string
-    }
+    properties: ItemProperties
+    manufacturer: ManufacturerProperties
 }
 
 interface IItemRequests {
@@ -33,4 +31,4 @@ interface IItemRequests {
     GetDetail(item_id: string): Promise<ItemDetail>
 }
 
-export type { ItemDetail, ItemPreview, IItemRequests }
+export type { ItemDetail, ItemPreview, IItemRequests, ItemProperties }
