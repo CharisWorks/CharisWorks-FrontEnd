@@ -29,7 +29,7 @@ interface UserAuthStatus {
 const app: FirebaseApp = initializeApp(firebaseConfig)
 const auth: Auth = getAuth(app)
 
-class FirebaseRequest implements IAuthAppRequests {
+class FirebaseRequests implements IAuthAppRequests {
   private Requests: IRequests
   constructor(Requests: IRequests) {
     this.Requests = Requests
@@ -75,6 +75,6 @@ class FirebaseRequest implements IAuthAppRequests {
 }
 
 export {
-  FirebaseRequest,
+  FirebaseRequests,
   auth
 }
