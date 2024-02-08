@@ -8,22 +8,22 @@ class CartRequests implements ICartRequests {
         this.AuthRequests = AuthRequests
     }
 
-    Get = async (): Promise<Cart> => {
+    async Get(): Promise<Cart> {
         const response: Response = await this.AuthRequests.Get('/api/cart')
         const data: Cart = await response.json()
         return data
     }
-    Post = async (CartItem: CartItem): Promise<Cart> => {
+    async Post(CartItem: CartItem): Promise<Cart> {
         const response: Response = await this.AuthRequests.Post('/api/cart', CartItem)
         const data: Cart = await response.json()
         return data
     }
-    Update = async (CartItem: CartItem): Promise<Cart> => {
+    async Update(CartItem: CartItem): Promise<Cart> {
         const response: Response = await this.AuthRequests.Patch('/api/cart', CartItem)
         const data: Cart = await response.json()
         return data
     }
-    Delete = async (itemId: string): Promise<Cart> => {
+    async Delete(itemId: string): Promise<Cart> {
         const response: Response = await this.AuthRequests.Delete('/api/cart', { "itemId": itemId })
         const data: Cart = await response.json()
         return data
