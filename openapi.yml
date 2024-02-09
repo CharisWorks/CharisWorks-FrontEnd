@@ -278,7 +278,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/cart'
+                $ref: '#/components/schemas/cartList'
 
         '401':
           description: ログインしていない場合に返します
@@ -302,7 +302,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/cart'
+                $ref: '#/components/schemas/cartList'
         '400':
           description: 追加しようとしている内容に誤りが合った場合に返します
           content:
@@ -331,7 +331,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/cart'
+                $ref: '#/components/schemas/cartList'
 
         '401':
           description: ログインしていない場合に返します
@@ -363,7 +363,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/cart'
+                $ref: '#/components/schemas/cartList'
 
         '401':
           description: ログインしていない場合に返します
@@ -818,20 +818,43 @@ components:
             tags:
               - 黄
               - Lucky Aura
-    cart:
+
+    cartList:
       type: array
       items:
-        $ref: '#/components/schemas/itemPreview'
-    cartReqPayload:
-      type: object
-      properties:
-        item_id:
-          type: string
-        quantity:
-          type: integer
+        properties:
+          itemId:
+            type: string
+          quantity:
+            type: integer
+          properties:
+            type: object
+            properties:
+              name:
+                type: string
+              price:
+                type: number
+                format: bouble
+              details:
+                type: object
+                properties:
+                  status:
+                    type: string
       example:
-        item_id: f6d655da-6fff-11ee-b3bc-e86a6465f38b
-        quantity: 1
+        - itemId: f6d655da-6fff-11ee-b3bc-e86a6465f38b
+          quantity: 1
+          properties:
+          name: クラウディ・エンチャント
+          price: 2480
+          details:
+            status: Available
+        - itemId: a64f1463-abd2-11ee-a4c7-e86a6465f38b
+          quantity: 2
+          properties:
+            name: ゴールデン・ハーモニー
+            price: 9800
+            details:
+              status: Available
 
     itemPreview:
       type: array

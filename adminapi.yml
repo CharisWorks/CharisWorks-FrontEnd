@@ -28,11 +28,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'   
- 
-    post: 
+                $ref: '#/components/schemas/forbidden'
+
+    post:
       tags:
-        - admin     
+        - admin
       description: 商品情報を登録します
       requestBody:
         content:
@@ -51,7 +51,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'                  
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
@@ -63,11 +63,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'  
- 
-    patch: 
+                $ref: '#/components/schemas/forbidden'
+
+    patch:
       tags:
-        - admin      
+        - admin
       description: 商品情報を修正します
       requestBody:
         content:
@@ -86,7 +86,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/badRequest'                  
+                $ref: '#/components/schemas/badRequest'
         '401':
           description: ログインしていない場合に返します
           content:
@@ -98,20 +98,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'  
+                $ref: '#/components/schemas/forbidden'
         '404':
           description: 商品が存在しないときに返します
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/notFound'
-  
+
     delete:
       tags:
-        - admin 
+        - admin
       parameters:
         - in: query
-          name: itemId   
+          name: itemId
           required: true
           schema:
             type: string
@@ -135,7 +135,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'   
+                $ref: '#/components/schemas/forbidden'
         '404':
           description: 商品が存在しないときに返します
           content:
@@ -183,10 +183,10 @@ paths:
 
     delete:
       tags:
-        - admin 
+        - admin
       parameters:
         - in: query
-          name: userId   
+          name: userId
           required: true
           schema:
             type: string
@@ -210,7 +210,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'   
+                $ref: '#/components/schemas/forbidden'
         '404':
           description: ユーザーが存在しないときに返します
           content:
@@ -248,20 +248,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'  
+                $ref: '#/components/schemas/forbidden'
         '404':
           description: 出品者が存在しないときに返します
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/notFound'                
+                $ref: '#/components/schemas/notFound'
 
     delete:
       tags:
-        - admin 
+        - admin
       parameters:
         - in: query
-          name: userId   
+          name: userId
           required: true
           schema:
             type: string
@@ -285,7 +285,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'   
+                $ref: '#/components/schemas/forbidden'
         '404':
           description: ユーザーが存在しないときに返します
           content:
@@ -305,7 +305,7 @@ paths:
               type: object
               properties:
                 userId:
-                  type: string  
+                  type: string
                   example: hogehoge@example.com
       responses:
         '200':
@@ -325,16 +325,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/forbidden'  
+                $ref: '#/components/schemas/forbidden'
 
 components:
   schemas:
-
     notFound:
       type: object
       properties:
         message:
-          type: string 
+          type: string
       example:
         message: not found
 
@@ -342,7 +341,7 @@ components:
       type: object
       properties:
         message:
-          type: string 
+          type: string
       example:
         message: bad request
 
@@ -358,7 +357,7 @@ components:
       type: object
       properties:
         message:
-          type: string 
+          type: string
       example:
         message: forbidden
 
@@ -460,7 +459,7 @@ components:
           properties:
             type: object
             properties:
-              name: 
+              name:
                 type: string
               price:
                 type: number
@@ -498,7 +497,7 @@ components:
               type: number
               format: double
             size:
-                type: number
+              type: number
         details:
           type: object
           properties:
@@ -508,11 +507,11 @@ components:
               type: number
             description:
               type: string
-            tags: 
+            tags:
               type: array
               items:
                 type: string
-              
+
         manufacturer:
           type: object
           properties:
