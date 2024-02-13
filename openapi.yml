@@ -941,7 +941,13 @@ components:
           manufacturer:
             name: kumi
             description: 心を込めた商品を制作しております...
-
+    cartReqPayload:
+      type: object
+      properties:
+        item_id:
+          type: string
+        quantity:
+          type: integer
     transactions:
       type: array
       items:
