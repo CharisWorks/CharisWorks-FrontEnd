@@ -25,43 +25,9 @@ const Cart = () => {
       console.log(CartRequest.Get())
     }
   }
-  const LogInHoge = () => {
-    FirebaseRequest.SignInWithEmail(auth, 'hoge@example.com', 'example')
-  }
-  const LogInFuga = () => {
-    FirebaseRequest.SignInWithEmail(auth, 'fuga@example.com', 'example')
-  }
   return (
     <>
       <p>カートのページ</p>
-      <div>
-        <button
-          onClick={() => {
-            GetCart()
-          }}
-        >
-          <p>GetCart</p>
-        </button>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            LogInHoge()
-          }}
-        >
-          <p>LogInHoge</p>
-        </button>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            LogInFuga()
-          }}
-        >
-          <p>LogInFuga</p>
-        </button>
-      </div>
-      <div>idToken: {idToken}</div>
     </>
   )
 }
