@@ -156,7 +156,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/profileReqPayload'
+              $ref: '#/components/schemas/profileRegisterReqPayload'
       responses:
         '200':
           description: OK
@@ -685,19 +685,26 @@ components:
             phone_number:
               type: string
 
+    profileRegisterReqPayload:
+      type: object
+      properties:
+        profile:
+          type: object
+          properties:
+            display_name:
+              type: string
+            description:
+              type: string
     profileReqPayload:
       type: object
       properties:
         profile:
           type: object
           properties:
-            real_name:
-              type: string
             display_name:
               type: string
             description:
               type: string
-
     user:
       type: object
       properties:
