@@ -55,3 +55,7 @@
     stripe側で何らかのエラーが起こってリダイレクトされるときのページ
 
     stripe側で言うところの`reflesh_url`にあたる
+
+- /signin
+
+- /signup

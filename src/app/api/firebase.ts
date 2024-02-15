@@ -39,10 +39,11 @@ class FirebaseRequests implements IAuthAppRequests {
     email: string,
     password: string,
   ): Promise<void> {
-    const response = await this.Requests.Post('/userauthstatus', { email: email })
+    const response = await this.Requests.Post('/api/userauthstatus', { email: email })
     const data: UserAuthStatus = await response.json()
     if (!data.isExist) {
-      await createUserWithEmailAndPassword(auth, email, password)
+      const u = await createUserWithEmailAndPassword(auth, email, password)
+      console.log(u)
     }
   }
 
@@ -51,13 +52,12 @@ class FirebaseRequests implements IAuthAppRequests {
     email: string,
     password: string,
   ): Promise<void> {
-    const response = await this.Requests.Post('/userauthstatus', { email: email })
+    const response = await this.Requests.Post('/api/userauthstatus', { email: email })
     const data: UserAuthStatus = await response.json()
     if (data.isExist) {
       await signInWithEmailAndPassword(auth, email, password)
     }
   }
-
   async SignInWithGoogle(auth: Auth): Promise<void> {
     const provider = new GoogleAuthProvider()
     await signInWithRedirect(auth, provider)

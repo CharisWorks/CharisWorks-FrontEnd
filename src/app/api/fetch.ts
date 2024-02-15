@@ -1,7 +1,7 @@
 import { IRequests, IAuthRequests, query } from "./models/request";
 
 class FetchRequests implements IRequests {
-    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
+    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://localhost:8080")
     async Get(path: string, params?: query): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
@@ -69,7 +69,7 @@ class AuthFetchRequests implements IAuthRequests {
     constructor(jwt: string) {
         this.jwt = jwt
     }
-    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "localhost")
+    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://localhost:8080")
     async Get(path: string, params?: query): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
@@ -84,7 +84,7 @@ class AuthFetchRequests implements IAuthRequests {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                Authentication: this.jwt
+                "Authorization": this.jwt
             }
         });
         return response
@@ -97,7 +97,7 @@ class AuthFetchRequests implements IAuthRequests {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                Authentication: this.jwt
+                "Authorization": this.jwt
 
             }, body: JSON.stringify(body)
         })
@@ -111,7 +111,7 @@ class AuthFetchRequests implements IAuthRequests {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                Authentication: this.jwt
+                "Authorization": this.jwt
             }, body: JSON.stringify(body)
         })
         return response
@@ -129,7 +129,7 @@ class AuthFetchRequests implements IAuthRequests {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                Authentication: this.jwt
+                "Authorization": this.jwt
             }
         });
         return response
