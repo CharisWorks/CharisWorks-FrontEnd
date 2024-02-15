@@ -1,35 +1,24 @@
 'use client'
 import { useAuthContext } from '../contexts/AuthContext'
-import { FirebaseRequest } from '../api/lib/firebase'
-import { useEffect, useState } from 'react'
+import { FirebaseRequestImpl, CartRequestImpl } from '../api/lib/firebase'
 import { auth } from '../api/firebase'
-import { CartRequests } from '../api/cart'
-import { AuthFetchRequests } from '../api/fetch'
-import { ICartRequests } from '../api/models/cart'
 
 const Cart = () => {
   const user = useAuthContext()
-  const [idToken, setidToken] = useState('')
-  let CartRequest: ICartRequests
-  useEffect(() => {
-    ;(async () => {
-      if (user) FirebaseRequest.SaveIdTokenToLocalStorage(user)
-      const idToken = await user?.getIdToken()
-      if (idToken != null) setidToken(idToken)
-    })()
-  }, [user])
 
-  const GetCart = () => {
-    if (idToken != '') {
-      CartRequest = new CartRequests(new AuthFetchRequests(idToken))
+  const GetCart = async () => {
+    const idToken = await user?.getIdToken()
+    if (idToken) {
+      const CartRequest = CartRequestImpl(idToken)
+      console.log(idToken)
       console.log(CartRequest.Get())
     }
   }
   const LogInHoge = () => {
-    FirebaseRequest.SignInWithEmail(auth, 'hoge@example.com', 'example')
+    FirebaseRequestImpl.SignInWithEmail(auth, 'hoge@example.com', 'example')
   }
   const LogInFuga = () => {
-    FirebaseRequest.SignInWithEmail(auth, 'fuga@example.com', 'example')
+    FirebaseRequestImpl.SignInWithEmail(auth, 'fuga@example.com', 'example')
   }
   return (
     <>
@@ -61,7 +50,6 @@ const Cart = () => {
           <p>LogInFuga</p>
         </button>
       </div>
-      <div>idToken: {idToken}</div>
     </>
   )
 }
