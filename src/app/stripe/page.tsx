@@ -8,9 +8,6 @@ import { StripeRequestImpl } from '../api/lib/firebase'
 import { useAuthContext } from '../contexts/AuthContext'
 import { IStripeRequests } from '../api/models/stripe'
 
-// Make sure to call loadStripe outside of a component’s render to avoid
-// recreating the Stripe object on every render.
-// This is your test publishable API key.
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
 )
@@ -21,18 +18,17 @@ type appearance = {
 export default function App() {
   const user = useAuthContext()
   const [clientSecret, setClientSecret] = useState('')
-  const getSecret = async () => {
-    const idToken = await user?.getIdToken()
-    if (idToken) {
-      const StripeRequest: IStripeRequests = StripeRequestImpl(idToken)
-      console.log(idToken)
-      const response = await StripeRequest.Buy()
-      setClientSecret(response.clientSecret)
-    }
-  }
 
   useEffect(() => {
-    getSecret()
+    ;(async () => {
+      const idToken = await user?.getIdToken()
+      if (idToken) {
+        const StripeRequest: IStripeRequests = StripeRequestImpl(idToken)
+        console.log(idToken)
+        const response = await StripeRequest.Buy()
+        setClientSecret(response.clientSecret)
+      }
+    })()
   }, [user])
   const appearance: appearance = {
     theme: 'stripe',
