@@ -43,15 +43,9 @@ export default function CheckoutForm(Props: Props) {
         theme: 'flat',
       }
 
-      //const elements = stripe.elements({
-      //  clientSecret,
-      //  appearance,
-      //})
       const elements = stripe.elements({
-        mode: 'payment',
-        currency: 'jpy',
-        amount: 1100,
-        paymentMethodTypes: ['card', 'konbini'],
+        clientSecret,
+        appearance,
       })
     }
   }, [stripe])
@@ -66,17 +60,7 @@ export default function CheckoutForm(Props: Props) {
     }
 
     setIsLoading(true)
-    if (paymentMethod === 'external_paypay') {
-      const response = await fetch('/create-paypay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: null,
-      })
-      const { url } = await response.json()
 
-      const paypayRedirectUrl = url
-      window.location.href = paypayRedirectUrl
-    }
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
