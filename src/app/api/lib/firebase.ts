@@ -19,6 +19,6 @@ export const FirebaseRequestImpl: IAuthAppRequests = new FirebaseRequests(new Fe
 export const ItemRequestImpl: IItemRequests = new ItemRequests(new FetchRequests())
 export const CartRequestImpl = (jwt: string): ICartRequests => new CartRequests(new AuthFetchRequests(jwt))
 export const UserRequestImpl = (jwt: string): IUserRequests => new UserRequests(new AuthFetchRequests(jwt))
-export const MamufacturerRequestImpl = (jwt: string): IManufacturerRequests => new ManufacturerRequests(new AuthFetchRequests(jwt))
+export const ManufacturerRequestImpl = (jwt: string): IManufacturerRequests => new ManufacturerRequests(new AuthFetchRequests(jwt))
 export const TransactionImpl = (jwt: string): ITransactionRequests => new TransactionRequests(new AuthFetchRequests(jwt))
 export const StripeRequestImpl = (jwt: string): IStripeRequests => new StripeRequests(new AuthFetchRequests(jwt))

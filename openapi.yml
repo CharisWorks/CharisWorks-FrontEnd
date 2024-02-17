@@ -724,7 +724,13 @@ components:
         address:
           type: object
           properties:
-            real_name:
+            first_name:
+              type: string
+            first_name_kana:
+              type: string
+            last_name:
+              type: string
+            last_name_kana:
               type: string
             zip_code:
               type: string
@@ -763,7 +769,10 @@ components:
           description: hello
           created_at: 2000-01-01
         address:
-          real_name: tsuchiya tokusaburou
+          first_name: 土屋
+          first_name_kana: ツチヤ
+          last_name: 徳三郎
+          last_name_kana: トクサブロウ
           zip_code: 981-0915
           address_1: 宮城県仙台市青葉区
           address_2: 通町
@@ -1012,6 +1021,14 @@ components:
         address:
           type: object
           properties:
+            first_name:
+              type: string
+            first_name_kana:
+              type: string
+            last_name:
+              type: string
+            last_name_kana:
+              type: string
             zip_code:
               type: string
             address:
@@ -1043,7 +1060,10 @@ components:
         transaction_id: f6d655da-6fff-11cc-b3bc-e86a6465f38b
         tracking_id: 123456789
         address:
-          real_name: tsuchiya tokusaburou
+          first_name: 土屋
+          first_name_kana: ツチヤ
+          last_name: 徳三郎
+          last_name_kana: トクサブロウ
           zip_code: 981-0915
           address: 宮城県 仙台市青葉区通町 通町マンション209
           phone_number: 0228056142

@@ -12,9 +12,6 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
 )
 
-type appearance = {
-  theme: 'stripe' | 'night' | 'flat'
-}
 export default function App() {
   const user = useAuthContext()
   const [clientSecret, setClientSecret] = useState('')
@@ -30,7 +27,9 @@ export default function App() {
       }
     })()
   }, [user])
-  const appearance: appearance = {
+  const appearance: {
+    theme: 'stripe' | 'night' | 'flat'
+  } = {
     theme: 'stripe',
   }
   const options = {

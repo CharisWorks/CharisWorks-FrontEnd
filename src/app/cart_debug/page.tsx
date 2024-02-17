@@ -1,6 +1,10 @@
 'use client'
 import { useAuthContext } from '../contexts/AuthContext'
-import { FirebaseRequestImpl, CartRequestImpl } from '../api/lib/firebase'
+import {
+  FirebaseRequestImpl,
+  CartRequestImpl,
+  ManufacturerRequestImpl,
+} from '../api/lib/firebase'
 import { auth } from '../api/firebase'
 
 const Cart = () => {
@@ -10,8 +14,19 @@ const Cart = () => {
     const idToken = await user?.getIdToken()
     if (idToken) {
       const CartRequest = CartRequestImpl(idToken)
+      const ManufacturerRequest = ManufacturerRequestImpl(idToken)
       console.log(idToken)
       console.log(CartRequest.Get())
+      console.log(ManufacturerRequest.CreateAccountRequest())
+    }
+  }
+  const mypage = async () => {
+    const idToken = await user?.getIdToken()
+    if (idToken) {
+      const ManufacturerRequest = ManufacturerRequestImpl(idToken)
+      console.log(idToken)
+
+      console.log(ManufacturerRequest.GetStripeMypageURL())
     }
   }
   const LogInHoge = () => {
@@ -48,6 +63,13 @@ const Cart = () => {
           }}
         >
           <p>LogInFuga</p>
+        </button>
+        <button
+          onClick={() => {
+            mypage()
+          }}
+        >
+          <p>mypage</p>
         </button>
       </div>
     </>
