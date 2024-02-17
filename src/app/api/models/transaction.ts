@@ -20,6 +20,5 @@ type TransactionDetail = {
 interface ITransactionRequests {
     Get(): Promise<Transaction[]>
     GetDetail(transactionId: string): Promise<TransactionDetail>
-    Buy(): Promise<{ url: string }>
 }
 export type { Transaction, TransactionDetail, ITransactionRequests }

@@ -16,11 +16,6 @@ class TransactionRequests implements ITransactionRequests {
         const data: TransactionDetail = await response.json()
         return data
     }
-    async Buy(): Promise<{ url: string }> {
-        const response: Response = await this.Requests.Get('/api/buy')
-        const data: { url: string } = await response.json()
-        return data
-    }
 
 }
 export { TransactionRequests }
