@@ -1,6 +1,9 @@
 import { ItemPreview } from "./item"
 type Profile = {
-    real_name: string
+    first_name: string
+    first_name_kana: string
+    last_name: string
+    last_name_kana: string
     description: string
     created_at: string
 }
