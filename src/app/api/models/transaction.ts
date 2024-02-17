@@ -9,7 +9,10 @@ type TransactionDetail = {
     transaction_id: string
     tracking_id: string
     address: {
-        real_name: string
+        first_name: string
+        first_name_kana: string
+        last_name: string
+        last_name_kana: string
         zip_code: string
         address: string
         phone_number: string
