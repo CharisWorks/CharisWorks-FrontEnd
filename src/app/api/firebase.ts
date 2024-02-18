@@ -39,12 +39,7 @@ class FirebaseRequests implements IAuthAppRequests {
     email: string,
     password: string,
   ): Promise<void> {
-    const response = await this.Requests.Post('/api/userauthstatus', { email: email })
-    const data: UserAuthStatus = await response.json()
-    if (!data.isExist) {
-      const u = await createUserWithEmailAndPassword(auth, email, password)
-      console.log(u)
-    }
+    await createUserWithEmailAndPassword(auth, email, password)
   }
 
   async SignInWithEmail(
@@ -52,24 +47,11 @@ class FirebaseRequests implements IAuthAppRequests {
     email: string,
     password: string,
   ): Promise<void> {
-    const response = await this.Requests.Post('/api/userauthstatus', { email: email })
-    const data: UserAuthStatus = await response.json()
-    if (data.isExist) {
-      await signInWithEmailAndPassword(auth, email, password)
-    }
+    await signInWithEmailAndPassword(auth, email, password)
   }
   async SignInWithGoogle(auth: Auth): Promise<void> {
     const provider = new GoogleAuthProvider()
     await signInWithRedirect(auth, provider)
-  }
-
-  async SaveIdTokenToLocalStorage(user: User): Promise<void> {
-    const idToken: string | null = user
-      ? await getIdToken(user)
-      : null
-    if (idToken) {
-      localStorage.setItem('idToken', idToken)
-    }
   }
 
 }

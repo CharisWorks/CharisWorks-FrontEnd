@@ -7,12 +7,12 @@ import { ItemRequests } from "../item";
 import { StripeRequests } from "../stripe";
 import { ManufacturerRequests } from "../manufacturer";
 import { ICartRequests } from "../models/cart";
-import { IAuthAppRequests } from "../models/firebase";
 import { IItemRequests } from "../models/item";
 import { IManufacturerRequests } from "../models/manufacturer";
 import { ITransactionRequests } from "../models/transaction";
 import { IUserRequests } from "../models/user";
 import { IStripeRequests } from "../models/stripe";
+import { IAuthAppRequests } from "../models/firebase";
 
 
 export const FirebaseRequestImpl: IAuthAppRequests = new FirebaseRequests(new FetchRequests())
