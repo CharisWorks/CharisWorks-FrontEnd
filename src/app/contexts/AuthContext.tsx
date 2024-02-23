@@ -1,12 +1,15 @@
+'use client'
 import React, {
   ReactNode,
   createContext,
   useState,
   useContext,
   useEffect,
+  use,
 } from 'react'
 import type { User } from 'firebase/auth'
 import { auth } from '../api/firebase'
+import { usePathname, useRouter } from 'next/navigation'
 
 //
 //code from https://github.com/Nameless-itf23/SimpleAuth
@@ -27,7 +30,6 @@ function useAuthContext() {
 const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<UserType>(undefined)
   const value: UserType = user
-
   useEffect(() => {
     const unsubscribed = auth.onAuthStateChanged((user: UserType) => {
       setUser(user)
@@ -36,7 +38,6 @@ const AuthProvider = ({ children }: Props) => {
       unsubscribed()
     }
   }, [])
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
