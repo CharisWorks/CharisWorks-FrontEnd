@@ -25,7 +25,9 @@ type BackendUser = {
         items: ItemPreview[]
     } | null
 }
-
+type Error = {
+    message: string
+}
 interface IUserRequests {
     Get(): Promise<BackendUser>
     PostProfile(Profile: Profile): Promise<BackendUser>
@@ -33,4 +35,4 @@ interface IUserRequests {
     PostAddress(Address: Address): Promise<BackendUser>
     UpdateAddress(Address: Address): Promise<BackendUser>
 }
-export type { Profile, Address, BackendUser, IUserRequests }
+export type { Profile, Address, BackendUser, IUserRequests, Error }

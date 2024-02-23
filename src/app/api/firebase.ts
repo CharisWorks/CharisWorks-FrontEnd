@@ -9,7 +9,6 @@ import {
   createUserWithEmailAndPassword,
   getIdToken,
 } from 'firebase/auth'
-
 import { IRequests } from './models/request'
 import { IAuthAppRequests } from './models/firebase'
 const firebaseConfig = {
