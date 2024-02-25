@@ -1,5 +1,5 @@
 import { IRequests } from "./models/request";
-import { IUserRequests, BackendUser, Profile, Address } from "./models/user";
+import { IUserRequests, BackendUser, Profile, Address, Message } from "./models/user";
 import { useRouter } from "next/router";
 class UserRequests implements IUserRequests {
     Requests: IRequests
@@ -29,6 +29,11 @@ class UserRequests implements IUserRequests {
     async UpdateAddress(Address: Address): Promise<BackendUser> {
         const response: Response = await this.Requests.Patch('/api/profile', Address)
         const data: BackendUser = await response.json()
+        return data
+    }
+    async Delete(): Promise<Message> {
+        const response: Response = await this.Requests.Delete('/api/user')
+        const data: Message = await response.json()
         return data
     }
 }

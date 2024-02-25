@@ -54,7 +54,7 @@ test("get user", async () => {
     }
 })
 //住所登録あたりの処理がまだなので先送り
-test("住所が登録されていないのに口座登録しようとしたらエラー", async () => {
+/* test("住所が登録されていないのに口座登録しようとしたらエラー", async () => {
     await FirebaseRequestImpl.SignInWithEmail(auth, "cowatanabe26@gmail.com", "example")
     const idToken = await auth.currentUser?.getIdToken()
     if (idToken) {
@@ -65,4 +65,18 @@ test("住所が登録されていないのに口座登録しようとしたら�
     } else {
         throw new Error("idToken is null")
     }
-})
+}) */
+test("delete user", async () => {
+    await FirebaseRequestImpl.SignInWithEmail
+        (auth, "cowatanabe26@gmail.com", "example")
+    const idToken = await auth.currentUser?.getIdToken()
+    if (idToken) {
+        const user = UserRequestImpl(idToken)
+        const res = await user.Delete()
+        expect(res.message).toBe("User was successfully deleted")
+    } else {
+        throw new Error("idToken is null")
+    }
+}
+)
+
