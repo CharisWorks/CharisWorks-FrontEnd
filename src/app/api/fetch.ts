@@ -1,7 +1,7 @@
 import { IRequests, IAuthRequests, query } from "./models/request";
 
 class FetchRequests implements IRequests {
-    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://localhost:8080")
+    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://127.0.0.1:8080")
     async Get(path: string, params?: query): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
@@ -18,6 +18,10 @@ class FetchRequests implements IRequests {
                 "Content-Type": "application/json",
             }
         });
+        if (response.status !== 200) {
+            const data = await response.json()
+            throw new Error(data.message)
+        }
         return response
     }
     async Post(path: string, body: any): Promise<Response> {
@@ -30,6 +34,10 @@ class FetchRequests implements IRequests {
                 "Content-Type": "application/json",
             }, body: JSON.stringify(body)
         })
+        if (response.status !== 200) {
+            const data = await response.json()
+            throw new Error(data.message)
+        }
         return response
     }
     async Patch(path: string, body: any): Promise<Response> {
@@ -42,6 +50,10 @@ class FetchRequests implements IRequests {
                 "Content-Type": "application/json",
             }, body: JSON.stringify(body)
         })
+        if (response.status !== 200) {
+            const data = await response.json()
+            throw new Error(data.message)
+        }
         return response
     }
     async Delete(path: string, params?: query): Promise<Response> {
@@ -59,6 +71,10 @@ class FetchRequests implements IRequests {
                 "Content-Type": "application/json",
             }
         });
+        if (response.status !== 200) {
+            const data = await response.json()
+            throw new Error(data.message)
+        }
         return response
     }
 
@@ -69,7 +85,7 @@ class AuthFetchRequests implements IAuthRequests {
     constructor(jwt: string) {
         this.jwt = jwt
     }
-    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://localhost:8080")
+    private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://127.0.0.1:8080")
     async Get(path: string, params?: query): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
@@ -87,6 +103,10 @@ class AuthFetchRequests implements IAuthRequests {
                 "Authorization": this.jwt
             }
         });
+        if (response.status !== 200) {
+            const data = await response.json()
+            throw new Error(data.message)
+        }
         return response
     }
     async Post(path: string, body: any): Promise<Response> {
@@ -101,6 +121,10 @@ class AuthFetchRequests implements IAuthRequests {
 
             }, body: JSON.stringify(body)
         })
+        if (response.status !== 200) {
+            const data = await response.json()
+            throw new Error(data.message)
+        }
         return response
     }
     async Patch(path: string, body: any): Promise<Response> {
@@ -114,6 +138,10 @@ class AuthFetchRequests implements IAuthRequests {
                 "Authorization": this.jwt
             }, body: JSON.stringify(body)
         })
+        if (response.status !== 200) {
+            const data = await response.json()
+            throw new Error(data.message)
+        }
         return response
     }
     async Delete(path: string, params?: query): Promise<Response> {
@@ -132,6 +160,10 @@ class AuthFetchRequests implements IAuthRequests {
                 "Authorization": this.jwt
             }
         });
+        if (response.status !== 200) {
+            const data = await response.json()
+            throw new Error(data.message)
+        }
         return response
     }
 

@@ -21,6 +21,7 @@ const Cart = () => {
       setResponse(res.message)
     }
   }
+
   const getStripemypage = async () => {
     const idToken = await user?.getIdToken()
     if (idToken) {

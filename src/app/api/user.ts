@@ -1,5 +1,5 @@
 import { IRequests } from "./models/request";
-import { IUserRequests, BackendUser, Profile, Address, Error } from "./models/user";
+import { IUserRequests, BackendUser, Profile, Address } from "./models/user";
 import { useRouter } from "next/router";
 class UserRequests implements IUserRequests {
     Requests: IRequests
