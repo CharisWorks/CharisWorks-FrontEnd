@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@firebase/rules-unit-testing": "^3.0.1",
     "@stripe/react-stripe-js": "^2.5.0",
     "@stripe/stripe-js": "^3.0.2",
     "firebase": "^10.8.0",

@@ -1,4 +1,4 @@
-import { initializeApp, FirebaseApp } from 'firebase/app'
+import { initializeApp, FirebaseApp, getApps, getApp } from 'firebase/app'
 import {
   Auth,
   User,
@@ -8,6 +8,7 @@ import {
   signInWithRedirect,
   createUserWithEmailAndPassword,
   getIdToken,
+  connectAuthEmulator,
 } from 'firebase/auth'
 import { IRequests } from './models/request'
 import { IAuthAppRequests } from './models/firebase'
@@ -25,8 +26,9 @@ interface UserAuthStatus {
   isExist: boolean
 }
 
-const app: FirebaseApp = initializeApp(firebaseConfig)
-const auth: Auth = getAuth(app)
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app)
+
 
 class FirebaseRequests implements IAuthAppRequests {
   private Requests: IRequests
