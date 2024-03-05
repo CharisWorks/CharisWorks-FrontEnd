@@ -11,8 +11,8 @@ class ItemRequests implements IItemRequests {
         const data: ItemPreview[] = await response.json()
         return data
     }
-    async GetKeyword(keywords: string[]): Promise<ItemPreview[] | null> {
-        const response: Response = await this.Requests.Get('/api/item', { "keyword": keywords.join('+') })
+    async GetKeyword(page: number, keywords: string[]): Promise<ItemPreview[] | null> {
+        const response: Response = await this.Requests.Get('/api/item', { "keyword": keywords.join('+'), "page": page.toString() })
         const data: ItemPreview[] = await response.json()
         return data
     }

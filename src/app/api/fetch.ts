@@ -1,8 +1,8 @@
-import { IRequests, IAuthRequests, query } from "./models/request";
+import { IRequests, IAuthRequests } from "./models/request";
 
 class FetchRequests implements IRequests {
     private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://127.0.0.1:8080")
-    async Get(path: string, params?: query): Promise<Response> {
+    async Get(path: string, params?: { [key: string]: string }): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         if (params) {
@@ -56,7 +56,7 @@ class FetchRequests implements IRequests {
         }
         return response
     }
-    async Delete(path: string, params?: query): Promise<Response> {
+    async Delete(path: string, params?: { [key: string]: string }): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         if (params) {
@@ -86,7 +86,7 @@ class AuthFetchRequests implements IAuthRequests {
         this.jwt = jwt
     }
     private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://127.0.0.1:8080")
-    async Get(path: string, params?: query): Promise<Response> {
+    async Get(path: string, params?: { [key: string]: string }): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         if (params) {
@@ -144,7 +144,7 @@ class AuthFetchRequests implements IAuthRequests {
         }
         return response
     }
-    async Delete(path: string, params?: query): Promise<Response> {
+    async Delete(path: string, params?: { [key: string]: string }): Promise<Response> {
         const url: URL = this.url
         url.pathname = path
         if (params) {
