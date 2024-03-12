@@ -1,4 +1,5 @@
 import { ItemPreview } from "./item"
+import { IRequests } from "./request"
 type Transaction = {
     transaction_id: string
     tracking_id: string
@@ -19,6 +20,7 @@ type TransactionDetail = {
 }
 
 interface ITransactionRequests {
+    Requests: IRequests
     Get(): Promise<Transaction[]>
     GetDetail(transactionId: string): Promise<TransactionDetail>
 }
