@@ -1,5 +1,6 @@
 'use client'
 import { useAuthContext } from '../contexts/AuthContext'
+import { LogInUsers } from './_components/loginhoge'
 import {
   FirebaseRequestImpl,
   CartRequestImpl,
@@ -64,9 +65,7 @@ const Cart = () => {
       setResponse(message.message)
     }
   }
-  const LogInHoge = () => {
-    FirebaseRequestImpl.SignInWithEmail(auth, 'hoge@example.com', 'example')
-  }
+
   const LogInFuga = () => {
     FirebaseRequestImpl.SignInWithEmail(auth, 'fuga@example.com', 'example')
   }
@@ -103,15 +102,7 @@ const Cart = () => {
           <p>LogInFuga(valid account)</p>
         </button>
       </div>
-      <div>
-        <button
-          onClick={() => {
-            LogInHoge()
-          }}
-        >
-          <p>LogInHoge(no account data)</p>
-        </button>
-      </div>
+      <LogInUsers />
       <div>
         <button
           onClick={() => {
