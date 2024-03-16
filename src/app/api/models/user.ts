@@ -14,6 +14,10 @@ type Address = {
     address_2: string
     address_3: string
     phone_number: string
+    first_name: string
+    last_name: string
+    first_name_kana: string
+    last_name_kana: string
 }
 
 type BackendUser = {

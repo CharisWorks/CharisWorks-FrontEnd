@@ -66,21 +66,6 @@ const Cart = () => {
     }
   }
 
-  const LogInFuga = () => {
-    FirebaseRequestImpl.SignInWithEmail(auth, 'fuga@example.com', 'example')
-  }
-  const LogInFoo = () => {
-    FirebaseRequestImpl.SignInWithEmail(auth, 'foo@example.com', 'example')
-  }
-  const LogInBar = () => {
-    FirebaseRequestImpl.SignInWithEmail(auth, 'bar@example.com', 'example')
-  }
-  const LogInFooBar = () => {
-    FirebaseRequestImpl.SignInWithEmail(auth, 'foobar@example.com', 'example')
-  }
-  const NotLogInFooBar = () => {
-    FirebaseRequestImpl.SignInWithEmail(auth, 'foobar@example.com', 'exampl')
-  }
   return (
     <>
       <p>カートのページ</p>
@@ -93,52 +78,7 @@ const Cart = () => {
           <p>GetCart</p>
         </button>
       </div>
-      <div>
-        <button
-          onClick={() => {
-            LogInFuga()
-          }}
-        >
-          <p>LogInFuga(valid account)</p>
-        </button>
-      </div>
       <LogInUsers />
-      <div>
-        <button
-          onClick={() => {
-            LogInFoo()
-          }}
-        >
-          <p>LogInFoo(no account id)</p>
-        </button>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            LogInBar()
-          }}
-        >
-          <p>LogInBar(not manufacturer)</p>
-        </button>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            LogInFooBar()
-          }}
-        >
-          <p>LogInFooBar(account not exists in DB)</p>
-        </button>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            NotLogInFooBar()
-          }}
-        >
-          <p>login fail</p>
-        </button>
-      </div>
       <div>
         <button
           onClick={() => {

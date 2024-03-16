@@ -22,12 +22,12 @@ class UserRequests implements IUserRequests {
         return data
     }
     async PostAddress(Address: Address): Promise<BackendUser> {
-        const response: Response = await this.Requests.Post('/api/profile', Address)
+        const response: Response = await this.Requests.Post('/api/address', Address)
         const data: BackendUser = await response.json()
         return data
     }
     async UpdateAddress(Address: Address): Promise<BackendUser> {
-        const response: Response = await this.Requests.Patch('/api/profile', Address)
+        const response: Response = await this.Requests.Patch('/api/address', Address)
         const data: BackendUser = await response.json()
         return data
     }

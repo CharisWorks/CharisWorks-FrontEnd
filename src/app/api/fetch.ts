@@ -83,7 +83,7 @@ class FetchRequests implements IRequests {
 class AuthFetchRequests implements IAuthRequests {
     public jwt: string
     constructor(jwt: string) {
-        this.jwt = jwt
+        this.jwt = `Bearer ${jwt}`
     }
     private url: URL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ? process.env.NEXT_PUBLIC_SERVER_ADDRESS : "http://127.0.0.1:8080")
     async Get(path: string, params?: query): Promise<Response> {

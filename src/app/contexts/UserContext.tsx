@@ -30,7 +30,7 @@ const AuthRequiredProvider = ({ children }: Props) => {
 
   const value: UserType = user
   useEffect(() => {
-    if (pathname !== '/sendverification') {
+    if (pathname === '/mypage') {
       if (user) {
         if ('emailVerified' in user) {
           if (!user?.emailVerified) {

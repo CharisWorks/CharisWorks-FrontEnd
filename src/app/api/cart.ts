@@ -1,4 +1,4 @@
-import { Cart, CartItem, ICartRequests } from "./models/cart"
+import { Cart, CartRegisterPayload, ICartRequests } from "./models/cart"
 import { IAuthRequests } from "./models/request"
 
 
@@ -13,12 +13,12 @@ class CartRequests implements ICartRequests {
         const data: Cart = await response.json()
         return data
     }
-    async Post(CartItem: CartItem): Promise<Cart> {
+    async Post(CartItem: CartRegisterPayload): Promise<Cart> {
         const response: Response = await this.AuthRequests.Post('/api/cart', CartItem)
         const data: Cart = await response.json()
         return data
     }
-    async Update(CartItem: CartItem): Promise<Cart> {
+    async Update(CartItem: CartRegisterPayload): Promise<Cart> {
         const response: Response = await this.AuthRequests.Patch('/api/cart', CartItem)
         const data: Cart = await response.json()
         return data
