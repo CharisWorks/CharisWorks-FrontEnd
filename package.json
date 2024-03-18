@@ -7,17 +7,22 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "gen": "grpc_tools_node_protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --js_out=import_style=commonjs,binary:./server/codegen --grpc_out=grpc_js:./server/codegen --ts_out=grpc_js:./server/codegen -I /home/cotton/Documents/code/charis-works/charisworks-frontend/src/app/api/protos administrator.proto"
   },
   "dependencies": {
     "@firebase/rules-unit-testing": "^3.0.1",
+    "@grpc/grpc-js": "^1.10.3",
     "@stripe/react-stripe-js": "^2.5.0",
     "@stripe/stripe-js": "^3.0.2",
+    "browser-image-compression": "^2.0.2",
     "firebase": "^10.8.0",
+    "google-protobuf": "^3.21.2",
     "next": "^14.0.4",
     "prettier": "^3.1.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.0",
     "ress": "^5.0.2",
     "stripe": "^14.16.0"
   },
@@ -27,6 +32,8 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
+    "grpc-tools": "^1.12.4",
+    "grpc_tools_node_protoc_ts": "^5.3.3",
     "typescript": "^5"
   }
 }

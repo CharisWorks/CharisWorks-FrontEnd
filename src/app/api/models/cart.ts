@@ -1,16 +1,26 @@
-type CartItem = {
-    itemId: string
+type CartRegisterPayload = {
+    item_id: string
     quantity: number
 }
-
+type CartItems = {
+    item_id: string
+    quantity: number
+    properties: {
+        name: string
+        price: number
+        details: {
+            status: string
+        }
+    }
+}
 type Cart = {
-    items: CartItem[] | null
+    items: CartItems[] | null
 }
 
 interface ICartRequests {
     Get(): Promise<Cart>
-    Post(CartItem: CartItem): Promise<Cart>
-    Update(CartItem: CartItem): Promise<Cart>
+    Post(CartItem: CartRegisterPayload): Promise<Cart>
+    Update(CartItem: CartRegisterPayload): Promise<Cart>
     Delete(itemId: string): Promise<Cart>
 }
-export type { Cart, CartItem, ICartRequests }
+export type { Cart, CartRegisterPayload, ICartRequests }
