@@ -1,4 +1,4 @@
-import { ItemPreview, ItemDetail, IItemRequests } from "./models/item";
+import { ItemPreview, IItemRequests, itemPreviewList, Overview } from "./models/item";
 import { IRequests } from "./models/request";
 
 class ItemRequests implements IItemRequests {
@@ -6,19 +6,19 @@ class ItemRequests implements IItemRequests {
     constructor(Requests: IRequests) {
         this.Requests = Requests
     }
-    async Get(): Promise<ItemPreview[] | null> {
+    async Get(): Promise<itemPreviewList | null> {
         const response: Response = await this.Requests.Get('/api/item')
-        const data: ItemPreview[] = await response.json()
+        const data: itemPreviewList = await response.json()
         return data
     }
-    async GetKeyword(page: number, keywords: string[]): Promise<ItemPreview[] | null> {
+    async GetKeyword(page: number, keywords: string[]): Promise<itemPreviewList | null> {
         const response: Response = await this.Requests.Get('/api/item', { "keyword": keywords.join('+'), "page": page.toString() })
-        const data: ItemPreview[] = await response.json()
+        const data: itemPreviewList = await response.json()
         return data
     }
-    async GetDetail(item_id: string): Promise<ItemDetail> {
+    async GetDetail(item_id: string): Promise<Overview> {
         const response: Response = await this.Requests.Get('/api/item/' + item_id)
-        const data: ItemDetail = await response.json()
+        const data: Overview = await response.json()
         return data
     }
 }

@@ -54,7 +54,7 @@ enum Status {
 
 interface IItemRequests {
     Get(): Promise<itemPreviewList | null>
-    GetKeyword(keywords: string[]): Promise<ItemPreview[] | null>
+    GetKeyword(page: number, keywords: string[]): Promise<itemPreviewList | null>
     GetDetail(item_id: string): Promise<Overview>
 
 }
