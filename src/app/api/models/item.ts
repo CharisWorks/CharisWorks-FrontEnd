@@ -56,6 +56,7 @@ interface IItemRequests {
     Get(): Promise<itemPreviewList | null>
     GetKeyword(keywords: string[]): Promise<ItemPreview[] | null>
     GetDetail(item_id: string): Promise<Overview>
+
 }
 
 export type { itemPreviewList, Overview, ItemPreview, IItemRequests, ItemProperties }
