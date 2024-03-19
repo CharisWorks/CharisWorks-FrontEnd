@@ -18,7 +18,6 @@ type Cart = {
 }
 
 interface ICartRequests {
-    Get(): Promise<Cart>
     Post(CartItem: CartRegisterPayload): Promise<Cart>
     Update(CartItem: CartRegisterPayload): Promise<Cart>
     Delete(itemId: string): Promise<Cart>

@@ -19,7 +19,7 @@ interface Props {
   children: ReactNode
 }
 
-type UserType = User | null | undefined
+export type UserType = User | null | undefined
 
 const AuthContext = createContext<UserType>(auth.currentUser)
 

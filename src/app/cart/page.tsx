@@ -9,7 +9,6 @@ const Cart = () => {
     const idToken = await user?.getIdToken()
     if (idToken) {
       const CartRequest = CartRequestImpl(idToken)
-      CartRequest.Get()
     }
   }
   return (

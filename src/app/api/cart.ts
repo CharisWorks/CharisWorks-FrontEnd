@@ -8,11 +8,6 @@ class CartRequests implements ICartRequests {
         this.AuthRequests = AuthRequests
     }
 
-    async Get(): Promise<Cart> {
-        const response: Response = await this.AuthRequests.Get('/api/cart')
-        const data: Cart = await response.json()
-        return data
-    }
     async Post(CartItem: CartRegisterPayload): Promise<Cart> {
         const response: Response = await this.AuthRequests.Post('/api/cart', CartItem)
         const data: Cart = await response.json()

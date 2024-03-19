@@ -20,7 +20,7 @@ type Address = {
     last_name_kana?: string
 }
 
-type BackendUser = {
+type internalUser = {
     user_id: string
     profile: Profile
     address: Address | null
@@ -33,11 +33,10 @@ type Message = {
     message: string
 }
 interface IUserRequests {
-    Get(): Promise<BackendUser>
-    PostProfile(Profile: Profile): Promise<BackendUser>
-    UpdateProfile(Profile: profileUpdatePayload): Promise<BackendUser>
-    PostAddress(Address: Address): Promise<BackendUser>
-    UpdateAddress(Address: Address): Promise<BackendUser>
+    PostProfile(Profile: Profile): Promise<internalUser>
+    UpdateProfile(Profile: profileUpdatePayload): Promise<internalUser>
+    PostAddress(Address: Address): Promise<internalUser>
+    UpdateAddress(Address: Address): Promise<internalUser>
     Delete(): Promise<Message>
 }
-export type { profileUpdatePayload, Profile, Address, BackendUser, IUserRequests, Message }
+export type { profileUpdatePayload, Profile, Address, internalUser, IUserRequests, Message }
