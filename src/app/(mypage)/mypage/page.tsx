@@ -1,35 +1,23 @@
 'use client'
+import { AuthRequiredProvider } from '@/app/contexts/UserContext'
 import { useRouter } from 'next/navigation'
-import { UserRequestImpl } from '../../api/lib/instances'
-import { use, useEffect, useState } from 'react'
-import { useAuthContext } from '../contexts/AuthContext'
-import { BackendUser } from '../../api/models/user'
-import { AuthRequiredProvider } from '../contexts/UserContext'
+import UserData from './_components/userData'
+import { useAuthContext } from '@/app/contexts/AuthContext'
+import { useState } from 'react'
 
 const Mypage = () => {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const user = useAuthContext()
-  const [response, setResponse] = useState<any>('')
-  useEffect(() => {
-    ;(async () => {
-      SignUp()
-    })()
-  }, [user])
+  const [idToken, setIdToken] = useState<string>('')
+  user?.getIdToken().then((idToken) => {
+    setIdToken(idToken)
+  })
 
-  const SignUp = async () => {
-    const idToken = await user?.getIdToken()
-    if (idToken) {
-      const UserRequest = UserRequestImpl(idToken)
-      const res: BackendUser = await UserRequest.Get()
-      console.log(res)
-    }
-  }
+  const router = useRouter()
   return (
     <AuthRequiredProvider>
       {' '}
       <p>マイページ</p>
+      <UserData idToken={idToken} />
       <button
         onClick={() => {
           router.push('/debug/image')

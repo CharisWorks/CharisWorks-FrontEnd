@@ -1,3 +1,4 @@
+"use client"
 import useSWR from 'swr'
 import { Cart } from './models/cart'
 import { internalUser } from './models/user';
@@ -15,7 +16,7 @@ const fetcher = (url: URL) =>
         method: 'GET',
     }).then((res) => res.json());
 
-export const getUser = (jwt: string) => {
+export const getUser = (jwt: string | undefined) => {
     const url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ?? "http://localhost:8080")
     url.pathname = '/api/user'
     const { data, error } = useSWR(jwt ? [url, jwt] : null, () => authfetcher)
