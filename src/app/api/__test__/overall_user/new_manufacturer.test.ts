@@ -2,7 +2,7 @@
 import { expect, test } from "bun:test";
 //@ts-ignore
 import { describe } from "bun:test";
-import { CartRequestImpl, FirebaseRequestImpl, ItemRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "../../lib/firebase";
+import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "../../lib/firebase";
 import { auth } from "../../firebase";
 import { Address, Profile, profileUpdatePayload } from "../../models/user";
 import { Cart, CartRegisterPayload } from "../../models/cart";
@@ -13,10 +13,13 @@ describe("overall user test for before manufacturer user", () => {
         await FirebaseRequestImpl.SignInWithEmail(auth, "whatacotton@gmail.com", "example")
         const idToken = await auth.currentUser?.getIdToken()
         if (idToken) {
-            const user = UserRequestImpl(idToken)
-            const user_data = await user.Get().catch((e) => {
-                expect(e.message).toBe("record not found")
-            })
+            const user_data = await fetch("http://localhost:8080/api/user", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${idToken}`
+                }
+            }).then((res) => res.json())
             if (user_data) {
                 expect(user_data.user_id).toBe("S9Dpcw3x4nPcROe2DOv3MjW3Ry42")
             }
@@ -54,7 +57,14 @@ describe("overall user test for before manufacturer user", () => {
                 description: "test",
             }
             await user.UpdateProfile(profile)
-            await user.Get().then((user) => {
+            await fetch("http://localhost:8080/api/user", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${idToken}`
+                }
+            }).then((res) => res.json()
+            ).then((user) => {
                 expect(user.profile.description).toEqual(profile.description)
                 expect(user.profile.display_name).toEqual(profile.display_name)
             })
@@ -110,7 +120,13 @@ describe("overall user test for before manufacturer user", () => {
             await user.PostAddress(address).catch((e) => {
                 expect(e.message).toBe("invalid user request")
             })
-            const user_data = await user.Get()
+            const user_data = await fetch("http://localhost:8080/api/user", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${idToken}`
+                }
+            }).then((res) => res.json())
             if (user_data) {
                 expect(user_data.address).toEqual(address)
             }

@@ -2,13 +2,10 @@
 import { expect, test } from "bun:test";
 //@ts-ignore
 import { describe } from "bun:test";
-import { CartRequestImpl, FirebaseRequestImpl, ItemRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "../../lib/firebase";
+import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl, adminItemRequestsImpl } from "../../lib/firebase";
 import { auth } from "../../firebase";
-import { Address, Profile, profileUpdatePayload } from "../../models/user";
-import { Cart, CartRegisterPayload } from "../../models/cart";
-import { getAllUser, privilegeUser } from "../../admin/user/api";
-import { ItemPreview } from "../../models/item";
 import { ProductUpdatePayload } from "../../models/manufacturer";
+import { Overview } from "../../models/item";
 
 describe("overall user test for manufacturer user after", () => {
     test("出品エラー", async () => {
@@ -129,9 +126,11 @@ describe("overall user test for manufacturer user after", () => {
                 }
             }
             await manufacturer.PostProducts(item)
-            const items = await ItemRequestImpl.Get()
-            const item_id = items?.previewList[0].item_id ?? ""
-            await manufacturer.DeleteProducts(item_id)
+            const admin = adminItemRequestsImpl(idToken)
+            const items = await admin.allItem()
+            for (const item of items?.previewList ?? []) {
+                await admin.removeItem(item.item_id)
+            }
         }
     })
     test("タグなしも可", async () => {
@@ -150,28 +149,45 @@ describe("overall user test for manufacturer user after", () => {
                 }
             }
             await manufacturer.PostProducts(item)
-            const items = await ItemRequestImpl.Get()
-            const item_id = items?.previewList[0].item_id ?? ""
-            await manufacturer.DeleteProducts(item_id)
+            const admin = adminItemRequestsImpl(idToken)
+            const items = await admin.allItem()
+            for (const item of items?.previewList ?? []) {
+                await admin.removeItem(item.item_id)
+            }
         }
     })
     test("商品の編集", async () => {
-        const items = await ItemRequestImpl.Get()
         await FirebaseRequestImpl.SignInWithEmail(auth, "cowatanabe26@gmail.com", "example")
         const idToken = await auth.currentUser?.getIdToken()
         if (idToken) {
             const manufacturer = ManufacturerRequestImpl(idToken)
-            const item: ProductUpdatePayload = {
+            const item = {
+                name: "test",
+                price: 10000,
+                details: {
+                    stock: 10,
+                    size: 10,
+                    description: "test",
+                    tags: []
+                }
+            }
+            await manufacturer.PostProducts(item)
+            const itemUpdatePayload: ProductUpdatePayload = {
                 status: "Expired",
             }
+            const admin = adminItemRequestsImpl(idToken)
+            const items = await admin.allItem()
+            for (const item of items?.previewList ?? []) {
+                await admin.removeItem(item.item_id)
+            }
             const item_id = items?.previewList[0].item_id ?? ""
-            await manufacturer.UpdateProducts(item_id, item)
-            const details = await ItemRequestImpl.GetDetail(item_id)
-            expect(details?.properties.details.status).toBe("Expired")
+            await manufacturer.UpdateProducts(item_id, itemUpdatePayload)
+            const data = await fetch(`http://localhost:8080/api/item/${item_id}`)
+            const json: Overview = await data.json()
+            expect(json.properties.details.status).toBe("Expired")
         }
     })
     test("存在しない商品の編集", async () => {
-        const items = await ItemRequestImpl.Get()
         await FirebaseRequestImpl.SignInWithEmail(auth, "cowatanabe26@gmail.com", "example")
         const idToken = await auth.currentUser?.getIdToken()
         if (idToken) {

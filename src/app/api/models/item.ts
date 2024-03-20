@@ -1,4 +1,3 @@
-import { ManufacturerProperties } from "./manufacturer"
 type ItemPreview = {
     item_id: string
     properties: {
