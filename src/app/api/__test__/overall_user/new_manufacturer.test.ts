@@ -6,7 +6,7 @@ import { CartRequestImpl, FirebaseRequestImpl, ItemRequestImpl, ManufacturerRequ
 import { auth } from "../../firebase";
 import { Address, Profile, profileUpdatePayload } from "../../models/user";
 import { Cart, CartRegisterPayload } from "../../models/cart";
-import { getAllUser, privilegeUser } from "../../admin/impls";
+import { getAllUser, privilegeUser } from "../../admin/user/api";
 
 describe("overall user test for before manufacturer user", () => {
     test("Eメール認証後、サーバーにデータがない状態", async () => {

@@ -6,7 +6,7 @@ import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRe
 import { auth } from "../../firebase";
 import { Address, Profile, profileUpdatePayload } from "../../models/user";
 import { Cart, CartRegisterPayload } from "../../models/cart";
-import { getAllUser } from "../../admin/impls";
+import { getAllUser } from "../../admin/user/api";
 
 
 describe("overall user test for general user", () => {

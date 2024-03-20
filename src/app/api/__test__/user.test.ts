@@ -6,7 +6,7 @@ import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRe
 import { auth } from "../firebase";
 import { Address } from "../models/user";
 import { Cart, CartRegisterPayload } from "../models/cart";
-import { getAllUser } from "../admin/impls";
+import { getAllUser } from "../admin/user/api";
 
 describe("invalid user test", () => {
     test("email is not verified", async () => {

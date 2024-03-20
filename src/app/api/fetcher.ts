@@ -1,11 +1,8 @@
-import useSWR, { Fetcher } from 'swr'
-import { Cart, CartRegisterPayload } from './models/cart'
+import useSWR from 'swr'
+import { Cart } from './models/cart'
 import { internalUser } from './models/user';
-import { UserType } from '@/app/contexts/AuthContext';
 import { Transaction, TransactionDetail } from './models/transaction';
 import { Overview, itemPreviewList } from './models/item';
-type methodOfFetchWithBody = 'POST' | 'PUT' | 'PATCH'
-type bodyOfFetch = { url: string, method: methodOfFetchWithBody, body: object }
 
 
 
@@ -55,7 +52,7 @@ export const getTransaction = (jwt: string) => {
 
 export const getTransactionDetail = (jwt: string, id: string) => {
     const url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ?? "http://localhost:8080")
-    url.pathname = '/api/transaction' + id
+    url.pathname = '/api/transaction/' + id
     const { data, error } = useSWR(jwt ? [url, jwt] : null, () => authfetcher)
     return {
         data: data as TransactionDetail | undefined,
@@ -84,7 +81,7 @@ export const getItem = (page?: number, keywords?: string[]) => {
 
 export const getItemDetails = (id: string) => {
     const url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ?? "http://localhost:8080")
-    url.pathname = '/api/item'
+    url.pathname = '/api/item/' + id
     const { data, error } = useSWR(url, fetcher)
     return {
         data: data as Overview | undefined,
