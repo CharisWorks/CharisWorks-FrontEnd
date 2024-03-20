@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { registerTrackingId } from "../api";
+import { registerTrackingId } from "@/api/admin/transaction/api";
 
 export async function POST(req: NextApiRequest, res: NextApiResponse<{ msg: string }>) {
     const jwt = req.headers.authorization;

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getAllItem, removeItem } from "./api";
-import { itemPreviewList } from "../../models/item";
+import { getAllItem, removeItem } from "@/api/admin/item/api";
+import { itemPreviewList } from "@/api/models/item";
 
 export async function GET(req: NextApiRequest, res: NextApiResponse<itemPreviewList | null>) {
     const jwt = req.headers.authorization;

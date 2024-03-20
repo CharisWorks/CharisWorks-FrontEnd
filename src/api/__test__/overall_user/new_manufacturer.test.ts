@@ -2,11 +2,10 @@
 import { expect, test } from "bun:test";
 //@ts-ignore
 import { describe } from "bun:test";
-import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "../../lib/instances";
-import { auth } from "../../firebase";
-import { Address, Profile, profileUpdatePayload } from "../../models/user";
-import { Cart, CartRegisterPayload } from "../../models/cart";
-import { getAllUser, privilegeUser } from "../../admin/user/api";
+import { FirebaseRequestImpl, ManufacturerRequestImpl, UserRequestImpl } from "@/api/lib/instances";
+import { auth } from "@/api/firebase";
+import { Address, profileUpdatePayload } from "@/api/models/user";
+import { getAllUser, privilegeUser } from "@/api/admin/user/api";
 
 describe("overall user test for before manufacturer user", () => {
     test("Eメール認証後、サーバーにデータがない状態", async () => {

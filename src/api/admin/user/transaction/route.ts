@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getTransaction } from "../api";
+import { getTransaction } from "@/api/admin/user/api";
 import { Transaction } from "@/api/models/transaction";
 
 export async function GET(req: NextApiRequest, res: NextApiResponse<Transaction[]>) {

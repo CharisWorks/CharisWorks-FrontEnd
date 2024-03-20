@@ -1,6 +1,6 @@
-import { getTransaction, getAllUser } from "./api";
+import { getTransaction, getAllUser } from "@/api/admin/user/api";
 import { NextApiRequest, NextApiResponse } from "next";
-import { internalUser } from "../../models/user";
+import { internalUser } from "@/api/models/user";
 
 export async function GET(req: NextApiRequest, res: NextApiResponse<internalUser[] | null>) {
     const jwt = req.headers.authorization;

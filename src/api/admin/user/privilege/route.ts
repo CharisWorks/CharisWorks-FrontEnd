@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { privilegeUser } from "../api";
+import { privilegeUser } from "@/api/admin/user/api";
 
 export async function POST(req: NextApiRequest, res: NextApiResponse<{ msg: string }>) {
     const jwt = req.headers.authorization;

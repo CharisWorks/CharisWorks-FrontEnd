@@ -1,4 +1,4 @@
-import { getTransaction, getAllTransaction } from "./api";
+import { getTransaction, getAllTransaction } from "@/api/admin/transaction/api";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Transaction, TransactionDetail } from "@/api/models/transaction";
 

@@ -2,10 +2,10 @@
 import { expect, test } from "bun:test";
 //@ts-ignore
 import { describe } from "bun:test";
-import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl, adminItemRequestsImpl } from "../../lib/instances";
-import { auth } from "../../firebase";
-import { ProductUpdatePayload } from "../../models/manufacturer";
-import { Overview } from "../../models/item";
+import { FirebaseRequestImpl, ManufacturerRequestImpl, adminItemRequestsImpl } from "@/api/lib/instances";
+import { auth } from "@/api/firebase";
+import { ProductUpdatePayload } from "@/api/models/manufacturer";
+import { Overview } from "@/api/models/item";
 
 describe("overall user test for manufacturer user after", () => {
     test("出品エラー", async () => {

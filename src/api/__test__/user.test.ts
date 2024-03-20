@@ -2,11 +2,11 @@
 import { expect, test } from "bun:test";
 //@ts-ignore
 import { describe } from "bun:test";
-import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "../lib/instances";
-import { auth } from "../firebase";
-import { Address } from "../models/user";
-import { Cart, CartRegisterPayload } from "../models/cart";
-import { getAllUser } from "../admin/user/api";
+import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "@/api/lib/instances";
+import { auth } from "@/api/firebase";
+import { Address } from "@/api/models/user";
+import { Cart, CartRegisterPayload } from "@/api/models/cart";
+import { getAllUser } from "@/api/admin/user/api";
 
 describe("invalid user test", () => {
     test("email is not verified", async () => {
