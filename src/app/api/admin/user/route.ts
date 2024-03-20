@@ -1,6 +1,5 @@
 import { getTransaction, getAllUser } from "./api";
 import { NextApiRequest, NextApiResponse } from "next";
-import { TransactionDetail } from "@/app/api/models/transaction";
 import { internalUser } from "../../models/user";
 
 export async function GET(req: NextApiRequest, res: NextApiResponse<internalUser[] | null>) {

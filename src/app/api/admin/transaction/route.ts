@@ -1,8 +1,8 @@
 import { getTransaction, getAllTransaction } from "./api";
 import { NextApiRequest, NextApiResponse } from "next";
-import { TransactionDetail } from "@/app/api/models/transaction";
+import { Transaction, TransactionDetail } from "@/app/api/models/transaction";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse<TransactionDetail[] | null>) {
+export async function GET(req: NextApiRequest, res: NextApiResponse<TransactionDetail[] | Transaction[] | null>) {
     const jwt = req.headers.authorization;
     if (!jwt) {
         throw new Error("JWT is not set");

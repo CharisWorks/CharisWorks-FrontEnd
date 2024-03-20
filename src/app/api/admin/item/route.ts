@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getAllItem, removeItem } from "./api";
 import { itemPreviewList } from "../../models/item";
 
-
 export async function GET(req: NextApiRequest, res: NextApiResponse<itemPreviewList | null>) {
     const jwt = req.headers.authorization;
     if (!jwt) {
@@ -17,7 +16,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse<itemPreviewL
     } else {
         res.status(200).json(JSON.parse(r));
     }
-
 }
 
 export async function DELETE(req: NextApiRequest, res: NextApiResponse<{ msg: string }>) {

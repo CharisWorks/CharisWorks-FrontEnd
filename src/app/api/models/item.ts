@@ -52,11 +52,5 @@ enum Status {
     Pending = "Pending",
 }
 
-interface IItemRequests {
-    Get(): Promise<itemPreviewList | null>
-    GetKeyword(page: number, keywords: string[]): Promise<itemPreviewList | null>
-    GetDetail(item_id: string): Promise<Overview>
 
-}
-
-export type { itemPreviewList, Overview, ItemPreview, IItemRequests, ItemProperties }
+export type { itemPreviewList, Overview, ItemPreview, ItemProperties }
