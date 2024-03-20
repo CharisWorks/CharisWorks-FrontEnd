@@ -19,9 +19,4 @@ type TransactionDetail = {
     status: string
 }
 
-interface ITransactionRequests {
-    Requests: IRequests
-    Get(): Promise<Transaction[]>
-    GetDetail(transactionId: string): Promise<TransactionDetail>
-}
-export type { Transaction, TransactionDetail, ITransactionRequests }
+export type { Transaction, TransactionDetail }

@@ -4,8 +4,6 @@ import { internalUser } from './models/user';
 import { Transaction, TransactionDetail } from './models/transaction';
 import { Overview, itemPreviewList } from './models/item';
 
-
-
 const authfetcher = (url: URL, jwt: string) =>
     fetch(url, {
         method: 'GET',
@@ -90,3 +88,13 @@ export const getItemDetails = (id: string) => {
     }
 }
 
+export const getItemSource = (id: string) => {
+    const url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ?? "http://localhost:8080")
+    url.pathname = '/images/' + id
+    const { data, error } = useSWR(url, fetcher)
+    return {
+        data: data as string[] | undefined,
+        isLoading: !data && !error,
+        isError: error,
+    }
+}
