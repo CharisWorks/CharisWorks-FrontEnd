@@ -2,7 +2,7 @@
 import { expect, test } from "bun:test";
 //@ts-ignore
 import { describe } from "bun:test";
-import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl, adminItemRequestsImpl } from "../../lib/firebase";
+import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl, adminItemRequestsImpl } from "../../lib/instances";
 import { auth } from "../../firebase";
 import { ProductUpdatePayload } from "../../models/manufacturer";
 import { Overview } from "../../models/item";

@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { FirebaseRequestImpl } from '../api/lib/firebase'
+import { FirebaseRequestImpl } from '../api/lib/instances'
 import { useAuthContext } from '../contexts/AuthContext'
 import { auth } from '../api/firebase'
 import { useRouter } from 'next/navigation'

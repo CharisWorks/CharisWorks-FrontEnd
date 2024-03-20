@@ -1,4 +1,3 @@
-import { NextApiResponse } from "next";
 import { internalUser } from "./user";
 import { Transaction, TransactionDetail } from "./transaction";
 import { itemPreviewList } from "./item";
