@@ -2,19 +2,26 @@
 import { expect, test } from "bun:test";
 //@ts-ignore
 import { describe } from "bun:test";
-import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "../lib/firebase";
+import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "../lib/instances";
 import { auth } from "../firebase";
 import { Address } from "../models/user";
 import { Cart, CartRegisterPayload } from "../models/cart";
-import { getAllUser } from "../admin/impls";
+import { getAllUser } from "../admin/user/api";
 
 describe("invalid user test", () => {
     test("email is not verified", async () => {
         await FirebaseRequestImpl.SignInWithEmail(auth, "hoge@example.com", "example")
         const idToken = await auth.currentUser?.getIdToken()
         if (idToken) {
-            const user = UserRequestImpl(idToken)
-            await user.Get().catch((error) => {
+            await fetch(
+                "http://localhost:8080/api/user",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).catch((error) => {
                 expect(error.message).toBe("email is not verified")
             })
         } else {
@@ -36,7 +43,15 @@ describe("fullfilled user test", () => {
         const idToken = await auth.currentUser?.getIdToken()
         if (idToken) {
             const user = UserRequestImpl(idToken)
-            const user_data = await user.Get().catch((e) => {
+            const user_data = await fetch(
+                "http://localhost:8080/api/user",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).then((res) => res.json()).catch((e) => {
                 expect(e.message).toBe("creating user for DB")
             })
             if (user_data) {
@@ -65,10 +80,19 @@ describe("fullfilled user test", () => {
         await FirebaseRequestImpl.SignInWithEmail(auth, "cowatanabe26@gmail.com", "example")
         const idToken = await auth.currentUser?.getIdToken()
         if (idToken) {
-            CartRequestImpl(idToken).Get().then((res) => {
+            fetch(
+                "http://localhost:8080/api/cart",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).then((res) => res.json()).then((res) => {
                 expect(res.items).toBe(null)
             }
             )
+
         } else {
             return
         }
@@ -97,8 +121,16 @@ describe("empty user test", () => {
         const idToken = await auth.currentUser?.getIdToken()
         if (idToken) {
             const user = UserRequestImpl(idToken)
-            const user_data = await user.Get().catch((e) => {
-                expect(e.message).toBe("record not found")
+            const user_data = await fetch(
+                "http://localhost:8080/api/user",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).then((res) => res.json()).catch((e) => {
+                expect(e.message).toBe("creating user for DB")
             })
             if (user_data) {
                 expect(user_data.user_id).toBe("S9Dpcw3x4nPcROe2DOv3MjW3Ry42")
@@ -123,10 +155,19 @@ describe("empty user test", () => {
                 first_name_kana: "タロウ",
                 last_name_kana: "ヤマダ"
             }
-            const res = await user.PostAddress(address).catch((e) => {
+            await user.PostAddress(address).catch((e) => {
                 expect(e.message).toBe("invalid user request")
             })
-            const user_data = await user.Get()
+            const user_data = await fetch(
+                "http://localhost:8080/api/user",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).then((res) => res.json()
+            )
             if (user_data) {
                 expect(user_data.address).toEqual(address)
             }
@@ -164,7 +205,17 @@ describe("empty user test", () => {
                 first_name_kana: "タロウ",
                 last_name_kana: "ヤマダ"
             }
-            const user_data = await user.Get()
+            const user_data = await fetch(
+                "http://localhost:8080/api/user",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).then((res) => res.json()
+            )
+
             if (user_data) {
                 expect(user_data.address).toEqual(addressToBe)
             }
@@ -200,7 +251,16 @@ describe("empty user test", () => {
                 expect(e.message).toBe("invalid user request")
             })
             console.log(res)
-            const c = await cartreq.Get()
+            const c = await fetch(
+                "http://localhost:8080/api/cart",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).then((res) => res.json())
+
             const expected: Cart = {
                 items: [
                     {
@@ -243,7 +303,16 @@ describe("empty user test", () => {
                     }
                 }]
             }
-            const c = await cartreq.Get()
+            const c = await fetch(
+                "http://localhost:8080/api/cart",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).then((res) => res.json()
+            )
             expect(c).toEqual(expected)
 
         }
@@ -284,7 +353,16 @@ describe("empty user test", () => {
                 }
                 ]
             }
-            const c = await cartreq.Get()
+            const c = await fetch(
+                "http://localhost:8080/api/cart",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).then((res) => res.json()
+            )
             expect(c).toEqual(expected)
         }
     })
@@ -311,7 +389,16 @@ describe("empty user test", () => {
                     }
                 }]
             }
-            const c = await cartreq.Get()
+            const c = await fetch(
+                "http://localhost:8080/api/cart",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: idToken,
+                    }
+                }
+            ).then((res) => res.json()
+            )
             expect(c).toEqual(expected)
         }
     })

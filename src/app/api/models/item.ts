@@ -1,4 +1,3 @@
-import { ManufacturerProperties } from "./manufacturer"
 type ItemPreview = {
     item_id: string
     properties: {
@@ -52,11 +51,5 @@ enum Status {
     Pending = "Pending",
 }
 
-interface IItemRequests {
-    Get(): Promise<itemPreviewList | null>
-    GetKeyword(keywords: string[]): Promise<ItemPreview[] | null>
-    GetDetail(item_id: string): Promise<Overview>
 
-}
-
-export type { itemPreviewList, Overview, ItemPreview, IItemRequests, ItemProperties }
+export type { itemPreviewList, Overview, ItemPreview, ItemProperties }

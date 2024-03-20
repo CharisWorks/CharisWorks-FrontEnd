@@ -1,34 +1,30 @@
 import { IRequests } from "./models/request";
-import { IUserRequests, BackendUser, Profile, Address, Message, profileUpdatePayload } from "./models/user";
+import { IUserRequests, internalUser, Profile, Address, Message, profileUpdatePayload } from "./models/user";
 import { useRouter } from "next/router";
 class UserRequests implements IUserRequests {
     Requests: IRequests
     constructor(Requests: IRequests) {
         this.Requests = Requests
     }
-    async Get(): Promise<BackendUser> {
-        const response: Response = await this.Requests.Get('/api/user')
-        const data: BackendUser = await response.json()
-        return data
-    }
-    async PostProfile(Profile: Profile): Promise<BackendUser> {
+
+    async PostProfile(Profile: Profile): Promise<internalUser> {
         const response: Response = await this.Requests.Post('/api/profile', Profile)
-        const data: BackendUser = await response.json()
+        const data: internalUser = await response.json()
         return data
     }
-    async UpdateProfile(Profile: profileUpdatePayload): Promise<BackendUser> {
+    async UpdateProfile(Profile: profileUpdatePayload): Promise<internalUser> {
         const response: Response = await this.Requests.Patch('/api/profile', Profile)
-        const data: BackendUser = await response.json()
+        const data: internalUser = await response.json()
         return data
     }
-    async PostAddress(Address: Address): Promise<BackendUser> {
+    async PostAddress(Address: Address): Promise<internalUser> {
         const response: Response = await this.Requests.Post('/api/address', Address)
-        const data: BackendUser = await response.json()
+        const data: internalUser = await response.json()
         return data
     }
-    async UpdateAddress(Address: Address): Promise<BackendUser> {
+    async UpdateAddress(Address: Address): Promise<internalUser> {
         const response: Response = await this.Requests.Patch('/api/address', Address)
-        const data: BackendUser = await response.json()
+        const data: internalUser = await response.json()
         return data
     }
     async Delete(): Promise<Message> {

@@ -5,7 +5,7 @@ import {
   FirebaseRequestImpl,
   CartRequestImpl,
   ManufacturerRequestImpl,
-} from '../api/lib/firebase'
+} from '../api/lib/instances'
 import { auth } from '../api/firebase'
 import { useState } from 'react'
 

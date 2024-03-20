@@ -1,6 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { UserRequestImpl } from '../api/lib/firebase'
+import { UserRequestImpl } from '../api/lib/instances'
 import { use, useEffect, useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContext'
 import { BackendUser } from '../api/models/user'

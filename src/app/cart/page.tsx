@@ -1,6 +1,6 @@
 'use client'
 import { useAuthContext } from '../contexts/AuthContext'
-import { CartRequestImpl } from '../api/lib/firebase'
+import { CartRequestImpl } from '../api/lib/instances'
 
 const Cart = () => {
   const user = useAuthContext()
@@ -9,7 +9,6 @@ const Cart = () => {
     const idToken = await user?.getIdToken()
     if (idToken) {
       const CartRequest = CartRequestImpl(idToken)
-      CartRequest.Get()
     }
   }
   return (

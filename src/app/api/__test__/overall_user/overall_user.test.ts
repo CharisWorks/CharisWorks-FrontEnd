@@ -2,11 +2,11 @@
 import { expect, test } from "bun:test";
 //@ts-ignore
 import { describe } from "bun:test";
-import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "../../lib/firebase";
+import { CartRequestImpl, FirebaseRequestImpl, ManufacturerRequestImpl, StripeRequestImpl, UserRequestImpl } from "../../lib/instances";
 import { auth } from "../../firebase";
 import { Address, Profile, profileUpdatePayload } from "../../models/user";
 import { Cart, CartRegisterPayload } from "../../models/cart";
-import { getAllUser } from "../../admin/impls";
+import { getAllUser } from "../../admin/user/api";
 
 
 describe("overall user test for general user", () => {
@@ -14,10 +14,17 @@ describe("overall user test for general user", () => {
         await FirebaseRequestImpl.SignInWithEmail(auth, "whatacotton@gmail.com", "example")
         const idToken = await auth.currentUser?.getIdToken()
         if (idToken) {
-            const user = UserRequestImpl(idToken)
-            const user_data = await user.Get().catch((e) => {
-                expect(e.message).toBe("record not found")
-            })
+            const user_data = await fetch(
+                new URL("http://localhost:8080/api/user").toString(),
+                {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`
+                    }),
+                }).then((res) => res.json())
+                .catch((e) => {
+                    expect(e.message).toBe("record not found")
+                })
             if (user_data) {
                 expect(user_data.user_id).toBe("S9Dpcw3x4nPcROe2DOv3MjW3Ry42")
             }
@@ -35,7 +42,13 @@ describe("overall user test for general user", () => {
                 quantity: 1
             }
             await cartreq.Post(cart)
-            const res = await cartreq.Get()
+            const res = await fetch(new URL("http://localhost:8080/api/cart").toString(),
+                {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`
+                    }),
+                }).then((res) => res.json())
             const expected: Cart = {
                 items: [
                     {
@@ -177,7 +190,14 @@ describe("overall user test for general user", () => {
             await user.PostAddress(address).catch((e) => {
                 expect(e.message).toBe("invalid user request")
             })
-            const user_data = await user.Get()
+            const user_data = await fetch(
+                new URL("http://localhost:8080/api/user").toString(),
+                {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`
+                    })
+                }).then((res) => res.json())
             if (user_data) {
                 expect(user_data.address).toEqual(address)
             }
@@ -215,7 +235,14 @@ describe("overall user test for general user", () => {
                 first_name_kana: "タロウ",
                 last_name_kana: "ヤマダ"
             }
-            const user_data = await user.Get()
+            const user_data = await fetch(
+                new URL("http://localhost:8080/api/user").toString(),
+                {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`
+                    })
+                }).then((res) => res.json())
             if (user_data) {
                 expect(user_data.address).toEqual(addressToBe)
             }
@@ -255,7 +282,14 @@ describe("overall user test for general user", () => {
                 first_name_kana: "タロウ",
                 last_name_kana: "ヤマダ"
             }
-            const user_data = await user.Get()
+            const user_data = await fetch(
+                new URL("http://localhost:8080/api/user").toString(),
+                {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`
+                    })
+                }).then((res) => res.json())
             if (user_data) {
                 expect(user_data.address).toEqual(addressToBe)
             }
@@ -290,7 +324,13 @@ describe("overall user test for general user", () => {
             await cartreq.Post(cart).catch((e) => {
                 expect(e.message).toBe("invalid user request")
             })
-            const c = await cartreq.Get()
+            const c = await fetch(new URL("http://localhost:8080/api/cart").toString(),
+                {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`
+                    }),
+                }).then((res) => res.json())
             const expected: Cart = {
                 items: [
                     {
@@ -333,7 +373,13 @@ describe("overall user test for general user", () => {
                     }
                 }]
             }
-            const c = await cartreq.Get()
+            const c = await fetch(new URL("http://localhost:8080/api/cart").toString(),
+                {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`
+                    }),
+                }).then((res) => res.json())
             expect(c).toEqual(expected)
 
         }
@@ -374,7 +420,13 @@ describe("overall user test for general user", () => {
                 }
                 ]
             }
-            const c = await cartreq.Get()
+            const c = await fetch(new URL("http://localhost:8080/api/cart").toString(),
+                {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`
+                    }),
+                }).then((res) => res.json())
             expect(c).toEqual(expected)
         }
     })
@@ -399,7 +451,13 @@ describe("overall user test for general user", () => {
                     }
                 }]
             }
-            const c = await cartreq.Get()
+            const c = await fetch(new URL("http://localhost:8080/api/cart").toString(),
+                {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`
+                    }),
+                }).then((res) => res.json())
             expect(c).toEqual(expected)
         }
     })
