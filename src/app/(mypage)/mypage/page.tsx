@@ -1,9 +1,9 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { UserRequestImpl } from '../api/lib/instances'
+import { UserRequestImpl } from '../../api/lib/instances'
 import { use, useEffect, useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContext'
-import { BackendUser } from '../api/models/user'
+import { BackendUser } from '../../api/models/user'
 import { AuthRequiredProvider } from '../contexts/UserContext'
 
 const Mypage = () => {

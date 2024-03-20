@@ -1,6 +1,6 @@
 import { credentials, } from "@grpc/grpc-js";
-import { UserServiceClient } from "../../../../../server/codegen/administrator_grpc_pb";
-import { PrivilegeUserRequest, VoidRequest } from "../../../../../server/codegen/administrator_pb";
+import { UserServiceClient } from "../../../../server/codegen/administrator_grpc_pb";
+import { PrivilegeUserRequest, VoidRequest } from "../../../../server/codegen/administrator_pb";
 import { createMetadata } from "../utils";
 
 function getAllUser(jwt: string): Promise<string> {

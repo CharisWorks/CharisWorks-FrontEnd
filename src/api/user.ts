@@ -1,6 +1,5 @@
 import { IRequests } from "./models/request";
 import { IUserRequests, internalUser, Profile, Address, Message, profileUpdatePayload } from "./models/user";
-import { useRouter } from "next/router";
 class UserRequests implements IUserRequests {
     Requests: IRequests
     constructor(Requests: IRequests) {

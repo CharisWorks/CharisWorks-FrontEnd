@@ -3,8 +3,7 @@ import { useForm } from 'react-hook-form'
 import imageCompression from 'browser-image-compression'
 import PhotosUpload from './PhotosUpload'
 import { useState } from 'react'
-import { FirebaseRequestImpl } from '@/app/api/lib/firebase'
-import { auth } from '@/app/api/firebase'
+import { auth } from '@/api/firebase'
 import { useAuthContext } from '@/app/contexts/AuthContext'
 
 type Inputs = {

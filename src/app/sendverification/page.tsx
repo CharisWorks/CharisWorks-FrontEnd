@@ -1,5 +1,5 @@
 'use client'
-import { FirebaseRequestImpl } from '../api/lib/instances'
+import { FirebaseRequestImpl } from '../../api/lib/instances'
 import { sendEmailVerification } from 'firebase/auth'
 import { useAuthContext } from '../contexts/AuthContext'
 import { useEffect } from 'react'

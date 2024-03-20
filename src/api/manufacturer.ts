@@ -12,7 +12,6 @@ class ManufacturerRequests implements IManufacturerRequests {
         const data: Overview = await response.json()
         return data
     }
-
     async UpdateProducts(item_id: string, ProductUpdatePayload: ProductUpdatePayload): Promise<Overview> {
         const response: Response = await this.Requests.Patch('/api/products/' + item_id, ProductUpdatePayload)
         const data: Overview = await response.json()

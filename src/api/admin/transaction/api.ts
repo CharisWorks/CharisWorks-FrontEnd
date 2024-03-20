@@ -1,6 +1,6 @@
 import { credentials } from "@grpc/grpc-js";
-import { TransactionServiceClient } from "../../../../../server/codegen/administrator_grpc_pb";
-import { RegisterTrackingIdRequest, SpecificTransactionRequest, UpdateTransactionStatusRequest, VoidRequest } from "../../../../../server/codegen/administrator_pb";
+import { TransactionServiceClient } from "../../../../server/codegen/administrator_grpc_pb";
+import { RegisterTrackingIdRequest, SpecificTransactionRequest, UpdateTransactionStatusRequest, VoidRequest } from "../../../../server/codegen/administrator_pb";
 import { createMetadata } from "../utils";
 
 function getTransaction(jwt: string, id: string): Promise<string> {

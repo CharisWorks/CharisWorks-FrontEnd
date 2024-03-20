@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getTransaction } from "../api";
-import { Transaction } from "@/app/api/models/transaction";
+import { Transaction } from "@/api/models/transaction";
 
 export async function GET(req: NextApiRequest, res: NextApiResponse<Transaction[]>) {
     const jwt = req.headers.authorization;

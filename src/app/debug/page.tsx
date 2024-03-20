@@ -1,12 +1,7 @@
 'use client'
 import { useAuthContext } from '../contexts/AuthContext'
 import { LogInUsers } from './_components/loginhoge'
-import {
-  FirebaseRequestImpl,
-  CartRequestImpl,
-  ManufacturerRequestImpl,
-} from '../api/lib/instances'
-import { auth } from '../api/firebase'
+import { CartRequestImpl, ManufacturerRequestImpl } from '@/api/lib/instances'
 import { useState } from 'react'
 
 const Cart = () => {
@@ -17,9 +12,6 @@ const Cart = () => {
     if (idToken) {
       const CartRequest = CartRequestImpl(idToken)
       console.log(idToken)
-      const res = await CartRequest.Get()
-      console.log(res)
-      setResponse(res.message)
     }
   }
 
@@ -54,7 +46,6 @@ const Cart = () => {
         name: 'test',
         price: 10000,
         details: {
-          status: 'Available',
           stock: 1,
           size: 1,
           description: 'test',

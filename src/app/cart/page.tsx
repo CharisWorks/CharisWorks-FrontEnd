@@ -1,6 +1,6 @@
 'use client'
-import { useAuthContext } from '../contexts/AuthContext'
-import { CartRequestImpl } from '../api/lib/instances'
+import { useAuthContext } from '@/app/contexts/AuthContext'
+import { CartRequestImpl } from '@/api/lib/instances'
 
 const Cart = () => {
   const user = useAuthContext()

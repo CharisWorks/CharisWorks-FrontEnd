@@ -1,6 +1,6 @@
 import { credentials } from "@grpc/grpc-js";
-import { ItemServiceClient } from "../../../../../server/codegen/administrator_grpc_pb";
-import { RemoveItemRequest, VoidRequest } from "../../../../../server/codegen/administrator_pb";
+import { ItemServiceClient } from "../../../../server/codegen/administrator_grpc_pb";
+import { RemoveItemRequest, VoidRequest } from "../../../../server/codegen/administrator_pb";
 import { createMetadata } from "../utils";
 
 function getAllItem(jwt: string): Promise<string> {
