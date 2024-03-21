@@ -18,7 +18,7 @@ export const LogInUsers: React.FC = () => {
     <>
       {users.map((user, index) => {
         return (
-          <div>
+          <div key={index}>
             <button
               key={index}
               onClick={() => {

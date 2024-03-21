@@ -1,27 +1,33 @@
 "use client"
 import useSWR from 'swr'
 import { Cart } from './models/cart'
-import { internalUser } from './models/user';
+import { UserData } from './models/user';
 import { Transaction, TransactionDetail } from './models/transaction';
 import { Overview, itemPreviewList } from './models/item';
 
-const authfetcher = (url: URL, jwt: string) =>
-    fetch(url, {
+const authfetcher = async (url: URL, jwt: string) => {
+    const res = await fetch(url, {
         method: 'GET',
         headers: new Headers({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}` }),
-    }).then((res) => res.json());
+    })
+    const data = await res.json()
+    return data
+}
 
-const fetcher = (url: URL) =>
-    fetch(url, {
+const fetcher = async (url: URL) => {
+    const res = await fetch(url, {
         method: 'GET',
-    }).then((res) => res.json());
-
+    })
+    const data = await res.json()
+    return data
+}
 export const getUser = (jwt: string | undefined) => {
     const url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ?? "http://localhost:8080")
     url.pathname = '/api/user'
-    const { data, error } = useSWR(jwt ? [url, jwt] : null, () => authfetcher)
+    const { data, error } = useSWR(jwt ? [url, jwt] : null, ([url, jwt]) => authfetcher(url, jwt))
+    console.log('data:', data)
     return {
-        data: data as internalUser | undefined,
+        data: data as UserData | undefined,
         isLoading: !data && !error,
         isError: error,
     }
@@ -70,13 +76,13 @@ export const getItem = (page?: number, keywords?: string[]) => {
         url.searchParams.set('keyword', keywords.join('+'))
     }
     const { data, error } = useSWR(url, fetcher)
+    console.log('data:', data)
     return {
         data: data as itemPreviewList | undefined,
         isLoading: !data && !error,
         isError: error,
     }
 }
-
 
 export const getItemDetails = (id: string) => {
     const url = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ?? "http://localhost:8080")

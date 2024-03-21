@@ -1,23 +1,31 @@
 'use client'
 import { AuthRequiredProvider } from '@/app/contexts/UserContext'
 import { useRouter } from 'next/navigation'
-import UserData from './_components/userData'
 import { useAuthContext } from '@/app/contexts/AuthContext'
-import { useState } from 'react'
-
+import { use, useEffect, useState } from 'react'
+import useSWR from 'swr'
+import { UserData } from '@/api/models/user'
+import { getUser } from '@/api/fetcher'
 const Mypage = () => {
   const user = useAuthContext()
-  const [idToken, setIdToken] = useState<string>('')
-  user?.getIdToken().then((idToken) => {
-    setIdToken(idToken)
-  })
-
   const router = useRouter()
+  const [idToken, setIdToken] = useState<string | undefined>('')
+  console.log('idToken:', idToken)
+  const { data, isLoading, isError } = getUser(idToken)
+  useEffect(() => {
+    ;(async () => {
+      const idToken = await user?.getIdToken()
+      setIdToken(idToken)
+    })()
+  }, [user])
+  useEffect(() => {
+    console.log('data:', data)
+  }, [getUser])
   return (
     <AuthRequiredProvider>
       {' '}
       <p>マイページ</p>
-      <UserData idToken={idToken} />
+      {data && <div>{data.profile.display_name}</div>}
       <button
         onClick={() => {
           router.push('/debug/image')
