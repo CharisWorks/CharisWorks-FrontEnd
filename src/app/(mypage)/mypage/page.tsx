@@ -5,27 +5,28 @@ import { useAuthContext } from '@/app/contexts/AuthContext'
 import { use, useEffect, useState } from 'react'
 import useSWR from 'swr'
 import { UserData } from '@/api/models/user'
-import { getUser } from '@/api/fetcher'
+import { getCart, getUser } from '@/api/fetcher'
 const Mypage = () => {
   const user = useAuthContext()
   const router = useRouter()
   const [idToken, setIdToken] = useState<string | undefined>('')
-  console.log('idToken:', idToken)
-  const { data, isLoading, isError } = getUser(idToken)
+  const {
+    data: userData,
+    isLoading: userLoading,
+    isError: userError,
+  } = getUser(idToken)
+  const { data, isLoading, isError } = getCart(idToken)
   useEffect(() => {
     ;(async () => {
       const idToken = await user?.getIdToken()
       setIdToken(idToken)
     })()
   }, [user])
-  useEffect(() => {
-    console.log('data:', data)
-  }, [getUser])
   return (
     <AuthRequiredProvider>
       {' '}
       <p>マイページ</p>
-      {data && <div>{data.profile.display_name}</div>}
+      {data && <div>{userData?.profile.display_name}</div>}
       <button
         onClick={() => {
           router.push('/debug/image')

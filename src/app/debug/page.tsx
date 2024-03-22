@@ -3,39 +3,16 @@ import useSWR from 'swr'
 import { useAuthContext } from '../contexts/AuthContext'
 import { LogInUsers } from './_components/loginhoge'
 import { CartRequestImpl, ManufacturerRequestImpl } from '@/api/lib/instances'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { itemPreviewList } from '@/api/models/item'
 import { getItem } from '@/api/fetcher'
-/* const fetcher = (url: URL) =>
-  fetch(url, {
-    method: 'GET',
-  }).then((res) => {
-    console.log('url:', url)
-    res.json()
-  })
-export const getItem = (page?: number, keywords?: string[]) => {
-  const url = new URL(
-    process.env.NEXT_PUBLIC_SERVER_ADDRESS ?? 'http://localhost:8080',
-  )
-  url.pathname = '/api/item'
-  if (page) {
-    url.searchParams.set('page', page.toString())
-  }
-  if (keywords) {
-    url.searchParams.set('keyword', keywords.join('+'))
-  }
-  const { data, error } = useSWR(url, fetcher)
-  return {
-    data: data as itemPreviewList | undefined,
-    isLoading: !data && !error,
-    isError: error,
-  }
-}
- */
+
 const Cart = () => {
   const user = useAuthContext()
-  const { data, isLoading, isError } = getItem()
+  /* const { data, isLoading, isError } = getItem() */
+  const { data, isError, isLoading } = getItem()
   console.log(data)
+
   const [response, setResponse] = useState<any>('')
   const GetCart = async () => {
     const idToken = await user?.getIdToken()
