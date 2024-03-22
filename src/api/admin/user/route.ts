@@ -1,8 +1,8 @@
 import { getTransaction, getAllUser } from "@/api/admin/user/api";
 import { NextApiRequest, NextApiResponse } from "next";
-import { internalUser } from "@/api/models/user";
+import { UserData } from "@/api/models/user";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse<internalUser[] | null>) {
+export async function GET(req: NextApiRequest, res: NextApiResponse<UserData[] | null>) {
     const jwt = req.headers.authorization;
     if (!jwt) {
         throw new Error("JWT is not set");
