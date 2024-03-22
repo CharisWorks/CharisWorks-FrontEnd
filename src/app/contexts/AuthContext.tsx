@@ -8,7 +8,7 @@ import React, {
   use,
 } from 'react'
 import type { User } from 'firebase/auth'
-import { auth } from '../api/firebase'
+import { auth } from '../../api/firebase'
 import { usePathname, useRouter } from 'next/navigation'
 
 //

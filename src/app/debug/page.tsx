@@ -1,25 +1,24 @@
 'use client'
+import useSWR from 'swr'
 import { useAuthContext } from '../contexts/AuthContext'
 import { LogInUsers } from './_components/loginhoge'
-import {
-  FirebaseRequestImpl,
-  CartRequestImpl,
-  ManufacturerRequestImpl,
-} from '../api/lib/instances'
-import { auth } from '../api/firebase'
-import { useState } from 'react'
+import { CartRequestImpl, ManufacturerRequestImpl } from '@/api/lib/instances'
+import { useEffect, useState } from 'react'
+import { itemPreviewList } from '@/api/models/item'
+import { getItem } from '@/api/fetcher'
 
 const Cart = () => {
   const user = useAuthContext()
+  /* const { data, isLoading, isError } = getItem() */
+  const { data, isError, isLoading } = getItem()
+  console.log(data)
+
   const [response, setResponse] = useState<any>('')
   const GetCart = async () => {
     const idToken = await user?.getIdToken()
     if (idToken) {
       const CartRequest = CartRequestImpl(idToken)
       console.log(idToken)
-      const res = await CartRequest.Get()
-      console.log(res)
-      setResponse(res.message)
     }
   }
 
@@ -54,7 +53,6 @@ const Cart = () => {
         name: 'test',
         price: 10000,
         details: {
-          status: 'Available',
           stock: 1,
           size: 1,
           description: 'test',

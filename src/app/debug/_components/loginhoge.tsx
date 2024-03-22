@@ -1,6 +1,5 @@
-import { auth } from '@/app/api/firebase'
-import { FirebaseRequestImpl } from '@/app/api/lib/firebase'
-import { use } from 'react'
+import { auth } from '@/api/firebase'
+import { FirebaseRequestImpl } from '@/api/lib/instances'
 
 export const LogInUsers: React.FC = () => {
   const users: { name: string; email: string; password: string }[] = [
@@ -19,7 +18,7 @@ export const LogInUsers: React.FC = () => {
     <>
       {users.map((user, index) => {
         return (
-          <div>
+          <div key={index}>
             <button
               key={index}
               onClick={() => {

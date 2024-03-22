@@ -1,19 +1,11 @@
 'use client'
-import { ItemRequestImpl } from '@/app/api/lib/firebase'
-import { ItemDetail } from '@/app/api/models/item'
+import { getItemDetails } from '@/api/fetcher'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
 const ItemPage = () => {
   const params = useParams<{ slug: string }>()
 
-  const [Item, setItem] = useState<ItemDetail | undefined>(undefined)
-  useEffect(() => {
-    ;(async () => {
-      const item = await ItemRequestImpl.GetDetail(params.slug)
-      setItem(item)
-    })()
-  }, [])
+  const { data, isLoading, isError } = getItemDetails(params.slug)
 
   // Route -> /shop/[tag]/[item]
   // URL -> /shop/shoes/nike-air-max-97
