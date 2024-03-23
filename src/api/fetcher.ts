@@ -11,6 +11,9 @@ const authfetcher = async (url: string, jwt: string) => {
         headers: new Headers({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}` }),
     })
     const data = await res.json()
+    if (res.status !== 200) {
+        throw new Error(data.message)
+    }
     return data
 }
 
@@ -29,7 +32,7 @@ export const getUser = (jwt: string | undefined) => {
     return {
         data: data as UserData | undefined,
         isLoading: !data && !error,
-        isError: error,
+        error: error,
     }
 }
 
