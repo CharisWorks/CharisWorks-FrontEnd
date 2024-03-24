@@ -2,8 +2,6 @@
 import { getUser } from '@/api/fetcher'
 import { UserData } from '@/api/models/user'
 import { useAuthContext } from '@/app/contexts/AuthContext'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 const AddressNotSet = () => {
   return (
@@ -53,37 +51,20 @@ const LoadingAddress = () => {
     </div>
   )
 }
-const User = () => {
-  const router = useRouter()
-  const user = useAuthContext()
-  const [idToken, setIdToken] = useState<string | undefined>('')
-  useEffect(() => {
-    ;(async () => {
-      const idToken = await user?.getIdToken()
-      setIdToken(idToken)
-    })()
-  }, [user])
-  const { data, isLoading, error } = getUser(idToken)
-  if (error == 'Error: email is not verified') {
-    return (
-      <div>
-        メール認証が完了していません
-        <button onClick={() => router.push('/sendverification')}>
-          認証メールを再送信する
-        </button>
-      </div>
-    )
-  }
-
-  if (isLoading) {
-    return <LoadingAddress />
-  }
-  if (data) {
-    if (data.address.address_1 == '') {
-      return <AddressNotSet />
-    }
-    return <Address {...data} />
-  }
+const PersonalInfo = () => {
+  const { data, isLoading } = getUser(useAuthContext().idToken)
+  return (
+    <div id="personal-info">
+      <h1>Personal Info</h1>
+      {isLoading ? (
+        <LoadingAddress />
+      ) : data ? (
+        <Address {...data} />
+      ) : (
+        <AddressNotSet />
+      )}
+    </div>
+  )
 }
 
-export default User
+export default PersonalInfo

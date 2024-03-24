@@ -4,12 +4,12 @@ import { useAuthContext } from '../../contexts/AuthContext'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 const SendVerification = () => {
-  const user = useAuthContext()
+  const user = useAuthContext().user
   const router = useRouter()
   useEffect(() => {
     if (user) {
-      if (user.emailVerified) {
-        router.push('/mypage')
+      if (user?.emailVerified) {
+        router.replace('/mypage')
       }
     }
   }, [user])

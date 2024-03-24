@@ -1,13 +1,12 @@
-import User from './_components/personal-info'
+import PersonalInfo from './_components/personal-info'
+import TransactionList from './_components/transaction'
 
 const Mypage = () => {
   return (
     <>
-      {' '}
       <p>マイページ</p>
-      <div id="personal-info">
-        <User />
-      </div>
+      <PersonalInfo />
+      <TransactionList />
     </>
   )
 }

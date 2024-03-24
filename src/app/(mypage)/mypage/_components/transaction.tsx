@@ -1,19 +1,25 @@
 import { getTransaction } from '@/api/fetcher'
+import { Transaction, TransactionItem } from '@/api/models/transaction'
 import { useAuthContext } from '@/app/contexts/AuthContext'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import TransactionDetails from './transactionDetails'
 
-const Transaction = () => {
-  const router = useRouter()
-  const user = useAuthContext()
-  const [idToken, setIdToken] = useState<string | undefined>('')
-  useEffect(() => {
-    ;(async () => {
-      const idToken = await user?.getIdToken()
-      setIdToken(idToken)
-    })()
-  }, [user])
-  const { data, isLoading, error } = getTransaction(idToken)
+const Transaction = (props: { transactionItem: TransactionItem }) => {
+  return (
+    <div>
+      <p>{props.transactionItem.item_id}</p>
+      <p>{props.transactionItem.price}</p>
+      <p>{props.transactionItem.quantity}</p>
+      <p>{props.transactionItem.name}</p>
+    </div>
+  )
+}
+
+const TransactionList = () => {
+  const [selectedTransaction, setSelectedTransaction] = useState<
+    string | undefined
+  >(undefined)
+  const { data, isLoading, error } = getTransaction(useAuthContext().idToken)
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -26,16 +32,25 @@ const Transaction = () => {
       <ul>
         {data?.map((transaction) => (
           <li key={transaction.transaction_id}>
-            {transaction.items.map((item) => (
-              <div key={item.item_id}>
-                <p>Item: {item.name}</p>
-                <p>Price: {item.price}</p>
-                <p>Quantity: {item.quantity}</p>
-              </div>
-            ))}
+            {transaction.items.map((item) => {
+              return selectedTransaction === transaction.transaction_id ? (
+                <TransactionDetails
+                  transactionId={transaction.transaction_id}
+                />
+              ) : (
+                <div
+                  onClick={() => {
+                    setSelectedTransaction(transaction.transaction_id)
+                  }}
+                >
+                  <Transaction transactionItem={item} />
+                </div>
+              )
+            })}
           </li>
         ))}
       </ul>
     </div>
   )
 }
+export default TransactionList

@@ -21,7 +21,13 @@ interface Props {
 
 export type UserType = User | null | undefined
 
-const AuthContext = createContext<UserType>(auth.currentUser)
+const AuthContext = createContext<{
+  user: UserType
+  idToken: string | undefined
+}>({
+  user: auth.currentUser,
+  idToken: undefined,
+})
 
 function useAuthContext() {
   return useContext(AuthContext)
@@ -29,6 +35,7 @@ function useAuthContext() {
 
 const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<UserType>(undefined)
+  const [idToken, setIdToken] = useState<string | undefined>(undefined)
   const value: UserType = user
   useEffect(() => {
     const unsubscribed = auth.onAuthStateChanged((user: UserType) => {
@@ -38,7 +45,17 @@ const AuthProvider = ({ children }: Props) => {
       unsubscribed()
     }
   }, [])
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  useEffect(() => {
+    ;(async () => {
+      const idToken = await user?.getIdToken()
+      setIdToken(idToken)
+    })()
+  }, [user])
+  return (
+    <AuthContext.Provider value={{ user: value, idToken }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export { useAuthContext, AuthProvider }
