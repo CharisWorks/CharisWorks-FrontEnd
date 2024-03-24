@@ -1,13 +1,13 @@
-import { useRouter } from 'next/navigation'
-import { useAuthContext } from '@/app/contexts/AuthContext'
-import { useEffect, useState } from 'react'
-import User from './_components/user'
+import User from './_components/personal-info'
+
 const Mypage = () => {
   return (
     <>
       {' '}
       <p>マイページ</p>
-      <User />
+      <div id="personal-info">
+        <User />
+      </div>
     </>
   )
 }

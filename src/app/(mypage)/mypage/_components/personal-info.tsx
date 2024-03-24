@@ -3,7 +3,6 @@ import { getUser } from '@/api/fetcher'
 import { UserData } from '@/api/models/user'
 import { useAuthContext } from '@/app/contexts/AuthContext'
 import { useEffect, useState } from 'react'
-import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
 const AddressNotSet = () => {
@@ -70,7 +69,7 @@ const User = () => {
       <div>
         メール認証が完了していません
         <button onClick={() => router.push('/sendverification')}>
-          認証メールを再送信
+          認証メールを再送信する
         </button>
       </div>
     )

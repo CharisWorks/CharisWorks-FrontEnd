@@ -16,6 +16,7 @@ const SendVerification = () => {
   return (
     <div>
       <h3>Eメール認証ページ</h3>
+      <p>{user?.email}に認証メールを送信します。</p>
       <button
         onClick={() => {
           if (user) {

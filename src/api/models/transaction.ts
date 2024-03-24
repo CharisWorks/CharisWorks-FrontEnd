@@ -3,7 +3,16 @@ import { IRequests } from "./request"
 type Transaction = {
     transaction_id: string
     tracking_id: string
-    items: ItemPreview[]
+    items: {
+        item_id: string
+        quantity: number
+        name: string
+        price: number
+        transfer_id: string
+        status: string
+        manufacturer_user_id: string
+        manufacturer_name: string
+    }[]
 }
 
 type TransactionDetail = {
@@ -15,8 +24,17 @@ type TransactionDetail = {
         address: string
         phone_number: string
     }
-    items: ItemPreview[]
+    items: {
+        item_id: string
+        quantity: number
+        name: string
+        price: number
+        transfer_id: string
+        status: string
+        manufacturer_user_id: string
+        manufacturer_name: string
+    }[]
+
     status: string
 }
-
 export type { Transaction, TransactionDetail }
