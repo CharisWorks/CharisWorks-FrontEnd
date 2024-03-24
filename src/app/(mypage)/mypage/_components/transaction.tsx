@@ -4,7 +4,7 @@ import { useAuthContext } from '@/app/contexts/AuthContext'
 import { useState } from 'react'
 import TransactionDetails from './transactionDetails'
 
-const Transaction = (props: { transactionItem: TransactionItem }) => {
+const Transactions = (props: { transactionItem: TransactionItem }) => {
   return (
     <div>
       <p>{props.transactionItem.item_id}</p>
@@ -43,7 +43,7 @@ const TransactionList = () => {
                     setSelectedTransaction(transaction.transaction_id)
                   }}
                 >
-                  <Transaction transactionItem={item} />
+                  <Transactions transactionItem={item} />
                 </div>
               )
             })}

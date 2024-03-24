@@ -11,7 +11,15 @@ export default function MypageLayout({
   const user = useAuthContext().user
 
   if (!user) {
-    return <p>ログインしてください</p>
+    return (
+      <>
+        <p>ログインしてください</p>
+        <div>
+          signin: <button onClick={() => router.push('/signin')}>signin</button>
+          signup: <button onClick={() => router.push('/signup')}>signup</button>
+        </div>
+      </>
+    )
   }
   if (!user.emailVerified) {
     return (

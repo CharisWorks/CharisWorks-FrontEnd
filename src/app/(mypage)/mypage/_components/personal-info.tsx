@@ -1,4 +1,3 @@
-'use client'
 import { getUser } from '@/api/fetcher'
 import { UserData } from '@/api/models/user'
 import { useAuthContext } from '@/app/contexts/AuthContext'
@@ -58,7 +57,7 @@ const PersonalInfo = () => {
       <h1>Personal Info</h1>
       {isLoading ? (
         <LoadingAddress />
-      ) : data ? (
+      ) : data?.address.address_1 ? (
         <Address {...data} />
       ) : (
         <AddressNotSet />

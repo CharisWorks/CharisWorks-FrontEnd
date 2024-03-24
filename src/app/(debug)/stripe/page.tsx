@@ -4,21 +4,20 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 
 import CheckoutForm from './_component/CheckoutForm'
-import { StripeRequestImpl } from '../../api/lib/instances'
-import { useAuthContext } from '../contexts/AuthContext'
-import { IStripeRequests } from '../../api/models/stripe'
+import { StripeRequestImpl } from '@/api/lib/instances'
+import { useAuthContext } from '@/app/contexts/AuthContext'
+import { IStripeRequests } from '@/api/models/stripe'
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
 )
 
 export default function App() {
-  const user = useAuthContext()
+  const idToken = useAuthContext().idToken
   const [clientSecret, setClientSecret] = useState('')
 
   useEffect(() => {
     ;(async () => {
-      const idToken = await user?.getIdToken()
       if (idToken) {
         const StripeRequest: IStripeRequests = StripeRequestImpl(idToken)
         console.log(idToken)
@@ -26,7 +25,7 @@ export default function App() {
         setClientSecret(response.clientSecret)
       }
     })()
-  }, [user])
+  }, [idToken])
   const appearance: {
     theme: 'stripe' | 'night' | 'flat'
   } = {
