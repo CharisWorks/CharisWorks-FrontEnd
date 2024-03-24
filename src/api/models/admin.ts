@@ -1,9 +1,9 @@
-import { internalUser } from "./user";
+import { UserData } from "./user";
 import { Transaction, TransactionDetail } from "./transaction";
 import { itemPreviewList } from "./item";
 
 interface IAdminUserRequests {
-    getAllUser(): Promise<internalUser[] | null>
+    getAllUser(): Promise<UserData[] | null>
     removeUser(id: string): Promise<{ msg: string }>
     privilegeUser(id: string): Promise<{ msg: string }>
     getTransaction(Id: string): Promise<Transaction[]>
