@@ -14,7 +14,7 @@ import {
 import { useAuthContext } from './contexts/AuthContext'
 
 const Header = () => {
-  const { data, isLoading } = getUser(useAuthContext().idToken)
+  const { data, isLoading, error } = getUser(useAuthContext().idToken)
   return (
     <Flex minWidth="max-content" alignItems="center" gap="2" bg={'blue.800'}>
       <a href="/">
@@ -35,7 +35,7 @@ const Header = () => {
       <ButtonGroup gap="2">
         <Skeleton isLoaded={!isLoading}>
           <Button colorScheme="green" variant="outline" width={40}>
-            {data ? 'マイページ' : 'ログイン'}
+            {error ? 'ログイン' : 'マイページ'}
           </Button>
         </Skeleton>
       </ButtonGroup>

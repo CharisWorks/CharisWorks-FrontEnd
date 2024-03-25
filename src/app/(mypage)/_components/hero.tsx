@@ -31,7 +31,7 @@ const Hero = () => {
                 <Text
                   pos={'relative'}
                   zIndex={1}
-                  color={'white'}
+                  color={'gray.100'}
                   fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
                   fontFamily="noto_japanese"
                 >
@@ -40,7 +40,7 @@ const Hero = () => {
                 <Text
                   pos={'relative'}
                   zIndex={1}
-                  color={'white'}
+                  color={'gray.100'}
                   fontSize={['0.5rem', '0.5rem', '0.8rem', '0.8rem']}
                   fontFamily="beau_rivage"
                   as="span"
@@ -50,7 +50,7 @@ const Hero = () => {
                 <Text
                   pos={'relative'}
                   zIndex={1}
-                  color={'white'}
+                  color={'gray.100'}
                   fontSize={['0.4rem', '0.5rem', '0.8rem', '0.8rem']}
                   fontFamily="noto_japanese"
                   as="span"

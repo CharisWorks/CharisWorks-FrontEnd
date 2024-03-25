@@ -11,6 +11,7 @@ import Hero from '@/app/(mypage)/_components/hero'
 import '@splidejs/splide/css'
 import { useState } from 'react'
 import SideBar from './(mypage)/_components/sidebar'
+import ItemLists from './(mypage)/_components/items'
 const Index = () => {
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)')
 
@@ -27,6 +28,9 @@ const Index = () => {
           </Box>
         ) : null}
       </Stack>
+      <Box p={2}>
+        <ItemLists />
+      </Box>
     </Box>
   )
 }
