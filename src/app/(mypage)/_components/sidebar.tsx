@@ -1,4 +1,5 @@
 import { Box, Divider, Text } from '@chakra-ui/react'
+import SearchBox from './search'
 
 const SideBar = () => {
   return (
@@ -52,6 +53,7 @@ const SideBar = () => {
           </Text>
         </Box>
         <Divider />
+        <SearchBox />
       </Box>
     </div>
   )

@@ -18,15 +18,18 @@ const Index = () => {
   return (
     <Box pos={'relative'}>
       {' '}
-      <Stack spacing={'5%'} justify={'space-between'} direction={'row'}>
-        <Box w={['100%', '100%', '80%', '80%']}>
-          <Hero />
-        </Box>
-        {isLargerThan768 ? (
+      <Stack spacing={'2%'} justify={'space-between'} direction={'row'}>
+        <Center>
+          <Box w={['100%', '100%', '100%', '100%']}>
+            <Hero />
+          </Box>
+        </Center>
+
+        {/*   {isLargerThan768 ? (
           <Box w={'20%'}>
             <SideBar />
           </Box>
-        ) : null}
+        ) : null} */}
       </Stack>
       <Box p={2}>
         <ItemLists />
