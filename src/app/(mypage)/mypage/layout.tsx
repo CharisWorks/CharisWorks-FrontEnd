@@ -1,4 +1,5 @@
 'use client'
+import { getUser } from '@/api/fetcher'
 import { useAuthContext } from '@/app/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 
@@ -9,8 +10,8 @@ export default function MypageLayout({
 }) {
   const router = useRouter()
   const user = useAuthContext().user
-
-  if (!user) {
+  const { data, isLoading, error } = getUser(useAuthContext().idToken)
+  if (!user && !isLoading) {
     return (
       <>
         <p>ログインしてください</p>
@@ -21,7 +22,7 @@ export default function MypageLayout({
       </>
     )
   }
-  if (!user.emailVerified) {
+  if (!user?.emailVerified && user && user.email) {
     return (
       <>
         <p>メール認証してください</p>
