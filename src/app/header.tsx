@@ -1,3 +1,5 @@
+'use client'
+import { getUser } from '@/api/fetcher'
 import {
   Box,
   Button,
@@ -7,9 +9,12 @@ import {
   Spacer,
   Image,
   Stack,
+  Skeleton,
 } from '@chakra-ui/react'
+import { useAuthContext } from './contexts/AuthContext'
 
 const Header = () => {
+  const { data, isLoading } = getUser(useAuthContext().idToken)
   return (
     <Flex minWidth="max-content" alignItems="center" gap="2" bg={'blue.800'}>
       <a href="/">
@@ -28,8 +33,11 @@ const Header = () => {
       </a>
       <Spacer />
       <ButtonGroup gap="2">
-        <Button colorScheme="teal">Sign Up</Button>
-        <Button colorScheme="teal">Log in</Button>
+        <Skeleton isLoaded={!isLoading}>
+          <Button colorScheme="green" variant="outline" width={40}>
+            {data ? 'マイページ' : 'ログイン'}
+          </Button>
+        </Skeleton>
       </ButtonGroup>
     </Flex>
   )

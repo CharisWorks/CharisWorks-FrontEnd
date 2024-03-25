@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "@firebase/rules-unit-testing": "^3.0.1",
     "@grpc/grpc-js": "^1.10.3",
+    "@splidejs/react-splide": "^0.7.12",
     "@stripe/react-stripe-js": "^2.5.0",
     "@stripe/stripe-js": "^3.0.2",
     "browser-image-compression": "^2.0.2",
