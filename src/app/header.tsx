@@ -35,7 +35,11 @@ const Header = () => {
       <ButtonGroup gap="2" p={2}>
         <Skeleton isLoaded={!isLoading}>
           <Button colorScheme="green" variant="outline" width={40}>
-            {error ? 'ログイン' : 'マイページ'}
+            {error ? (
+              <a href="/signin">ログイン</a>
+            ) : (
+              <a href="/mypage">マイページ</a>
+            )}
           </Button>
         </Skeleton>
       </ButtonGroup>

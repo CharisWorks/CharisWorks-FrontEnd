@@ -37,42 +37,46 @@ const ItemList = () => {
             justifyItems={'center'}
           >
             {data?.previewList.map((item) => (
-              <Card
-                maxW={['xs', 'lg', 'md', 'lg']}
-                key={item.item_id}
-                bg={'green.300'}
-              >
-                <CardBody>
-                  <Image
-                    src={
-                      'http://image.charis.works/src/images/' +
-                      item.item_id +
-                      '/thumb.png'
-                    }
-                    alt="item"
-                    borderRadius="lg"
-                  />
-                  <Stack
-                    mt="6"
-                    spacing="1"
-                    justifyContent={'space-between'}
-                    direction={'row'}
-                  >
-                    <Heading fontSize={['1rem', '1.2rem', '1.5rem', '1.5rem']}>
-                      {item.properties.name}
-                    </Heading>
-                    <Text
-                      pos={'relative'}
-                      zIndex={1}
-                      color="blue.600"
-                      fontSize={['1rem', '1.2rem', '1.5rem', '1.5rem']}
-                      fontFamily="noto_japanese"
+              <a href={'/item/' + item.item_id}>
+                <Card
+                  maxW={['xs', 'lg', 'md', 'lg']}
+                  key={item.item_id}
+                  bg={'green.300'}
+                >
+                  <CardBody>
+                    <Image
+                      src={
+                        'http://image.charis.works/src/images/' +
+                        item.item_id +
+                        '/thumb.png'
+                      }
+                      alt="item"
+                      borderRadius="lg"
+                    />
+                    <Stack
+                      mt="6"
+                      spacing="1"
+                      justifyContent={'space-between'}
+                      direction={'row'}
                     >
-                      {item.properties.price}円
-                    </Text>
-                  </Stack>
-                </CardBody>
-              </Card>
+                      <Heading
+                        fontSize={['1rem', '1.2rem', '1.5rem', '1.5rem']}
+                      >
+                        {item.properties.name}
+                      </Heading>
+                      <Text
+                        pos={'relative'}
+                        zIndex={1}
+                        color="blue.600"
+                        fontSize={['1rem', '1.2rem', '1.5rem', '1.5rem']}
+                        fontFamily="noto_japanese"
+                      >
+                        {item.properties.price}円
+                      </Text>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              </a>
             ))}
           </SimpleGrid>
         </div>
