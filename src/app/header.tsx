@@ -13,6 +13,8 @@ import {
 } from '@chakra-ui/react'
 import { useAuthContext } from './contexts/AuthContext'
 
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import Cart from './(mypage)/_components/cart'
 const Header = () => {
   const { data, isLoading, error } = getUser(useAuthContext().idToken)
   return (
@@ -32,7 +34,9 @@ const Header = () => {
         </Box>
       </a>
       <Spacer />
-      <ButtonGroup gap="2" p={2}>
+
+      <ButtonGroup gap="2" p={2} alignItems={'center'}>
+        <Cart />
         <Skeleton isLoaded={!isLoading}>
           <Button colorScheme="green" variant="outline" width={40}>
             {error ? (

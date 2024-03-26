@@ -45,11 +45,12 @@ export const getCart = (jwt: string | undefined) => {
     const rawURL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ?? "http://localhost:8080")
     rawURL.pathname = '/api/cart'
     const url = rawURL.toString()
-    const { data, error } = useSWR(jwt ? [url, jwt] : null, ([url, jwt]) => authfetcher(url, jwt))
+    const { data, error, mutate } = useSWR(jwt ? [url, jwt] : null, ([url, jwt]) => authfetcher(url, jwt))
     return {
         data: data as Cart | undefined,
         isLoading: !data && !error,
         error: error,
+        mutate: mutate,
     }
 }
 
@@ -87,7 +88,7 @@ export const getItem = (page?: number, keywords?: string[]) => {
         rawURL.searchParams.set('keyword', keywords.join('+'))
     }
     const url = rawURL.toString()
-    const { data, error } = useSWR(url, fetcher, { suspense: true })
+    const { data, error } = useSWR(url, fetcher)
     console.log('data:', data)
     return {
         data: data as itemPreviewList | undefined,
@@ -112,7 +113,7 @@ export const getItemSource = (id: string) => {
     const rawURL = new URL(process.env.NEXT_PUBLIC_SERVER_ADDRESS ?? "http://localhost:8080")
     rawURL.pathname = '/images/' + id
     const url = rawURL.toString()
-    const { data, error } = useSWR(url, fetcher, { suspense: true })
+    const { data, error } = useSWR(url, fetcher)
     return {
         data: data as string[] | undefined,
         isLoading: !data && !error,

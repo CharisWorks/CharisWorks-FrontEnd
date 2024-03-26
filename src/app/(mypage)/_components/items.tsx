@@ -14,6 +14,7 @@ import {
   Box,
   GridItem,
   Grid,
+  Skeleton,
 } from '@chakra-ui/react'
 
 const ItemList = () => {
@@ -21,9 +22,7 @@ const ItemList = () => {
 
   return (
     <div>
-      {isLoading ? (
-        <div>loading...</div>
-      ) : (
+      <Skeleton isLoaded={!isLoading}>
         <div>
           <SimpleGrid
             spacing={2}
@@ -80,7 +79,7 @@ const ItemList = () => {
             ))}
           </SimpleGrid>
         </div>
-      )}
+      </Skeleton>
     </div>
   )
 }

@@ -38,18 +38,14 @@ type OverviewProperties = {
 };
 
 type OverviewDetails = {
-    status: Status;
+    status: string;
     stock: number;
     size: number;
     description: string;
     tags: string[];
 };
 
-enum Status {
-    Active = "Active",
-    Inactive = "Inactive",
-    Pending = "Pending",
-}
+
 
 interface IItemRequests {
     getItem(page?: number, keywords?: string[]): Promise<ItemPreview[] | null>
