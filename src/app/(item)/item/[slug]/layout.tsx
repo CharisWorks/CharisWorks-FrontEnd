@@ -1,5 +1,3 @@
-import { Suspense } from 'react'
-
 export default function MypageLayout({
   children,
 }: {
@@ -7,9 +5,7 @@ export default function MypageLayout({
 }) {
   return (
     <div>
-      <Suspense fallback={<div>loading...</div>}>
-        <main>{children}</main>
-      </Suspense>
+      <main>{children}</main>
     </div>
   )
 }

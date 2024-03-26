@@ -29,7 +29,7 @@ export default function MypageLayout({
         <div>
           <button
             onClick={() => {
-              router.push('/mypage/sendverification')
+              router.push('/sendverification')
             }}
           >
             Eメール認証ページへ
