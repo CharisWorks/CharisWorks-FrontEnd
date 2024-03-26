@@ -1,6 +1,7 @@
 import { ItemRequestImpl } from '@/api/lib/instances'
-import { Box, Container } from '@chakra-ui/react'
+import { Container, Stack, StackItem } from '@chakra-ui/react'
 import Images from './_components/images'
+import Description from './_components/description'
 
 const ItemPage = async ({ params }: { params: { slug: string } }) => {
   // Route -> /shop/[tag]/[item]
@@ -10,11 +11,14 @@ const ItemPage = async ({ params }: { params: { slug: string } }) => {
   return (
     <Container maxW="container.xl">
       <h2>商品詳細ページ</h2>
-      <Box>
-        <h2>{data?.properties.name}</h2>
-        <p>{data?.properties.details.description}</p>
-        <Images itemId={params.slug} />
-      </Box>
+      <Stack direction={'row'}>
+        <StackItem w={'50%'}>
+          <Images itemId={params.slug} />
+        </StackItem>
+        <StackItem w={'50%'}>
+          <Description overview={data} />
+        </StackItem>
+      </Stack>
     </Container>
   )
 }
