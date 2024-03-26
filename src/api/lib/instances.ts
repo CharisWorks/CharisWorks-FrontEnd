@@ -11,6 +11,7 @@ import { IStripeRequests } from "../models/stripe";
 import { IAuthAppRequests } from "../models/firebase";
 import { IAdminItemRequests, IAdminTransactionRequests, IAdminUserRequests } from "../models/admin";
 import { adminItemRequests, adminTransactionRequests, adminUserRequests } from "../admin";
+import { ItemRequests } from "../item";
 
 
 export const FirebaseRequestImpl: IAuthAppRequests = new FirebaseRequests(new FetchRequests())
@@ -21,3 +22,4 @@ export const StripeRequestImpl = (jwt: string): IStripeRequests => new StripeReq
 export const adminItemRequestsImpl = (jwt: string): IAdminItemRequests => new adminItemRequests(new AuthFetchRequests(jwt))
 export const adminUserRequestsImpl = (jwt: string): IAdminUserRequests => new adminUserRequests(new AuthFetchRequests(jwt))
 export const adminTransactionRequestsImpl = (jwt: string): IAdminTransactionRequests => new adminTransactionRequests(new AuthFetchRequests(jwt))
+export const ItemRequestImpl = new ItemRequests(new FetchRequests())
