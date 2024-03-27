@@ -1,5 +1,5 @@
 import { getTransaction } from '@/api/fetcher'
-import { Transaction, TransactionItem } from '@/api/models/transaction'
+import { transactionList, TransactionItem } from '@/api/models/transaction'
 import { useAuthContext } from '@/app/contexts/AuthContext'
 import { useState } from 'react'
 import TransactionDetails from './transactionDetails'
@@ -30,7 +30,7 @@ const TransactionList = () => {
     <div id="transaction">
       <h1>Transaction</h1>
       <ul>
-        {data?.map((transaction) => (
+        {data?.transaction_list?.map((transaction) => (
           <li key={transaction.transaction_id}>
             {transaction.items.map((item) => {
               return selectedTransaction === transaction.transaction_id ? (

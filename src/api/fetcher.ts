@@ -2,7 +2,7 @@
 import useSWR from 'swr'
 import { Cart } from './models/cart'
 import { UserData } from './models/user';
-import { Transaction, TransactionDetail } from './models/transaction';
+import { transactionList, TransactionDetail } from './models/transaction';
 import { Overview, itemPreviewList } from './models/item';
 
 const authfetcher = async (url: string, jwt: string) => {
@@ -60,7 +60,7 @@ export const getTransaction = (jwt: string | undefined) => {
     const url = rawURL.toString()
     const { data, error } = useSWR(jwt ? [url, jwt] : null, ([url, jwt]) => authfetcher(url, jwt))
     return {
-        data: data as Transaction[] | undefined,
+        data: data as transactionList | undefined | null,
         isLoading: !data && !error,
         error: error,
     }
@@ -72,7 +72,7 @@ export const getTransactionDetail = (jwt: string | undefined, id: string) => {
     const url = rawURL.toString()
     const { data, error } = useSWR(jwt ? [url, jwt] : null, ([url, jwt]) => authfetcher(url, jwt))
     return {
-        data: data as TransactionDetail | undefined,
+        data: data as TransactionDetail | undefined | null,
         isLoading: !data && !error,
         error: error,
     }

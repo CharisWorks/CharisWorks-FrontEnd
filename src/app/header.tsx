@@ -14,7 +14,7 @@ import {
 import { useAuthContext } from './contexts/AuthContext'
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import Cart from './(mypage)/_components/cart'
+import Cart from './_components/cart'
 const Header = () => {
   const { data, isLoading, error } = getUser(useAuthContext().idToken)
   return (

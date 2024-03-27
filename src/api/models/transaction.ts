@@ -5,6 +5,9 @@ type Transaction = {
     tracking_id: string
     items: TransactionItem[]
 }
+type transactionList = {
+    transaction_list: Transaction[]
+}
 type TransactionItem = {
     item_id: string
     quantity: number
@@ -38,4 +41,4 @@ type TransactionDetail = {
 
     status: string
 }
-export type { Transaction, TransactionDetail, TransactionItem }
+export type { transactionList, TransactionDetail, TransactionItem }

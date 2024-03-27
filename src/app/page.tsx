@@ -7,11 +7,11 @@ import {
   WrapItem,
   useMediaQuery,
 } from '@chakra-ui/react'
-import Hero from '@/app/(mypage)/_components/hero'
+import Hero from '@/app/_components/hero'
 import '@splidejs/splide/css'
 import { useState } from 'react'
-import SideBar from './(mypage)/_components/sidebar'
-import ItemLists from './(mypage)/_components/items'
+import SideBar from './_components/sidebar'
+import ItemLists from './_components/items'
 const Index = () => {
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)')
 
