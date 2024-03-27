@@ -1,21 +1,13 @@
 import { getUser } from '@/api/fetcher'
 import { UserData } from '@/api/models/user'
 import { useAuthContext } from '@/app/contexts/AuthContext'
+import { Box, Center, Skeleton, Spinner, Text, VStack } from '@chakra-ui/react'
 
 const AddressNotSet = () => {
   return (
-    <div>
-      <h2>名前</h2>
-      <p>姓:未設定</p>
-      <p>名:未設定</p>
-      <h2>住所</h2>
-      <p>郵便番号: 〒未設定</p>
-      <p>住所1:未設定 </p>
-      <p>住所2:未設定</p>
-      <p>住所3:未設定 </p>
-      <h2>電話番号</h2>
-      <p>未設定</p>
-    </div>
+    <Box>
+      <Text>住所が設定されていません</Text>
+    </Box>
   )
 }
 const Address = (props: UserData) => {
@@ -36,18 +28,9 @@ const Address = (props: UserData) => {
 }
 const LoadingAddress = () => {
   return (
-    <div>
-      <h2>名前</h2>
-      <p>姓:なうろーでぃんぐ</p>
-      <p>名:なうろーでぃんぐ</p>
-      <h2>住所</h2>
-      <p>郵便番号: 〒なうろーでぃんぐ</p>
-      <p>住所1:なうろーでぃんぐ </p>
-      <p>住所2:なうろーでぃんぐ</p>
-      <p>住所3:なうろーでぃんぐ </p>
-      <h2>電話番号</h2>
-      <p>なうろーでぃんぐ</p>
-    </div>
+    <Center>
+      <Spinner size={'xl'} />
+    </Center>
   )
 }
 const PersonalInfo = () => {

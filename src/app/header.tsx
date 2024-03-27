@@ -15,8 +15,8 @@ import { useAuthContext } from './contexts/AuthContext'
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import Cart from './_components/cart'
+import MypageDrawer from './_components/drawer'
 const Header = () => {
-  const { data, isLoading, error } = getUser(useAuthContext().idToken)
   return (
     <Flex minWidth="max-content" alignItems="center" gap="2" bg={'blue.800'}>
       <a href="/">
@@ -37,15 +37,8 @@ const Header = () => {
 
       <ButtonGroup gap="2" p={2} alignItems={'center'}>
         <Cart />
-        <Skeleton isLoaded={!isLoading}>
-          <Button colorScheme="green" variant="outline" width={40}>
-            {error ? (
-              <a href="/signin">ログイン</a>
-            ) : (
-              <a href="/mypage">マイページ</a>
-            )}
-          </Button>
-        </Skeleton>
+
+        <MypageDrawer />
       </ButtonGroup>
     </Flex>
   )
