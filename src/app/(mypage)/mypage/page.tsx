@@ -1,7 +1,7 @@
 'use client'
 import { Inter, Rubik, Rubik_Dirt } from 'next/font/google'
-import PersonalInfo from './_components/personal-info'
-import TransactionList from './_components/transaction'
+import PersonalInfo from './address/_components/personal-info'
+import TransactionList from './transaction/_components/transaction'
 import { Text } from '@chakra-ui/react'
 const Mypage = () => {
   return (

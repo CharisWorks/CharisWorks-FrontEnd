@@ -26,90 +26,89 @@ import { useRouter } from 'next/navigation'
 const NotLoggedIn = (props: { onClose: () => void }) => {
   const router = useRouter()
   return (
-    <DrawerContent>
-      <DrawerCloseButton />
-      <DrawerHeader>メニュー</DrawerHeader>
-      <DrawerBody>
-        <VStack alignItems={'start'}>
-          <Box>
-            <Link
-              onClick={() => {
-                router.push('/signin')
-                props.onClose()
-              }}
-            >
-              <Text>ログイン</Text>
-            </Link>
-          </Box>
-          <Box>
-            <Link
-              onClick={() => {
-                router.push('/signup')
-                props.onClose()
-              }}
-            >
-              <Text>新規登録</Text>
-            </Link>
-          </Box>
-        </VStack>
-      </DrawerBody>
-    </DrawerContent>
+    <VStack alignItems={'start'}>
+      <Box>
+        <Link
+          onClick={() => {
+            router.push('/signin')
+            props.onClose()
+          }}
+        >
+          <Text>ログイン</Text>
+        </Link>
+      </Box>
+      <Box mb={20}>
+        <Link
+          onClick={() => {
+            router.push('/signup')
+            props.onClose()
+          }}
+        >
+          <Text>新規登録</Text>
+        </Link>
+      </Box>
+    </VStack>
   )
 }
 const LoggegIn = (props: { name: string; onClose: () => void }) => {
   const toast = useToast({
-    position: 'top-right',
+    position: 'bottom-right',
     isClosable: true,
   })
   const router = useRouter()
-  return (
-    <DrawerContent>
-      <DrawerCloseButton />
-      <DrawerHeader>メニュー</DrawerHeader>
-      <DrawerBody>
-        <VStack alignItems={'start'}>
-          <Box>
-            <Text fontSize={'xl'}>こんにちは {props.name}さん</Text>
-          </Box>
-          <VStack alignItems={'start'} pt={10}>
-            <Box>
-              <Link>
-                <Text>カートを見る</Text>
-              </Link>
-            </Box>
-            <Box>
-              <Link>
-                <Text>配送先住所の確認・修正</Text>
-              </Link>
-            </Box>
-            <Box>
-              <Link>
-                <Text>購入履歴の確認</Text>
-              </Link>
-            </Box>
-            <Box>
-              <Link
-                onClick={async () => {
-                  router.push('/')
-                  props.onClose()
-                  toast.promise(signOut(auth), {
-                    loading: { title: 'サインアウト中' },
-                    success: {
-                      title: 'サインアウトしました',
-                    },
-                    error: { title: 'エラーが発生しました' },
-                  })
-                }}
-              >
-                <Text>ログアウト</Text>
-              </Link>
-            </Box>
-          </VStack>
-        </VStack>
-      </DrawerBody>
+  const { data, isLoading, error } = getUser(useAuthContext().idToken)
 
-      <DrawerFooter></DrawerFooter>
-    </DrawerContent>
+  return (
+    <VStack alignItems={'start'}>
+      <Box>
+        <Text fontSize={'xl'}>こんにちは {props.name}さん</Text>
+      </Box>
+      <VStack alignItems={'start'} pt={10}>
+        <Box>
+          <Link href="/mypage/cart">
+            <Text>カートを見る</Text>
+          </Link>
+        </Box>
+        <Box>
+          {data?.address.address_1 ? (
+            <Link href="/mypage/address">
+              <Text>配送先住所の確認・修正</Text>
+            </Link>
+          ) : (
+            <Link href="/mypage/address/register">
+              <Text>配送先住所を登録</Text>
+            </Link>
+          )}
+        </Box>
+        <Box>
+          {data?.address.address_1 ? (
+            <Link href="/mypage/transaction">
+              <Text>購入履歴の確認</Text>
+            </Link>
+          ) : (
+            ''
+          )}
+        </Box>
+
+        <Box mt={5} mb={20}>
+          <Link
+            onClick={async () => {
+              router.push('/')
+              props.onClose()
+              toast.promise(signOut(auth), {
+                loading: { title: 'ログアウト中' },
+                success: {
+                  title: 'ログアウトしました',
+                },
+                error: { title: 'エラーが発生しました' },
+              })
+            }}
+          >
+            <Text>ログアウト</Text>
+          </Link>
+        </Box>
+      </VStack>
+    </VStack>
   )
 }
 function MypageDrawer() {
@@ -124,17 +123,33 @@ function MypageDrawer() {
       </Button>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
-
-        {error || !user.user ? (
-          <NotLoggedIn onClose={onClose} />
-        ) : (
-          <Skeleton isLoaded={!isLoading}>
-            <LoggegIn
-              name={data?.address.first_name ?? '新規ユーザー'}
-              onClose={onClose}
-            />
-          </Skeleton>
-        )}
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>メニュー</DrawerHeader>
+          <DrawerBody>
+            {error || !user.user ? (
+              <NotLoggedIn onClose={onClose} />
+            ) : (
+              <Skeleton isLoaded={!isLoading}>
+                <LoggegIn
+                  name={data?.address.first_name ?? '新規ユーザー'}
+                  onClose={onClose}
+                />
+              </Skeleton>
+            )}
+            <Box>
+              <Link>
+                <Text>よくある質問</Text>
+              </Link>
+            </Box>
+            <Box>
+              <Link>
+                <Text>プライバシーポリシー</Text>
+              </Link>
+            </Box>
+          </DrawerBody>
+          <DrawerFooter></DrawerFooter>
+        </DrawerContent>
       </Drawer>
     </>
   )

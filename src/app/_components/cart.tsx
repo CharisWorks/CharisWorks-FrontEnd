@@ -24,7 +24,7 @@ const Cart = () => {
   }, [data])
   return (
     <MaterialThemeProvider theme={{ [THEME_ID]: materialTheme }}>
-      <a href="/cart">
+      <a href="/mypage/cart">
         <Badge badgeContent={quantity} color="primary">
           <ShoppingCartIcon />
         </Badge>

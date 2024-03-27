@@ -12,6 +12,7 @@ import {
   NumberInputStepper,
   Stack,
   useToast,
+  Text,
 } from '@chakra-ui/react'
 import { resolve } from 'path'
 import { useContext, useEffect, useState } from 'react'
@@ -50,9 +51,12 @@ const Cart = (props: { stock: number; itemId: string }) => {
     position: 'bottom-right',
     isClosable: true,
   })
+
   const { data, isLoading, error, mutate } = getCart(useAuthContext().idToken)
   const [quantity, setQuantity] = useState(1)
   const idToken = useAuthContext().idToken
+  const user = useAuthContext().user
+
   useEffect(() => {
     if (data?.items) {
       const item = data.items.find((item) => item.item_id === props.itemId)
@@ -103,9 +107,11 @@ const Cart = (props: { stock: number; itemId: string }) => {
             },
           )
         }}
+        isDisabled={user === null || user === undefined ? true : false}
       >
         カートに追加
       </Button>
+      {user === null ? <Text>ログインするとカートを利用できます</Text> : ''})
       {data?.items?.find((item) => item.item_id === props.itemId) && (
         <Button
           colorScheme={'red'}

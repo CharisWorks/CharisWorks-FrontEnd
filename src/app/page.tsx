@@ -2,6 +2,7 @@
 import {
   Box,
   Center,
+  Container,
   Stack,
   Wrap,
   WrapItem,
@@ -31,9 +32,11 @@ const Index = () => {
           </Box>
         ) : null} */}
       </Stack>
-      <Box p={2}>
-        <ItemLists />
-      </Box>
+      <Container maxW="container.xl">
+        <Box p={2}>
+          <ItemLists />
+        </Box>
+      </Container>
     </Box>
   )
 }

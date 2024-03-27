@@ -17,6 +17,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import Cart from './_components/cart'
 import MypageDrawer from './_components/drawer'
 const Header = () => {
+  const { data, isLoading, error } = getUser(useAuthContext().idToken)
   return (
     <Flex minWidth="max-content" alignItems="center" gap="2" bg={'blue.800'}>
       <a href="/">
@@ -36,8 +37,7 @@ const Header = () => {
       <Spacer />
 
       <ButtonGroup gap="2" p={2} alignItems={'center'}>
-        <Cart />
-
+        {data?.user_id ? <Cart /> : ''}
         <MypageDrawer />
       </ButtonGroup>
     </Flex>

@@ -1,6 +1,7 @@
 'use client'
 import { getUser } from '@/api/fetcher'
 import { useAuthContext } from '@/app/contexts/AuthContext'
+import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
 export default function MypageLayout({
@@ -8,17 +9,25 @@ export default function MypageLayout({
 }: {
   children: React.ReactNode
 }) {
+  const toast = useToast({
+    position: 'top-right',
+    isClosable: true,
+    duration: 5000,
+  })
   const router = useRouter()
   const user = useAuthContext().user
   const { data, isLoading, error } = getUser(useAuthContext().idToken)
-  if (!user && !isLoading) {
+  if ((!user && !isLoading) || user === null) {
     return (
       <>
         <p>ログインしてください</p>
-        <div>
-          signin: <button onClick={() => router.push('/signin')}>signin</button>
-          signup: <button onClick={() => router.push('/signup')}>signup</button>
-        </div>
+        <button
+          onClick={() => {
+            router.push('/')
+          }}
+        >
+          トップページへ
+        </button>
       </>
     )
   }
