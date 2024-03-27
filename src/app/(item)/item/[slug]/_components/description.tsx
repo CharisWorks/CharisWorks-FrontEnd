@@ -15,15 +15,6 @@ import {
 } from '@chakra-ui/react'
 import Cart from './cart'
 
-function RegisterCart(props: { itemId: string; quantity: number }) {
-  return (
-    <VStack>
-      <Text>カートに追加しました</Text>
-      <Button>カートを見る</Button>
-    </VStack>
-  )
-}
-
 const Description = (props: { overview: Overview }) => {
   return (
     <Stack direction={'column'}>

@@ -15,6 +15,7 @@ import {
   Text,
   Link,
   Skeleton,
+  useToast,
 } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { getUser } from '@/api/fetcher'
@@ -56,6 +57,10 @@ const NotLoggedIn = (props: { onClose: () => void }) => {
   )
 }
 const LoggegIn = (props: { name: string; onClose: () => void }) => {
+  const toast = useToast({
+    position: 'top-right',
+    isClosable: true,
+  })
   const router = useRouter()
   return (
     <DrawerContent>
@@ -82,21 +87,28 @@ const LoggegIn = (props: { name: string; onClose: () => void }) => {
                 <Text>購入履歴の確認</Text>
               </Link>
             </Box>
+            <Box>
+              <Link
+                onClick={async () => {
+                  router.push('/')
+                  props.onClose()
+                  toast.promise(signOut(auth), {
+                    loading: { title: 'サインアウト中' },
+                    success: {
+                      title: 'サインアウトしました',
+                    },
+                    error: { title: 'エラーが発生しました' },
+                  })
+                }}
+              >
+                <Text>ログアウト</Text>
+              </Link>
+            </Box>
           </VStack>
         </VStack>
       </DrawerBody>
 
-      <DrawerFooter>
-        <Link
-          onClick={async () => {
-            await signOut(auth)
-            router.push('/')
-            props.onClose()
-          }}
-        >
-          <Text>ログアウト</Text>
-        </Link>
-      </DrawerFooter>
+      <DrawerFooter></DrawerFooter>
     </DrawerContent>
   )
 }

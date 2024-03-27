@@ -3,9 +3,14 @@ import { useState } from 'react'
 import { FirebaseRequestImpl } from '@/api/lib/instances'
 import { auth } from '@/api/firebase'
 import { useRouter } from 'next/navigation'
+import { useToast } from '@chakra-ui/react'
 
 const Signin = () => {
   const router = useRouter()
+  const toast = useToast({
+    position: 'bottom-right',
+    isClosable: true,
+  })
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const SignIn = async () => {
@@ -35,7 +40,13 @@ const Signin = () => {
       <br />
       <button
         onClick={() => {
-          SignIn()
+          toast.promise(SignIn(), {
+            loading: { title: 'サインイン中' },
+            success: {
+              title: 'サインインしました',
+            },
+            error: { title: 'エラーが発生しました' },
+          })
         }}
       >
         Sign In

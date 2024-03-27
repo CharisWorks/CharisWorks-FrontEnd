@@ -46,7 +46,10 @@ const DeleteCart = (props: {
 }
 
 const Cart = (props: { stock: number; itemId: string }) => {
-  const toast = useToast()
+  const toast = useToast({
+    position: 'bottom-right',
+    isClosable: true,
+  })
   const { data, isLoading, error, mutate } = getCart(useAuthContext().idToken)
   const [quantity, setQuantity] = useState(1)
   const idToken = useAuthContext().idToken
@@ -90,7 +93,9 @@ const Cart = (props: { stock: number; itemId: string }) => {
               mutate('http://localhost:8080/api/cart')
             }),
             {
-              loading: { title: 'カートに追加中' },
+              loading: {
+                title: 'カートに追加中',
+              },
               success: {
                 title: 'カートに追加しました 数量:' + quantity + '個',
               },
@@ -113,8 +118,12 @@ const Cart = (props: { stock: number; itemId: string }) => {
                 mutate('http://localhost:8080/api/cart')
               }),
               {
-                loading: { title: 'カートから削除中' },
-                success: { title: 'カートから削除しました' },
+                loading: {
+                  title: 'カートから削除中',
+                },
+                success: {
+                  title: 'カートから削除しました',
+                },
                 error: { title: 'カートから削除できませんでした' },
               },
             )
