@@ -8,13 +8,14 @@ import {
   Button,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export default function Register() {
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm()
+  } = useForm({})
   const [error, setError] = useState<string>('')
   function onSubmit(values: any) {
     console.log(values)
